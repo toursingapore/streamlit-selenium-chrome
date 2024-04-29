@@ -1,3 +1,22 @@
+import streamlit as st
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.core.os_manager import ChromeType
+from bs4 import BeautifulSoup
+import time
+
+"""
+## Web scraping on Streamlit Cloud with Selenium
+
+[![Source](https://img.shields.io/badge/View-Source-<COLOR>.svg)](https://github.com/snehankekre/streamlit-selenium-chrome/)
+
+This is a minimal, reproducible example of how to scrape the web with Selenium and Chrome on Streamlit's Community Cloud.
+
+Fork this repo, and edit `/streamlit_app.py` to customize this app to your heart's desire. :heart:
+"""
+
 website = st.text_input("Enter your website to crawl")
 button = st.button("SUBMIT", type="primary" , key="1")
 if button:
