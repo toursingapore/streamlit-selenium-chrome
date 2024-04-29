@@ -67,6 +67,6 @@ if button:
                     st.write(tag_body.text)
 
                 # Quit the driver
-                driver.close()
-                driver.quit()
+                #driver.close()
+                #driver.quit()
         st.success('Done!')
