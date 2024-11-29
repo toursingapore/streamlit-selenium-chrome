@@ -36,7 +36,7 @@ website = st.text_input("Enter your website to crawl", value='https://example.co
 button = st.button("SUBMIT", type="primary" , key="1")
 if button:
     #run_command_line("git clone https://github.com/novnc/noVNC.git /tmp/noVNC") 
-    run_command_line("ls -la /tmp/noVNC")     
+    run_command_line("ls -la /tmp/noVNC/utils")     
 
     #run_command_line("whereis novnc && whereis vncserver") 
     #run_command_line("ls -la /usr/share/novnc")  
