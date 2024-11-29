@@ -51,7 +51,7 @@ if button:
 
 
     from pyngrok import ngrok
-    run_command_line("echo $PATH")   
+    run_command_line("whereis ngrok")   
     NGROK_AUTHTOKEN = '2elQfBKwd0CX0jFToGi7zZVRoAI_2muVgZUZ2agRUxWCoCrqF'
     ngrok.set_auth_token(NGROK_AUTHTOKEN)
     ngrok_tunnel = ngrok.connect("3000")
