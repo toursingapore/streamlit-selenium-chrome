@@ -36,6 +36,8 @@ website = st.text_input("Enter your website to crawl", value='https://example.co
 button = st.button("SUBMIT", type="primary" , key="1")
 if button:
     run_command_line("whereis novnc") 
+    run_command_line("ls -la /usr/share/novnc")     
+
 
     st.write(f"your website is {website}")  
     with st.container():
