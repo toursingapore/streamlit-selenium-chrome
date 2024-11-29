@@ -1,2 +1,3 @@
 chromium
-snapd
+novnc
+python3-websockify
