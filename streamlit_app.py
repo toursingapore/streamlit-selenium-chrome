@@ -37,7 +37,7 @@ button = st.button("SUBMIT", type="primary" , key="1")
 if button:
     run_command_line("whereis novnc") 
     run_command_line("ls -la /usr/share/novnc")     
-    run_command_line("novnc_proxy --vnc localhost:5901 --listen 80")        
+    run_command_line("novnc -h")        
 
 
     st.write(f"your website is {website}")  
