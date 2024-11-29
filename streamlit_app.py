@@ -59,7 +59,8 @@ if button:
     ngrok.set_auth_token(NGROK_AUTHTOKEN)
     ngrok_tunnel = ngrok.connect("3000")
     st.write(ngrok_tunnel)
-    #ngrok.disconnect(ngrok_tunnel.public_url)     
+    time.sleep(5000)    
+    ngrok.disconnect(ngrok_tunnel.public_url)     
 
 
 
