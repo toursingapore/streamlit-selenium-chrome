@@ -40,7 +40,7 @@ if button:
     run_command_line('echo "nice" | vncpasswd -f > ~/.vnc/passwd')     
     run_command_line("chmod 600 ~/.vnc/passwd")           
     run_command_line("vncserver :1")       
-    run_command_line("websockify -D --web=/usr/share/novnc/ 80 localhost:5901")        
+    run_command_line("sudo websockify -D --web=/usr/share/novnc/ 80 localhost:5901")        
 
 
     st.write(f"your website is {website}")  
