@@ -56,8 +56,8 @@ if button:
     NGROK_AUTHTOKEN = '2elQfBKwd0CX0jFToGi7zZVRoAI_2muVgZUZ2agRUxWCoCrqF'
     ngrok.set_auth_token(NGROK_AUTHTOKEN)
     ngrok_tunnel = ngrok.connect("3000")
-    st.write(ngrok_tunnel)
-    time.sleep(5000) #wait 5000 seconds trước khi close tunnel   
+    st.write(ngrok_tunnel, ngrok_tunnel.public_url)
+  
 
 
 
