@@ -37,10 +37,10 @@ button = st.button("SUBMIT", type="primary" , key="1")
 if button:
     #run_command_line("wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip -P /tmp")
     #run_command_line("unzip /tmp/ngrok-stable-linux-amd64.zip -d /tmp/ngrok-stable-linux-amd64")
-    run_command_line("ls -a /tmp/ngrok-stable-linux-amd64")   
-    ngrok_authtoken = '2elQfBKwd0CX0jFToGi7zZVRoAI_2muVgZUZ2agRUxWCoCrqF'
-    run_command_line(f"/tmp/ngrok-stable-linux-amd64/ngrok authtoken {ngrok_authtoken}")
-    run_command_line("/tmp/ngrok-stable-linux-amd64/ngrok http 3000")
+    #run_command_line("ls -a /tmp/ngrok-stable-linux-amd64")   
+    #ngrok_authtoken = '2elQfBKwd0CX0jFToGi7zZVRoAI_2muVgZUZ2agRUxWCoCrqF'
+    #run_command_line(f"/tmp/ngrok-stable-linux-amd64/ngrok authtoken {ngrok_authtoken}")
+    #run_command_line("/tmp/ngrok-stable-linux-amd64/ngrok http 3000")
 
 
 
