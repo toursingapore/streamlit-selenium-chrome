@@ -1,3 +1,4 @@
 chromium
 novnc
 python3-websockify
+tightvncserver
