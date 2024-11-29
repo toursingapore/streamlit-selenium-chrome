@@ -42,13 +42,21 @@ if button:
     #run_command_line(f"/tmp/ngrok-stable-linux-amd64/ngrok authtoken {ngrok_authtoken}")
     #run_command_line("/tmp/ngrok-stable-linux-amd64/ngrok http 3000")
 
+    if not os.path.isdir('/tmp/noVNC'):    
+        run_command_line("git clone https://github.com/novnc/noVNC.git /tmp/noVNC")  
+    run_command_line("ls -la /tmp/noVNC/utils")
+    run_command_line("chmod +x /tmp/noVNC/utils/novnc_proxy")       
+    run_command_line("/tmp/noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 3000 &") #run cmd in background with '&' 
+
+    from pyngrok import ngrok
+
+    NGROK_AUTHTOKEN = '2elQfBKwd0CX0jFToGi7zZVRoAI_2muVgZUZ2agRUxWCoCrqF'
+    ngrok.set_auth_token(NGROK_AUTHTOKEN)
+    ngrok_tunnel = ngrok.connect("3000")
+    st.write(ngrok_tunnel)
+    #ngrok.disconnect(ngrok_tunnel.public_url)
 
 
-    #if not os.path.isdir('/tmp/noVNC'):    
-    #    run_command_line("git clone https://github.com/novnc/noVNC.git /tmp/noVNC")  
-    #run_command_line("ls -la /tmp/noVNC/utils")
-    #run_command_line("chmod +x /tmp/noVNC/utils/novnc_proxy")       
-    #run_command_line("/tmp/noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 3000 &") #run cmd in background with '&' 
 
     #run_command_line("whereis novnc && whereis vncserver") 
     #run_command_line('echo "nicepassword" | vncpasswd -f > ~/.vnc/passwd')     
