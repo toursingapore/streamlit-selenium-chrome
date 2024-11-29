@@ -37,9 +37,9 @@ button = st.button("SUBMIT", type="primary" , key="1")
 if button:
     run_command_line("whereis novnc && whereis vncserver") 
     run_command_line("ls -la /usr/share/novnc")  
-    run_command_line('echo "nice" | vncpasswd -f > ~/.vnc/passwd')     
-    run_command_line("chmod 600 ~/.vnc/passwd")           
-    run_command_line("vncserver :1")       
+    #run_command_line('echo "nicepassword" | vncpasswd -f > ~/.vnc/passwd')     
+    #run_command_line("chmod 600 ~/.vnc/passwd")           
+    #run_command_line("vncserver :1")       
     #run_command_line("sudo websockify -D --web=/usr/share/novnc/ 80 localhost:5901")        
 
 
