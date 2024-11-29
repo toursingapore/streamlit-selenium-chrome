@@ -36,7 +36,7 @@ website = st.text_input("Enter your website to crawl", value='https://example.co
 button = st.button("SUBMIT", type="primary" , key="1")
 if button:
     #run_command_line("wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip -P /tmp")
-    run_command_line("unzip /tmp/ngrok-stable-linux-amd64.zip")
+    run_command_line("unzip /tmp/ngrok-stable-linux-amd64.zip -d /tmp/ngrok-stable-linux-amd64")
     run_command_line("ls -a /tmp")
     #run_command_line("ls -a /tmp")      
     #run_command_line("ls -la /usr/local/bin")        
