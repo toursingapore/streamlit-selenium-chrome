@@ -35,18 +35,17 @@ Fork this repo, and edit `/streamlit_app.py` to customize this app to your heart
 website = st.text_input("Enter your website to crawl", value='https://example.com/')
 button = st.button("SUBMIT", type="primary" , key="1")
 if button:
+    if not os.path.isdir('/tmp/noVNC'):    
+        run_command_line("git clone https://github.com/novnc/noVNC.git /tmp/noVNC")  
+    run_command_line("ls -la /tmp/noVNC/utils")
+    run_command_line("chmod +x /tmp/noVNC/utils/novnc_proxy")       
+    run_command_line("/tmp/noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 3000 &") #run cmd in background with '&' 
 
-    #if not os.path.isdir('/tmp/noVNC'):    
-    #    run_command_line("git clone https://github.com/novnc/noVNC.git /tmp/noVNC") 
-    #run_command_line("ls -la /tmp/noVNC/utils")
-    #run_command_line("chmod +x /tmp/noVNC/utils/novnc_proxy")       
-    #run_command_line("/tmp/noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 3000 &") #run cmd in background with '&' 
-
-    run_command_line("whereis novnc && whereis vncserver") 
-    run_command_line('echo "nicepassword" | vncpasswd -f > ~/.vnc/passwd')     
-    run_command_line("chmod 600 ~/.vnc/passwd")           
-    run_command_line("vncserver :1")       
-    run_command_line("websockify -D --web=/usr/share/novnc/ 3000 localhost:5901")        
+    #run_command_line("whereis novnc && whereis vncserver") 
+    #run_command_line('echo "nicepassword" | vncpasswd -f > ~/.vnc/passwd')     
+    #run_command_line("chmod 600 ~/.vnc/passwd")           
+    #run_command_line("vncserver :1")       
+    #run_command_line("websockify -D --web=/usr/share/novnc/ 3000 localhost:5901")        
 
 
     st.write(f"your website is {website}")  
