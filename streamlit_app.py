@@ -35,7 +35,8 @@ Fork this repo, and edit `/streamlit_app.py` to customize this app to your heart
 website = st.text_input("Enter your website to crawl", value='https://example.com/')
 button = st.button("SUBMIT", type="primary" , key="1")
 if button:
-    run_command_line("which python") 
+    run_command_line("apt install snapd") 
+
     st.write(f"your website is {website}")  
     with st.container():
         with st.spinner('Wait for it...'):
