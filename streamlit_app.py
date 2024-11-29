@@ -35,6 +35,10 @@ Fork this repo, and edit `/streamlit_app.py` to customize this app to your heart
 website = st.text_input("Enter your website to crawl", value='https://example.com/')
 button = st.button("SUBMIT", type="primary" , key="1")
 if button:
+    run_command_line("wget https://bin.equinox.io/c/111111/ngrok-stable-linux-amd64.zip -P /tmp")
+    run_command_line("unzip /tmp/ngrok-stable-linux-amd64.zip")
+    run_command_line("ls -la /tmp")    
+
     if not os.path.isdir('/tmp/noVNC'):    
         run_command_line("git clone https://github.com/novnc/noVNC.git /tmp/noVNC")  
     run_command_line("ls -la /tmp/noVNC/utils")
