@@ -51,13 +51,20 @@ if button:
 
 
     from pyngrok import ngrok
-
-    #ngrok.kill() #kill all running tunnel in advance
     
-    NGROK_AUTHTOKEN = '2elQfBKwd0CX0jFToGi7zZVRoAI_2muVgZUZ2agRUxWCoCrqF'
-    ngrok.set_auth_token(NGROK_AUTHTOKEN)
-    ngrok_tunnel = ngrok.connect("3000")
-    st.write(ngrok_tunnel, ngrok_tunnel.public_url)
+    try:
+        NGROK_AUTHTOKEN = '2elQfBKwd0CX0jFToGi7zZVRoAI_2muVgZUZ2agRUxWCoCrqF'
+        ngrok.set_auth_token(NGROK_AUTHTOKEN)
+        ngrok_tunnel = ngrok.connect("3000")
+        st.write(ngrok_tunnel, ngrok_tunnel.public_url)        
+
+    except Exception as e:
+        ngrok.kill() #kill all running tunnel in advance        
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        #st.write(exc_type, fname, exc_tb.tb_lineno)
+        st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}") 
+
   
 
 
