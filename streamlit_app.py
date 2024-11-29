@@ -35,7 +35,7 @@ Fork this repo, and edit `/streamlit_app.py` to customize this app to your heart
 website = st.text_input("Enter your website to crawl", value='https://example.com/')
 button = st.button("SUBMIT", type="primary" , key="1")
 if button:
-    run_command_line("websockify -D --web=/usr/share/novnc/ --cert=/home/debian/novnc.pem 80 localhost:5901") 
+    run_command_line("whereis novnc") 
 
     st.write(f"your website is {website}")  
     with st.container():
