@@ -48,14 +48,15 @@ if button:
     run_command_line("chmod +x /tmp/noVNC/utils/novnc_proxy")       
     run_command_line("/tmp/noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 3000 &") #run cmd in background with '&' 
 
-    from pyngrok import ngrok
 
+
+    from pyngrok import ngrok
+    run_command_line("killall ngrok")   
     NGROK_AUTHTOKEN = '2elQfBKwd0CX0jFToGi7zZVRoAI_2muVgZUZ2agRUxWCoCrqF'
     ngrok.set_auth_token(NGROK_AUTHTOKEN)
     ngrok_tunnel = ngrok.connect("3000")
     st.write(ngrok_tunnel)
-    #ngrok.disconnect(ngrok_tunnel.public_url)    
-    run_command_line("pkill ngrok")    
+    #ngrok.disconnect(ngrok_tunnel.public_url)     
 
 
 
