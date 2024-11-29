@@ -46,7 +46,7 @@ if button:
         run_command_line("git clone https://github.com/novnc/noVNC.git /tmp/noVNC")  
         run_command_line("ls -la /tmp/noVNC/utils")
         run_command_line("chmod +x /tmp/noVNC/utils/novnc_proxy")       
-        run_command_line("/tmp/noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 8080 &") #run cmd in background with '&' 
+        run_command_line("/tmp/noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 3000 &") #run cmd in background with '&' 
     st.write('forward internal port 5901 of VNC to 3000 - DONE')
 
 
@@ -56,7 +56,7 @@ if button:
     
     NGROK_AUTHTOKEN = '2elQfBKwd0CX0jFToGi7zZVRoAI_2muVgZUZ2agRUxWCoCrqF'
     ngrok.set_auth_token(NGROK_AUTHTOKEN)
-    ngrok_tunnel = ngrok.connect("8080")
+    ngrok_tunnel = ngrok.connect("3000")
     st.write(ngrok_tunnel, ngrok_tunnel.public_url)
   
 
