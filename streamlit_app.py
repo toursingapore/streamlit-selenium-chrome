@@ -55,6 +55,7 @@ if button:
     ngrok_tunnel = ngrok.connect("3000")
     st.write(ngrok_tunnel)
     #ngrok.disconnect(ngrok_tunnel.public_url)    
+    run_command_line("pkill ngrok")    
 
 
 
