@@ -111,7 +111,9 @@ if button:
                 for tag_body in soup.find_all('body'):
                     st.write(tag_body.text)
 
+                time.sleep(5000)
+
                 # Quit the driver
-                #driver.close()
-                #driver.quit()
+                driver.close()
+                driver.quit()
         st.success('Done!')
