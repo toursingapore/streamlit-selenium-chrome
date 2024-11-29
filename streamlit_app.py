@@ -7,6 +7,23 @@ from webdriver_manager.core.os_manager import ChromeType
 from bs4 import BeautifulSoup
 import time
 
+
+def run_command_line(command):
+    import sys, subprocess
+    try:
+        # Run the command and capture the output
+        output = subprocess.check_output(command, shell=True)
+        output = output.decode('utf-8')
+        # Split the output into a list of lines
+        lines = output.split('\n')
+        # Write each line separately
+        for line in lines:
+            st.write(line)
+    except subprocess.CalledProcessError as e:
+        st.write(f"An error occurred: {e}")
+
+
+
 """
 ## Web scraping on Streamlit Cloud with Selenium
 
