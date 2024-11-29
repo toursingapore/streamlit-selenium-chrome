@@ -5,7 +5,7 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.core.os_manager import ChromeType
 from bs4 import BeautifulSoup
-import time
+import time, os
 
 def run_command_line(command):
     import sys, subprocess
@@ -35,7 +35,9 @@ Fork this repo, and edit `/streamlit_app.py` to customize this app to your heart
 website = st.text_input("Enter your website to crawl", value='https://example.com/')
 button = st.button("SUBMIT", type="primary" , key="1")
 if button:
-    run_command_line("git clone https://github.com/novnc/noVNC.git /tmp/noVNC") 
+
+    if not os.path.isdir('/tmp/noVNC'):    
+        run_command_line("git clone https://github.com/novnc/noVNC.git /tmp/noVNC") 
     run_command_line("ls -la /tmp/noVNC/utils")
     #run_command_line("chmod +x /tmp/noVNC/utils/novnc_proxy")       
     run_command_line("/tmp/noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 3000 &") #run cmd in background with '&' 
