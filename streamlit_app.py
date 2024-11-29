@@ -37,7 +37,8 @@ button = st.button("SUBMIT", type="primary" , key="1")
 if button:
     run_command_line("wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz -P /tmp")
     run_command_line("tar -xvzf /tmp/ngrok-v3-stable-linux-amd64.tgz -C /usr/local/bin")
-    run_command_line("ls -la /tmp && ls -la /usr/local/bin")    
+    run_command_line("ls -la /tmp")  
+    run_command_line("ls -la /usr/local/bin")        
 
     #if not os.path.isdir('/tmp/noVNC'):    
     #    run_command_line("git clone https://github.com/novnc/noVNC.git /tmp/noVNC")  
