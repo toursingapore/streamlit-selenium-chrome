@@ -38,8 +38,7 @@ if button:
     #run_command_line("wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip -P /tmp")
     #run_command_line("unzip /tmp/ngrok-stable-linux-amd64.zip -d /tmp/ngrok-stable-linux-amd64")
     run_command_line("ls -a /tmp/ngrok-stable-linux-amd64")
-    #run_command_line("ls -a /tmp")      
-    #run_command_line("ls -la /usr/local/bin")        
+    run_command_line("/tmp/ngrok-stable-linux-amd64/ngrok http 3000")           
 
     #if not os.path.isdir('/tmp/noVNC'):    
     #    run_command_line("git clone https://github.com/novnc/noVNC.git /tmp/noVNC")  
