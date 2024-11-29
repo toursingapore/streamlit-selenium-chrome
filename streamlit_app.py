@@ -22,6 +22,7 @@ def run_command_line(command):
     except subprocess.CalledProcessError as e:
         st.write(f"An error occurred: {e}")
 
+run_command_line("which python") 
 
 
 """
