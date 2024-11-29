@@ -60,6 +60,7 @@ if button:
     ngrok_tunnel = ngrok.connect("80")
     st.write(ngrok_tunnel)
     time.sleep(5000) #wait 5000 seconds trước khi close tunnel   
+    public_url = 'tn_2pW0loSz21iIfKMvHXjaXR7XO6f'
     ngrok.disconnect(ngrok_tunnel.public_url)     
 
 
