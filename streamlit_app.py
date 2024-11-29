@@ -37,7 +37,7 @@ button = st.button("SUBMIT", type="primary" , key="1")
 if button:
     #run_command_line("git clone https://github.com/novnc/noVNC.git /tmp/noVNC") 
     run_command_line("ls -la /tmp/noVNC/utils")     
-    run_command_line("cd /tmp/noVNC/utils && novnc_proxy --vnc localhost:5901 --listen 80")     
+    run_command_line("/tmp/noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 80")     
 
     #run_command_line("whereis novnc && whereis vncserver") 
     #run_command_line("ls -la /usr/share/novnc")  
