@@ -7,7 +7,6 @@ from webdriver_manager.core.os_manager import ChromeType
 from bs4 import BeautifulSoup
 import time
 
-
 def run_command_line(command):
     import sys, subprocess
     try:
@@ -21,8 +20,6 @@ def run_command_line(command):
             st.write(line)
     except subprocess.CalledProcessError as e:
         st.write(f"An error occurred: {e}")
-
-run_command_line("which python") 
 
 
 """
@@ -38,6 +35,7 @@ Fork this repo, and edit `/streamlit_app.py` to customize this app to your heart
 website = st.text_input("Enter your website to crawl", value='https://example.com/')
 button = st.button("SUBMIT", type="primary" , key="1")
 if button:
+    run_command_line("which python") 
     st.write(f"your website is {website}")  
     with st.container():
         with st.spinner('Wait for it...'):
