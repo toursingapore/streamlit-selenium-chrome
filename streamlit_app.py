@@ -50,6 +50,12 @@ def myrun():
         desktop = Sandbox.create(api_key=E2B_API_KEY, resolution=(1920, 1080), timeout=600, metadata={"project": "ai-agent-demo"})
         st.write(desktop)
 
+        desktop.launch('google-chrome')  # Alternatives: 'vscode', 'firefox', etc.
+        desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
+
+        desktop.files.write("/home/user/example.txt", "Sample content")
+        desktop.open("/home/user/example.txt")  # Opens in default text editor
+
         st.write(heoquay)
 
 
