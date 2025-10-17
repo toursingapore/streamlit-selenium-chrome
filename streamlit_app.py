@@ -56,8 +56,10 @@ def myrun():
         desktop.write("Hello, world!")
         desktop.press("enter")
 
+        desktop.wait(10000)
+
+        # Save the screenshot to a file
         image = desktop.screenshot()
-        # Save the image to a file
         screenshot_file = "/tmp/screenshot.png"
         with open(screenshot_file, "wb") as f:
             f.write(image)
@@ -77,7 +79,7 @@ def myrun():
         url = desktop.stream.get_url(view_only=True)
         st.write(url)
         # Stop the stream on NOVNC
-        desktop.stream.stop()
+        #desktop.stream.stop()
 
 
 
