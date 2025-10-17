@@ -44,7 +44,7 @@ def myrun():
     if button:
         from e2b_desktop import Sandbox
 
-        st.write("DB username:", st.secrets["E2B_API_KEY"])
+        E2B_API_KEY = st.secrets["E2B_API_KEY"]
 
         # Create with custom resolution and timeout
         desktop = Sandbox.create(api_key=E2B_API_KEY, resolution=(1920, 1080), timeout=600, metadata={"project": "ai-agent-demo"})
