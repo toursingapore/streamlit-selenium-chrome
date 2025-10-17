@@ -59,9 +59,14 @@ def myrun():
         desktop.open(website)
         desktop.wait(10000)
 
+        # Get all windows of the application
+        window_ids = desktop.get_application_windows("Firefox")
+        st.write(window_ids)
+
+
         _ = """
         #stream window_id only
-        window_id = desktop.get_current_window_id()
+        window_id = desktop.get_current_window_id() #get active window id
         st.write('window_id - ',window_id)
         desktop.stream.start(
             window_id=window_id, # if not provided the whole desktop will be streamed
