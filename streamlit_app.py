@@ -70,7 +70,7 @@ def myrun():
         # Stop the stream on NOVNC
         desktop.stream.stop()
 
-        bytes = desktop.screenshot()
+        bytes = desktop.screenshot(format="png")
         st.image(bytes)
 
 
