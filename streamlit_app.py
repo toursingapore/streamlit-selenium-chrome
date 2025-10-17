@@ -52,8 +52,12 @@ def myrun():
         st.write(desktop)
 
         #desktop.launch('google-chrome')  # Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
-        desktop.launch("gedit")
         desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
+
+        # List all installed applications from standard Linux paths
+        proc = desktop.run("ls /usr/share/applications")
+        output = proc.stdout.read()
+        st.write("Available applications (.desktop files):\n", output)
 
         #desktop.open("file.txt")  # Opens default text editor
         #desktop.open("https://google.com")  # Opens default firefox and go to url
