@@ -42,6 +42,14 @@ def myrun():
     website = st.text_input("Enter your website to crawl", value='https://example.com/')
     button = st.button("SUBMIT", type="primary" , key="1")
     if button:
+        from e2b_desktop import Sandbox
+
+        # Create with custom resolution and timeout
+        desktop = Sandbox.create(resolution=(1920, 1080), timeout=600, metadata={"project": "ai-agent-demo"})
+        st.write(desktop)
+
+
+
         #run_command_line("wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip -P /tmp")
         #run_command_line("unzip /tmp/ngrok-stable-linux-amd64.zip -d /tmp/ngrok-stable-linux-amd64")
         #run_command_line("ls -a /tmp/ngrok-stable-linux-amd64")   
