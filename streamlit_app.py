@@ -59,24 +59,6 @@ def myrun():
         desktop.open(website)
         desktop.wait(10000)
 
-        # Get all windows of the application
-        window_ids = desktop.get_application_windows()
-        st.write(window_ids)
-
-        _ = """
-        #stream window_id only
-        window_id = desktop.get_current_window_id() #get active window id
-        st.write('window_id - ',window_id)
-        desktop.stream.start(
-            window_id=window_id, # if not provided the whole desktop will be streamed
-            require_auth=False
-        )
-        stream_url = desktop.stream.get_url()
-        st.write(stream_url)
-        # Stop the stream window_id - mỗi lần chỉ stream được 1 app only
-        desktop.stream.stop()        
-        _ = """
-
         desktop.write("Hello, world!")
         desktop.press("enter")
 
@@ -99,8 +81,22 @@ def myrun():
         # Get stream URL and disable user interaction
         stream_url = desktop.stream.get_url(view_only=True)
         st.write(stream_url)
-        # Stop the stream Linux VM via NOVNC
+        # Stop the stream Linux VM via NOVNC - mỗi lần chỉ stream được 1 app only
         #desktop.stream.stop()
+
+        _ = """
+        #stream window_id only
+        window_id = desktop.get_current_window_id() #get active window id
+        st.write('window_id - ',window_id)
+        desktop.stream.start(
+            window_id=window_id, # if not provided the whole desktop will be streamed
+            require_auth=False
+        )
+        stream_url = desktop.stream.get_url()
+        st.write(stream_url)
+        # Stop the stream window_id - mỗi lần chỉ stream được 1 app only
+        #desktop.stream.stop()        
+        _ = """
 
 
         _ = """
