@@ -53,8 +53,14 @@ def myrun():
         desktop.launch('google-chrome')  # Alternatives: 'vscode', 'firefox', etc.
         desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
 
-        desktop.files.write("/home/user/example.txt", "Sample content")
-        desktop.open("/home/user/example.txt")  # Opens in default text editor
+        execution = desktop.files.write("/home/user/example.txt", "Sample content")
+        st.write(execution)
+
+        execution = desktop.open("/home/user/example.txt")  # Opens in default text editor
+        st.write(execution)
+
+
+
 
         st.write(heoquay)
 
