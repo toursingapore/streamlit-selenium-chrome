@@ -6,6 +6,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.core.os_manager import ChromeType
 from bs4 import BeautifulSoup
 import time, os, sys
+from pyngrok import ngrok
+
+
 
 def run_command_line(command):
     import sys, subprocess
@@ -52,9 +55,6 @@ def myrun():
             run_command_line("chmod +x /tmp/noVNC/utils/novnc_proxy")       
             run_command_line("/tmp/noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 3000 &") #run cmd in background with '&' 
         st.write('forward internal port 5901 of VNC to 3000 - DONE')
-
-
-        from pyngrok import ngrok
         
         try:
             NGROK_AUTHTOKEN = '2elQfBKwd0CX0jFToGi7zZVRoAI_2muVgZUZ2agRUxWCoCrqF'
