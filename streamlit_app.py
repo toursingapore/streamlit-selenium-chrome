@@ -59,6 +59,15 @@ def myrun():
         desktop.open(website)
         desktop.wait(10000)
 
+        window_id = desktop.get_current_window_id()
+
+        desktop.stream.start(
+            window_id=desktop.get_current_window_id(), # if not provided the whole desktop will be streamed
+            require_auth=False
+        )
+        stream_url = desktop.stream.get_url()
+        st.write(stream_url)
+
         desktop.write("Hello, world!")
         desktop.press("enter")
 
