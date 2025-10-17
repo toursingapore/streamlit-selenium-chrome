@@ -55,7 +55,8 @@ def myrun():
 
         #desktop.open("file.txt")  # Opens default text editor
         #desktop.open("https://google.com")  # Opens default firefox and go to url
-        #desktop.wait(10000)
+        desktop.open(website)
+        desktop.wait(10000)
 
         desktop.write("Hello, world!")
         desktop.press("enter")
