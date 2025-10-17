@@ -74,7 +74,7 @@ def myrun():
 
         # Start the stream Linux VM via NOVNC
         desktop.stream.start()
-        # Get stream URL and able user interaction
+        # Get stream URL and able user interaction (vào link này tương tác trực tiếp với Linux VM)
         stream_url = desktop.stream.get_url()
         st.write(stream_url)
         # Get stream URL and disable user interaction
