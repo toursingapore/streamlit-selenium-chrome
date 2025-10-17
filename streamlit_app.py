@@ -59,20 +59,18 @@ def myrun():
         desktop.open(website)
         desktop.wait(10000)
 
-        desktop.write("Hello, world!")
-        desktop.press("enter")
-
         # Get current (active) window ID
         window_id = desktop.get_current_window_id()
         # Get window title
         title = desktop.get_window_title(window_id)     
-        st.write(title)
+        st.write('Title of current active window id: ',title)
 
         # Get all windows of the application
         window_ids = desktop.get_application_windows("Firefox")
         st.write(window_ids)
 
-
+        desktop.write("Hello, world!")
+        desktop.press("enter")
 
         # Save the screenshot to a file
         image = desktop.screenshot()
