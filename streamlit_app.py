@@ -57,8 +57,23 @@ def myrun():
         st.write(execution)
 
         #execution = desktop.open("/home/user/example.txt")  # Opens in default text editor
-        execution = desktop.open("https://example.com/")  # Opens URL
-        st.write(execution)
+        #st.write(execution)
+
+
+        # Start the stream
+        desktop.stream.start()
+
+        # Get stream URL
+        url = desktop.stream.get_url()
+        st.write(url)
+
+        # Get stream URL and disable user interaction
+        url = desktop.stream.get_url(view_only=True)
+        st.write(url)
+
+        # Stop the stream
+        desktop.stream.stop()
+
 
         st.write(heoquay)
 
