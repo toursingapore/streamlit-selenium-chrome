@@ -2,3 +2,4 @@ streamlit
 seleniumbase
 webdriver-manager
 pyngrok
+e2b-desktop==2.1.0
