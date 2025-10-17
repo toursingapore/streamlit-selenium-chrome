@@ -53,11 +53,20 @@ def myrun():
         desktop.launch('google-chrome')  # Alternatives: 'vscode', 'firefox', etc.
         desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
 
+        desktop.write("Hello, world!")
+        desktop.press("enter")
+
+        image = desktop.screenshot()
+        # Save the image to a file
+        screenshot_file = "/tmp/screenshot.png"
+        with open(screenshot_file, "wb") as f:
+            f.write(image)
+        st.image(screenshot_file)
+
         execution = desktop.files.write("/home/user/example.txt", "Sample content")
         st.write(execution)
         #execution = desktop.open("/home/user/example.txt")  # Opens in default text editor
         #st.write(execution)
-
 
         # Start the stream on NOVNC
         desktop.stream.start()
@@ -70,8 +79,6 @@ def myrun():
         # Stop the stream on NOVNC
         desktop.stream.stop()
 
-        bytes = desktop.screenshot(format="png")
-        st.image(bytes)
 
 
 
