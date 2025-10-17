@@ -82,10 +82,6 @@ def myrun():
         # Stop the stream Linux VM via NOVNC
         #desktop.stream.stop()
 
-
-
-
-
         st.write(heoquay)
 
 
