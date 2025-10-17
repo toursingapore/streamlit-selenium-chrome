@@ -56,11 +56,9 @@ def myrun():
         execution = desktop.files.write("/home/user/example.txt", "Sample content")
         st.write(execution)
 
-        execution = desktop.open("/home/user/example.txt")  # Opens in default text editor
+        #execution = desktop.open("/home/user/example.txt")  # Opens in default text editor
+        execution = desktop.open("https://example.com/")  # Opens URL
         st.write(execution)
-
-
-
 
         st.write(heoquay)
 
