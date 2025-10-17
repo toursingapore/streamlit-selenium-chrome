@@ -53,6 +53,9 @@ def myrun():
         desktop.launch('google-chrome')  # Alternatives: 'vscode', 'firefox', etc.
         desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
 
+        execution = desktop.open("http://example.com")  # Opens in default text editor
+        st.write(execution)
+
         desktop.write("Hello, world!")
         desktop.press("enter")
 
@@ -67,10 +70,8 @@ def myrun():
 
         execution = desktop.files.write("/home/user/example.txt", "Sample content")
         st.write(execution)
-        #execution = desktop.open("/home/user/example.txt")  # Opens in default text editor
-        #st.write(execution)
 
-        # Start the stream on NOVNC
+        # Start the stream Linux VM via NOVNC
         desktop.stream.start()
         # Get stream URL
         url = desktop.stream.get_url()
@@ -78,7 +79,7 @@ def myrun():
         # Get stream URL and disable user interaction
         url = desktop.stream.get_url(view_only=True)
         st.write(url)
-        # Stop the stream on NOVNC
+        # Stop the stream Linux VM via NOVNC
         #desktop.stream.stop()
 
 
