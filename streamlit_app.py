@@ -42,6 +42,7 @@ def myrun():
     website = st.text_input("Enter your website to crawl", value='https://example.com/')
     button = st.button("SUBMIT", type="primary" , key="1")
     if button:
+        #Case1; Dùng Linux VM via e2b_desktop và có tích hợp sẵn NoVNC
         from e2b_desktop import Sandbox
 
         E2B_API_KEY = st.secrets["E2B_API_KEY"]
@@ -82,10 +83,9 @@ def myrun():
         # Stop the stream Linux VM via NOVNC
         #desktop.stream.stop()
 
-        st.write(heoquay)
 
-
-
+        _ = """
+        #Case2; Tự code Linux VM tích hợp NoVNC in streamlit cloud
         #run_command_line("wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip -P /tmp")
         #run_command_line("unzip /tmp/ngrok-stable-linux-amd64.zip -d /tmp/ngrok-stable-linux-amd64")
         #run_command_line("ls -a /tmp/ngrok-stable-linux-amd64")   
@@ -171,5 +171,7 @@ def myrun():
                     driver.close()
                     driver.quit()
             st.success('Done!')
+        _ = """
+
 if __name__ == "__main__":
     myrun()
