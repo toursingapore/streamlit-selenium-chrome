@@ -59,15 +59,19 @@ def myrun():
         desktop.open(website)
         desktop.wait(10000)
 
+        _ = """
+        #stream window_id only
         window_id = desktop.get_current_window_id()
         st.write('window_id - ',window_id)
-
         desktop.stream.start(
             window_id=window_id, # if not provided the whole desktop will be streamed
             require_auth=False
         )
         stream_url = desktop.stream.get_url()
         st.write(stream_url)
+        # Stop the stream window_id - mỗi lần chỉ stream được 1 app only
+        desktop.stream.stop()        
+        _ = """
 
         desktop.write("Hello, world!")
         desktop.press("enter")
@@ -82,6 +86,7 @@ def myrun():
         execution = desktop.files.write("/home/user/example.txt", "Sample content")
         st.write(execution)
 
+        #stream toàn bộ Linux VM
         # Start the stream Linux VM via NOVNC
         desktop.stream.start()
         # Get stream URL and able user interaction (vào link này tương tác trực tiếp với Linux VM)
