@@ -60,7 +60,7 @@ def myrun():
         desktop.wait(10000)
 
         # Get all windows of the application
-        window_ids = desktop.get_application_windows("Firefox")
+        window_ids = desktop.get_application_windows()
         st.write(window_ids)
 
         _ = """
