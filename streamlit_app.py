@@ -50,11 +50,11 @@ def myrun():
         desktop = Sandbox.create(api_key=E2B_API_KEY, resolution=(1920, 1080), timeout=600, metadata={"project": "ai-agent-demo"})
         st.write(desktop)
 
-        desktop.launch('google-chrome')  # Alternatives: 'vscode', 'firefox', etc.
-        desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
+        #desktop.launch('google-chrome')  # Alternatives: 'vscode', 'firefox', etc.
+        #desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
 
-        execution = desktop.open("http://example.com")  # Opens in default text editor
-        st.write(execution)
+        #desktop.open("file.txt")  # Opens default text editor
+        desktop.open("http://example.com")  # Opens default firefox and go to url
 
         desktop.wait(10000)
 
@@ -75,12 +75,12 @@ def myrun():
 
         # Start the stream Linux VM via NOVNC
         desktop.stream.start()
-        # Get stream URL
-        url = desktop.stream.get_url()
-        st.write(url)
+        # Get stream URL and able user interaction
+        stream_url = desktop.stream.get_url()
+        st.write(stream_url)
         # Get stream URL and disable user interaction
-        url = desktop.stream.get_url(view_only=True)
-        st.write(url)
+        stream_url = desktop.stream.get_url(view_only=True)
+        st.write(stream_url)
         # Stop the stream Linux VM via NOVNC
         #desktop.stream.stop()
 
