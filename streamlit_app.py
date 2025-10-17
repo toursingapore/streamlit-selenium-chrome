@@ -55,24 +55,25 @@ def myrun():
 
         execution = desktop.files.write("/home/user/example.txt", "Sample content")
         st.write(execution)
-
         #execution = desktop.open("/home/user/example.txt")  # Opens in default text editor
         #st.write(execution)
 
 
-        # Start the stream
+        # Start the stream on NOVNC
         desktop.stream.start()
-
         # Get stream URL
         url = desktop.stream.get_url()
         st.write(url)
-
         # Get stream URL and disable user interaction
         url = desktop.stream.get_url(view_only=True)
         st.write(url)
-
-        # Stop the stream
+        # Stop the stream on NOVNC
         desktop.stream.stop()
+
+        bytes = desktop.screenshot()
+        st.image(bytes)
+
+
 
 
         st.write(heoquay)
