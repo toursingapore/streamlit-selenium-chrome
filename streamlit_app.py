@@ -21,7 +21,7 @@ def run_command_line(command):
     except subprocess.CalledProcessError as e:
         st.write(f"An error occurred: {e}")
 
-def run():
+def myrun():
     st.set_page_config(
         page_title="Web scraping on Streamlit Cloud with Selenium",
         page_icon=":star:",
@@ -69,16 +69,11 @@ def run():
             #st.write(exc_type, fname, exc_tb.tb_lineno)
             st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}") 
 
-    
-
-
-
         #run_command_line("whereis novnc && whereis vncserver") 
         #run_command_line('echo "nicepassword" | vncpasswd -f > ~/.vnc/passwd')     
         #run_command_line("chmod 600 ~/.vnc/passwd")           
         #run_command_line("vncserver :1")       
         #run_command_line("websockify -D --web=/usr/share/novnc/ 3000 localhost:5901")        
-
 
         st.write(f"your website is {website}")  
         with st.container():
@@ -133,4 +128,4 @@ def run():
                     driver.quit()
             st.success('Done!')
 if __name__ == "__main__":
-    run()
+    myrun()
