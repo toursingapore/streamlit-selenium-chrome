@@ -63,7 +63,6 @@ def myrun():
         window_ids = desktop.get_application_windows("Firefox")
         st.write(window_ids)
 
-
         _ = """
         #stream window_id only
         window_id = desktop.get_current_window_id() #get active window id
