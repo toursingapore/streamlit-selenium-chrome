@@ -56,6 +56,8 @@ def myrun():
         execution = desktop.open("http://example.com")  # Opens in default text editor
         st.write(execution)
 
+        desktop.wait(10000)
+
         desktop.write("Hello, world!")
         desktop.press("enter")
 
