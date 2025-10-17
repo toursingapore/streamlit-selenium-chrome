@@ -48,6 +48,8 @@ def myrun():
         desktop = Sandbox.create(resolution=(1920, 1080), timeout=600, metadata={"project": "ai-agent-demo"})
         st.write(desktop)
 
+        st.write(heoquay)
+
 
 
         #run_command_line("wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip -P /tmp")
