@@ -67,6 +67,9 @@ def myrun():
             execution = desktop.commands.run("lsb_release -a")
             st.write('Running OS: ',execution.stdout)
 
+            execution = desktop.commands.run('python3 -c "print(3 + 5)"')
+            st.write("Inline Python Output:", execution.stdout)
+
             #Stream toàn bộ Linux VM
             # Start the stream Linux VM via NOVNC
             desktop.stream.start()
