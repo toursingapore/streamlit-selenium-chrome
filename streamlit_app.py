@@ -150,7 +150,7 @@ await myfunc(display_intercept=True) #Use this when running in colab mới work
             execution = desktop.files.write("/tmp/file.py", python_script)
             st.write(execution)
 
-            execution = desktop.commands.run("python /tmp/file.py")
+            execution = desktop.commands.run("python3.10")
             st.write(execution.stdout)
 
             _ = """
