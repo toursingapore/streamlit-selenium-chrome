@@ -121,7 +121,7 @@ async def myfunc(display_intercept=False):
                 channel="chrome",
                 executable_path="/usr/bin/google-chrome",
                 headless=False,
-                no_viewport=True,
+                #no_viewport=True,
                 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.6998.165 Safari/537.36", #User-agent phù hợp current Google Chrome 134.0.6998.165 mới chuẩn được
                 viewport={"width": 1280, "height": 720},
             )
@@ -140,7 +140,7 @@ async def myfunc(display_intercept=False):
 
             await page.goto("https://www.browserscan.net/bot-detection", wait_until='load')
             await page.wait_for_timeout(10000)            
-            await page.screenshot(path="example.png")
+            await page.screenshot(path="/tmp/example.png")
 
         except Exception as e:
             print(f"Error during execution: {e}")
