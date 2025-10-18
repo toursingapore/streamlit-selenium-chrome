@@ -60,13 +60,12 @@ def myrun():
                 #timeout=600,
                 metadata={"project": "ai-agent-demo"},
             )
-            desktop.wait(1000)
-            execution = desktop.commands.run("echo $E2B_TEMPLATE_ID")
-            #st.write(execution)
-            st.write('E2B_TEMPLATE_ID: ',execution.stdout)                        
+            desktop.wait(3000)
+            #execution = desktop.commands.run("echo $E2B_TEMPLATE_ID")
+            #st.write('E2B_TEMPLATE_ID: ',execution.stdout)                        
 
             execution = desktop.commands.run("lsb_release -a")
-            st.write(execution.stdout)
+            st.write('Running OS: ',execution.stdout)
 
             #Stream toàn bộ Linux VM
             # Start the stream Linux VM via NOVNC
