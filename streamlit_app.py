@@ -146,7 +146,8 @@ async def myfunc(display_intercept=False):
             print(f"Error during execution: {e}")
         finally:
             if browser:
-                await browser.close()
+                #await browser.close() #not close để check
+                pass
 
 asyncio.run(myfunc(display_intercept=True))
 #await myfunc(display_intercept=True) #Use this when running in colab mới work            
