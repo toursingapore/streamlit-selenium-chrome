@@ -67,7 +67,7 @@ def myrun():
                     st.write("Desktop sandbox ID:", sandbox.sandbox_id)
 
                     # Có thể chạy lệnh trong sandbox (terminal)
-                    result = await sandbox.run("echo Hello from desktop")
+                    result = await sandbox.commands.run("echo Hello from desktop")
                     st.write("Output:", result.stdout)
 
                     # Chụp màn hình
