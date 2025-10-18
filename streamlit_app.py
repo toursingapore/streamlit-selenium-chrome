@@ -48,10 +48,10 @@ def myrun():
             import nest_asyncio
             nest_asyncio.apply() #Enable asyncio in the main thread and Run the asynchronous function   
             import e2b_desktop
-            with st.expander("Click here to view data"):
+            with st.expander("Click here to view data - e2b_desktop"):
                 st.write('e2b_desktop',e2b_desktop)            
             from e2b_desktop import Sandbox, AsyncSandbox
-            with st.expander("Click here to view data"):
+            with st.expander("Click here to view data - AsyncSandbox"):
                 st.write('AsyncSandbox',AsyncSandbox)
 
             E2B_API_KEY = st.secrets["E2B_API_KEY"]
