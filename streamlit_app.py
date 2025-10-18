@@ -55,25 +55,28 @@ def myrun():
             E2B_API_KEY = st.secrets["E2B_API_KEY"]
 
             async def e2b_func():
-                desktop = await AsyncSandbox.create(
-                    api_key=E2B_API_KEY,
-                    resolution=(1366, 768),
-                    timeout=600,
-                    metadata={"project": "ai-agent-demo"}
-                )
-                st.write("Sandbox started:", desktop.sandbox_id)
-                st.write("URL to access the desktop:", desktop.url)
+                try:
+                    desktop = await AsyncSandbox.create(
+                        api_key=E2B_API_KEY,
+                    )
+                    st.write("Sandbox started:", desktop.sandbox_id)
+                    st.write("URL to access the desktop:", desktop.url)
 
-                # Chạy lệnh trong môi trường ảo
-                result = await desktop.run("echo Hello from inside the sandbox!")
-                st.write(result.output)
+                    # Chạy lệnh trong môi trường ảo
+                    result = await desktop.run("echo Hello from inside the sandbox!")
+                    st.write(result.output)
 
-                # (Tùy chọn) Chụp ảnh màn hình
-                screenshot_path = await desktop.screenshot("desktop.png")
-                st.write(f"Screenshot saved at {screenshot_path}")
+                    # (Tùy chọn) Chụp ảnh màn hình
+                    screenshot_path = await desktop.screenshot("desktop.png")
+                    st.write(f"Screenshot saved at {screenshot_path}")
 
-                # Đóng sandbox khi xong
-                #await desktop.close()
+                    # Đóng sandbox khi xong
+                    #await desktop.kill()
+                except Exception as e:
+                    exc_type, exc_obj, exc_tb = sys.exc_info()
+                    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                    #st.write(exc_type, fname, exc_tb.tb_lineno)
+                    st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")                   
 
             asyncio.run(e2b_func())
 
