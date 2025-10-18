@@ -171,12 +171,7 @@ asyncio.run(myfunc(display_intercept=True))
             execution = desktop.commands.run("python3 /tmp/file.py", background=False, timeout=0) #default process timeout 30 seconds, if timeout=0 wait until code finished
             st.write(execution.stdout)
 
-            # Read file from VM
-            content = desktop.files.read('/tmp/example.png')
-            # Write file to local filesystem
-            with open('/tmp/screenshot.png', 'w') as file:
-                file.write(content)
-            st.image('/tmp/screenshot.png')
+            desktop.launch("/tmp/example.png")
 
             # Pause the app to initialize (milliseconds), then Save the screenshot to a file
             desktop.wait(10000)  
