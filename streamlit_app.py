@@ -46,8 +46,10 @@ def myrun():
             #Case1; Dùng Linux VM via e2b_desktop và có tích hợp sẵn NoVNC
             import e2b_desktop
             with st.expander("Click here to view data - e2b_desktop"):
-                st.write('e2b_desktop',e2b_desktop)            
+                st.write('e2b_desktop',e2b_desktop)    
+                        
             from e2b_desktop import Sandbox, AsyncSandbox
+            from template import template
             with st.expander("Click here to view data - AsyncSandbox"):
                 st.write('AsyncSandbox',AsyncSandbox)
 
@@ -64,8 +66,15 @@ def myrun():
             #st.write(execution)
             st.write('E2B_TEMPLATE_ID: ',execution.stdout)
 
-            execution = desktop.commands.run("pip install patchright==1.55.2")
-            st.write(execution)
+            #template = (Template().from_base_image().set_envs({"HELLO": "Hello, World!"}).set_start_cmd("echo $HELLO", wait_for_timeout(5_000)))
+            # Install Python packages
+            template.pip_install("requests pandas numpy patchright")
+
+            # Install system packages (Ubuntu/Debian)
+            template.apt_install("curl wget git ffmpeg")
+
+            # Install Node.js packages
+            #template.npm_install("express lodash")
 
 
             #Stream toàn bộ Linux VM
