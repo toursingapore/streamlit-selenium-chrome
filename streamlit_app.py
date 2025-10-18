@@ -118,13 +118,21 @@ async def myfunc(display_intercept=False):
         try:
             browser = await p.chromium.launch_persistent_context(
                 user_data_dir="/tmp/profile",
-                channel="chrome",
-                executable_path="/usr/bin/google-chrome",
                 headless=False,
-                #no_viewport=True,
+                channel="chrome",
+                executable_path="/usr/bin/google-chrome",  # nếu cần dùng chrome cụ thể
+                viewport={"width": 1280, "height": 800},
                 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.6998.165 Safari/537.36", #User-agent phù hợp current Google Chrome 134.0.6998.165 mới chuẩn được
-                viewport={"width": 1280, "height": 720},
+                args=[
+                    "--disable-blink-features=AutomationControlled",
+                    "--no-sandbox",
+                    "--disable-dev-shm-usage",
+                    "--disable-infobars"  # không luôn có hiệu lực nhưng thử thêm
+                ],
+                # Loại bỏ default arg --enable-automation vốn sinh ra infobar
+                ignore_default_args=["--enable-automation"],
             )
+
             # Access the first page or create a new one
             pages = browser.pages
             page = pages[0] if pages else await browser.new_page()
