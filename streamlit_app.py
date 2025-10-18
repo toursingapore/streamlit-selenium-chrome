@@ -95,55 +95,55 @@ def myrun():
             st.write(execution.stdout)
 
             python_script = """
-                import asyncio
-                import nest_asyncio
-                nest_asyncio.apply()
-                from patchright.async_api import async_playwright
+import asyncio
+import nest_asyncio
+nest_asyncio.apply()
+from patchright.async_api import async_playwright
 
-                async def myfunc(display_intercept=False):
-                    async with async_playwright() as p:
-                        browser = None
-                        
-                        # Define logging function for all requests
-                        async def log_and_continue_request(route, request):
-                            print(f"Requesting: {request.url}")
-                            await route.continue_() 
+async def myfunc(display_intercept=False):
+    async with async_playwright() as p:
+        browser = None
+        
+        # Define logging function for all requests
+        async def log_and_continue_request(route, request):
+            print(f"Requesting: {request.url}")
+            await route.continue_() 
 
-                        try:
-                            browser = await p.chromium.launch_persistent_context(
-                                user_data_dir="/content/profile",
-                                channel="chrome",
-                                executable_path="/usr/bin/google-chrome",
-                                headless=False,
-                                no_viewport=True,
-                                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.6998.165 Safari/537.36", #User-agent phù hợp current Google Chrome 134.0.6998.165 mới chuẩn được
-                                viewport={"width": 1280, "height": 720},
-                            )
-                            # Access the first page or create a new one
-                            pages = browser.pages
-                            page = pages[0] if pages else await browser.new_page()
+        try:
+            browser = await p.chromium.launch_persistent_context(
+                user_data_dir="/content/profile",
+                channel="chrome",
+                executable_path="/usr/bin/google-chrome",
+                headless=False,
+                no_viewport=True,
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.6998.165 Safari/537.36", #User-agent phù hợp current Google Chrome 134.0.6998.165 mới chuẩn được
+                viewport={"width": 1280, "height": 720},
+            )
+            # Access the first page or create a new one
+            pages = browser.pages
+            page = pages[0] if pages else await browser.new_page()
 
-                            # Set context-level settings AFTER launch
-                            await page.context.grant_permissions(["geolocation"])
-                            await page.context.set_geolocation({"longitude": 12.492507, "latitude": 41.889938})
-                            await page.context.set_extra_http_headers({"Accept-Language": "en-US"})
+            # Set context-level settings AFTER launch
+            await page.context.grant_permissions(["geolocation"])
+            await page.context.set_geolocation({"longitude": 12.492507, "latitude": 41.889938})
+            await page.context.set_extra_http_headers({"Accept-Language": "en-US"})
 
-                            if display_intercept:
-                                #Intercept with async handler
-                                await page.route("**/*", log_and_continue_request)
+            if display_intercept:
+                #Intercept with async handler
+                await page.route("**/*", log_and_continue_request)
 
-                            await page.goto("https://www.browserscan.net/bot-detection", wait_until='load')
-                            await page.wait_for_timeout(10000)            
-                            await page.screenshot(path="example.png")
+            await page.goto("https://www.browserscan.net/bot-detection", wait_until='load')
+            await page.wait_for_timeout(10000)            
+            await page.screenshot(path="example.png")
 
-                        except Exception as e:
-                            print(f"Error during execution: {e}")
-                        finally:
-                            if browser:
-                                await browser.close()
+        except Exception as e:
+            print(f"Error during execution: {e}")
+        finally:
+            if browser:
+                await browser.close()
 
-                #asyncio.run(myfunc(display_intercept=True))
-                await myfunc(display_intercept=True) #Use this when running in colab mới work
+#asyncio.run(myfunc(display_intercept=True))
+await myfunc(display_intercept=True) #Use this when running in colab mới work
             
             """
             # Write single file
