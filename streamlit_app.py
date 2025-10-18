@@ -114,7 +114,7 @@ async def myfunc(display_intercept=False):
 
         try:
             browser = await p.chromium.launch_persistent_context(
-                user_data_dir="/content/profile",
+                user_data_dir="/tmp/profile",
                 channel="chrome",
                 executable_path="/usr/bin/google-chrome",
                 headless=False,
