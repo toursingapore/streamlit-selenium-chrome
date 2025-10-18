@@ -63,24 +63,7 @@ def myrun():
 
             execution = desktop.commands.run("echo $E2B_TEMPLATE_ID")
             #st.write(execution)
-            st.write('E2B_TEMPLATE_ID: ',execution.stdout)
-
-            #template = (Template().from_base_image().set_envs({"HELLO": "Hello, World!"}).set_start_cmd("echo $HELLO", wait_for_timeout(5_000)))
-            
-            template = Template(
-                file_context_path=".",  # Custom file context path
-                file_ignore_patterns=[".git", "node_modules"],  # File patterns to ignore
-            )            
-            
-            # Install Python packages
-            template.pip_install("requests pandas numpy patchright")
-
-            # Install system packages (Ubuntu/Debian)
-            template.apt_install("curl wget git ffmpeg")
-
-            # Install Node.js packages
-            #template.npm_install("express lodash")
-
+            st.write('E2B_TEMPLATE_ID: ',execution.stdout)                        
 
             #Stream toàn bộ Linux VM
             # Start the stream Linux VM via NOVNC
@@ -101,6 +84,10 @@ def myrun():
             with open(screenshot_file, "wb") as f:
                 f.write(image)
             st.image(screenshot_file)
+
+            execution = desktop.commands.run("pip install requests")
+            st.write(execution)
+
 
             _ = """
             #desktop.launch('google-chrome')  # mở ứng dụng - Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
