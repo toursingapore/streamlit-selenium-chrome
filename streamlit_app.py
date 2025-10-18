@@ -48,10 +48,33 @@ def myrun():
         E2B_API_KEY = st.secrets["E2B_API_KEY"]
 
         # Create with custom resolution and timeout
-        desktop = Sandbox.create(api_key=E2B_API_KEY, resolution=(1920, 1080), timeout=600, metadata={"project": "ai-agent-demo"})
+        desktop = Sandbox.create(
+            api_key=E2B_API_KEY,
+            resolution=(1366, 768), #default (1920, 1080)
+            timeout=600, #5 phút
+            metadata={"project": "ai-agent-demo"},
+        )
         st.write(desktop)
 
-        #desktop.launch('google-chrome')  # Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
+        result = desktop.commands.run("echo $E2B_SANDBOX_ID")
+        st.write(result)
+
+
+        #stream toàn bộ Linux VM
+        # Start the stream Linux VM via NOVNC
+        desktop.stream.start()
+        # Get stream URL and able user interaction (vào link này tương tác trực tiếp với Linux VM)
+        stream_url = desktop.stream.get_url()
+        st.write(stream_url)
+        # Get stream URL and disable user interaction
+        stream_url = desktop.stream.get_url(view_only=True)
+        st.write(stream_url)
+        # Stop the stream Linux VM via NOVNC - mỗi lần chỉ stream được 1 app only
+        #desktop.stream.stop()
+
+
+        _ = """
+        #desktop.launch('google-chrome')  # mở ứng dụng - Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
         desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
 
         #desktop.open("file.txt")  # Opens default text editor
@@ -82,19 +105,6 @@ def myrun():
         execution = desktop.files.write("/home/user/example.txt", "Sample content")
         st.write(execution)
 
-        #stream toàn bộ Linux VM
-        # Start the stream Linux VM via NOVNC
-        desktop.stream.start()
-        # Get stream URL and able user interaction (vào link này tương tác trực tiếp với Linux VM)
-        stream_url = desktop.stream.get_url()
-        st.write(stream_url)
-        # Get stream URL and disable user interaction
-        stream_url = desktop.stream.get_url(view_only=True)
-        st.write(stream_url)
-        # Stop the stream Linux VM via NOVNC - mỗi lần chỉ stream được 1 app only
-        #desktop.stream.stop()
-
-        _ = """
         #stream window_id only
         window_id = desktop.get_current_window_id() #get active window id
         st.write('window_id - ',window_id)
