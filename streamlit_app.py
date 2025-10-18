@@ -56,15 +56,7 @@ def myrun():
 
             async def e2b_func():
                 try:
-                    sandbox = await AsyncSandbox.create(
-                        api_key = E2B_API_KEY,
-                        resolution = (1366, 768),
-                        dpi = 96,                   # tùy chọn, mặc định 96 :contentReference[oaicite:3]{index=3}
-                        display = ":0",             # tùy chọn display của X server :contentReference[oaicite:4]{index=4}
-                        timeout = 600,              # giữ sandbox sống 600 giây (10 phút) :contentReference[oaicite:5]{index=5}
-                        metadata = {"project": "ai-agent-demo"},
-                        # Có thể có các tham số khác như template, secure, allow_internet_access nếu SDK hỗ trợ
-                    )
+                    sandbox = await AsyncSandbox.create(api_key = E2B_API_KEY)
                     # sandbox bây giờ đã khởi động GUI desktop ảo
                     st.write("Desktop sandbox ID:", sandbox.sandbox_id)
 
