@@ -89,7 +89,7 @@ def myrun():
             execution = desktop.commands.run("pip install --user requests patchright==1.55.2")
             st.write(execution.stdout)
 
-            execution = desktop.commands.run("apt install -y ffmpeg")
+            execution = desktop.commands.run("sudo apt update -y")
             st.write(execution.stdout)
 
             _ = """
