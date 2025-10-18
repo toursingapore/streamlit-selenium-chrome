@@ -57,7 +57,7 @@ def myrun():
         st.write(desktop)
 
         execution = desktop.commands.run("echo $E2B_TEMPLATE_ID")
-        st.write(execution)
+        #st.write(execution)
         st.write('E2B_TEMPLATE_ID: ',execution.stdout)
 
 
