@@ -44,13 +44,14 @@ def myrun():
     if button:
         try:
             #Case1; Dùng Linux VM via e2b_desktop và có tích hợp sẵn NoVNC
-            import e2b_desktop
-            st.write(e2b_desktop)
-
             import asyncio
             import nest_asyncio
-            nest_asyncio.apply() #Enable asyncio in the main thread and Run the asynchronous function        
+            nest_asyncio.apply() #Enable asyncio in the main thread and Run the asynchronous function   
+            import e2b_desktop
             from e2b_desktop import Sandbox, AsyncSandbox
+            with st.expander("Click here to view data"):
+                st.write('e2b_desktop',e2b_desktop)
+                st.write('AsyncSandbox',AsyncSandbox)
 
             E2B_API_KEY = st.secrets["E2B_API_KEY"]
 
