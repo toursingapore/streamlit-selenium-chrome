@@ -146,7 +146,10 @@ def myrun():
                 await myfunc(display_intercept=True) #Use this when running in colab mới work
             
             """
-            execution = desktop.commands.run(python_script)
+            # Write single file
+            info = sandbox.write(path="/tmp/file.py", data=python_script)
+
+            execution = desktop.commands.run("python /tmp/file.py")
             st.write(execution.stdout)
 
             _ = """
