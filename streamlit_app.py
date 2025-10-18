@@ -146,8 +146,7 @@ async def myfunc(display_intercept=False):
                 await browser.close()
 
 #asyncio.run(myfunc(display_intercept=True))
-await myfunc(display_intercept=True) #Use this when running in colab mới work
-            
+await myfunc(display_intercept=True) #Use this when running in colab mới work            
             """
             # Write single file
             execution = desktop.files.write("/tmp/file.py", python_script)
