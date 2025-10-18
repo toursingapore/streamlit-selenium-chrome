@@ -58,7 +58,11 @@ def myrun():
 
             async def e2b_func():
                 try:
-                    sandbox = await AsyncSandbox.create(api_key = E2B_API_KEY)
+                    sandbox = await AsyncSandbox.create(
+                        api_key = E2B_API_KEY,
+                        timeout = 600,
+                        metadata = {"project": "ai-agent-demo"},
+                    )
                     # sandbox bây giờ đã khởi động GUI desktop ảo
                     st.write("Desktop sandbox ID:", sandbox.sandbox_id)
 
