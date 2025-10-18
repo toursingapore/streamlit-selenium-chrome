@@ -45,24 +45,42 @@ def myrun():
         #Case1; Dùng Linux VM via e2b_desktop và có tích hợp sẵn NoVNC
         import e2b_desktop
         st.write(e2b_desktop)
-        
-        from e2b_desktop import Sandbox
+
+        from e2b_desktop import Sandbox, AsyncSandbox
 
         E2B_API_KEY = st.secrets["E2B_API_KEY"]
 
-        # Create with custom resolution and timeout
-        desktop = Sandbox.create(
-            api_key=E2B_API_KEY,
-            resolution=(1366, 768), #default (1920, 1080)
-            timeout=600, #5 phút
-            metadata={"project": "ai-agent-demo"},
-        )
+        async def e2b_func():
+            desktop = await AsyncSandbox.create(
+                api_key=E2B_API_KEY,
+                resolution=(1366, 768),
+                timeout=600,
+                metadata={"project": "ai-agent-demo"}
+            )
+            st.write("Sandbox started:", desktop.sandbox_id)
+            st.write("URL to access the desktop:", desktop.url)
+
+            # Chạy lệnh trong môi trường ảo
+            result = await desktop.run("echo Hello from inside the sandbox!")
+            st.write(result.output)
+
+            # (Tùy chọn) Chụp ảnh màn hình
+            screenshot_path = await desktop.screenshot("desktop.png")
+            st.write(f"Screenshot saved at {screenshot_path}")
+
+            # Đóng sandbox khi xong
+            await desktop.close()
+
+        asyncio.run(e2b_func())
+
+
+        _ = """
+        #desktop = Sandbox.create(api_key=E2B_API_KEY,resolution=(1366, 768), timeout=600, metadata={"project": "ai-agent-demo"})
         st.write(desktop)
 
         execution = desktop.commands.run("echo $E2B_TEMPLATE_ID")
         #st.write(execution)
         st.write('E2B_TEMPLATE_ID: ',execution.stdout)
-
 
         #stream toàn bộ Linux VM
         # Start the stream Linux VM via NOVNC
@@ -77,7 +95,7 @@ def myrun():
         #desktop.stream.stop()
 
 
-        _ = """
+
         #desktop.launch('google-chrome')  # mở ứng dụng - Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
         desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
 
