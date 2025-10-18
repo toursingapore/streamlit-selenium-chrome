@@ -141,6 +141,8 @@ async def myfunc(display_intercept=False):
             await page.goto("https://www.browserscan.net/bot-detection", wait_until='load')
             await page.wait_for_timeout(10000)            
             await page.screenshot(path="/tmp/example.png")
+            
+            await page.wait_for_timeout(10_000_000)
 
         except Exception as e:
             print(f"Error during execution: {e}")
@@ -156,9 +158,7 @@ asyncio.run(myfunc(display_intercept=True))
             execution = desktop.files.write("/tmp/file.py", python_script)
             st.write(execution)
 
-            desktop.wait(5000)  
-
-            execution = desktop.commands.run("python3 /tmp/file.py", background=True)
+            execution = desktop.commands.run("python3 /tmp/file.py", background=False)
             st.write(execution.stdout)
 
             # Pause the app to initialize (milliseconds), then Save the screenshot to a file
