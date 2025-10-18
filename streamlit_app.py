@@ -71,14 +71,7 @@ def myrun():
                     # Có thể chạy lệnh trong sandbox (terminal)
                     #st.write(sandbox.commands)
                     result = await sandbox.commands.run("echo Hello from desktop", background=False)
-                    st.write("Output:", result.stdout)
-
-                    # Chụp màn hình toàn Linux VM
-                    image = await sandbox.screenshot()
-                    screenshot_file = "/tmp/screenshot.png"
-                    with open(screenshot_file, "wb") as f:
-                        f.write(image)
-                    st.image(screenshot_file)                    
+                    st.write("Output:", result.stdout)                 
 
                     # Đóng sandbox khi xong
                     #await sandbox.kill()
