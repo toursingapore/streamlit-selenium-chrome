@@ -97,6 +97,9 @@ def myrun():
             execution = desktop.commands.run("sudo apt install ffmpeg -y")
             st.write(execution.stdout)
 
+            desktop.launch('google-chrome')  # mở ứng dụng - Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
+            desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
+
             python_script = """
 import asyncio
 import nest_asyncio
