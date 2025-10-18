@@ -91,7 +91,7 @@ def myrun():
             execution = desktop.commands.run("pip install --user requests patchright==1.55.2 html2text==2025.4.15 nest_asyncio")
             st.write(execution.stdout)
 
-            execution = desktop.commands.run("sudo apt update -y && sudo apt install ffmpeg -y")
+            execution = desktop.commands.run("sudo apt update -y && sudo apt install python3.10 ffmpeg -y")
             st.write(execution.stdout)
 
             python_script = """
