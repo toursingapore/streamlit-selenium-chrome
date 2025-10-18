@@ -147,7 +147,8 @@ def myrun():
             
             """
             # Write single file
-            info = desktop.write(path="/tmp/file.py", data=python_script)
+            execution = desktop.files.write("/tmp/file.py", python_script)
+            st.write(execution)
 
             execution = desktop.commands.run("python /tmp/file.py")
             st.write(execution.stdout)
