@@ -42,196 +42,202 @@ def myrun():
     website = st.text_input("Enter your website to crawl", value='https://example.com/')
     button = st.button("SUBMIT", type="primary" , key="1")
     if button:
-        #Case1; Dùng Linux VM via e2b_desktop và có tích hợp sẵn NoVNC
-        import e2b_desktop
-        st.write(e2b_desktop)
-
-        import asyncio
-        import nest_asyncio
-        nest_asyncio.apply() #Enable asyncio in the main thread and Run the asynchronous function        
-        from e2b_desktop import Sandbox, AsyncSandbox
-
-        E2B_API_KEY = st.secrets["E2B_API_KEY"]
-
-        async def e2b_func():
-            desktop = await AsyncSandbox.create(
-                api_key=E2B_API_KEY,
-                resolution=(1366, 768),
-                timeout=600,
-                metadata={"project": "ai-agent-demo"}
-            )
-            st.write("Sandbox started:", desktop.sandbox_id)
-            st.write("URL to access the desktop:", desktop.url)
-
-            # Chạy lệnh trong môi trường ảo
-            result = await desktop.run("echo Hello from inside the sandbox!")
-            st.write(result.output)
-
-            # (Tùy chọn) Chụp ảnh màn hình
-            screenshot_path = await desktop.screenshot("desktop.png")
-            st.write(f"Screenshot saved at {screenshot_path}")
-
-            # Đóng sandbox khi xong
-            #await desktop.close()
-
-        asyncio.run(e2b_func())
-
-
-        _ = """
-        #desktop = Sandbox.create(api_key=E2B_API_KEY,resolution=(1366, 768), timeout=600, metadata={"project": "ai-agent-demo"})
-        st.write(desktop)
-
-        execution = desktop.commands.run("echo $E2B_TEMPLATE_ID")
-        #st.write(execution)
-        st.write('E2B_TEMPLATE_ID: ',execution.stdout)
-
-        #stream toàn bộ Linux VM
-        # Start the stream Linux VM via NOVNC
-        desktop.stream.start()
-        # Get stream URL and able user interaction (vào link này tương tác trực tiếp với Linux VM)
-        stream_url = desktop.stream.get_url()
-        st.write(stream_url)
-        # Get stream URL and disable user interaction
-        stream_url = desktop.stream.get_url(view_only=True)
-        st.write(stream_url)
-        # Stop the stream Linux VM via NOVNC - mỗi lần chỉ stream được 1 app only
-        #desktop.stream.stop()
-
-
-
-        #desktop.launch('google-chrome')  # mở ứng dụng - Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
-        desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
-
-        #desktop.open("file.txt")  # Opens default text editor
-        #desktop.open("https://google.com")  # Opens default firefox and go to url
-        desktop.open(website)
-        desktop.wait(10000)
-
-        # Get current (active) window ID
-        window_id = desktop.get_current_window_id()
-        # Get window title
-        title = desktop.get_window_title(window_id)     
-        st.write('Title of current active window id: ',title)
-
-        # Get all windows of the application
-        window_ids = desktop.get_application_windows("Firefox")
-        st.write(window_ids)
-
-        desktop.write("Hello, world!")
-        desktop.press("enter")
-
-        # Save the screenshot to a file
-        image = desktop.screenshot()
-        screenshot_file = "/tmp/screenshot.png"
-        with open(screenshot_file, "wb") as f:
-            f.write(image)
-        st.image(screenshot_file)
-
-        execution = desktop.files.write("/home/user/example.txt", "Sample content")
-        st.write(execution)
-
-        #stream window_id only
-        window_id = desktop.get_current_window_id() #get active window id
-        st.write('window_id - ',window_id)
-        desktop.stream.start(
-            window_id=window_id, # if not provided the whole desktop will be streamed
-            require_auth=False
-        )
-        stream_url = desktop.stream.get_url()
-        st.write(stream_url)
-        # Stop the stream window_id - mỗi lần chỉ stream được 1 app only
-        #desktop.stream.stop()        
-        _ = """
-
-
-        _ = """
-        #Case2; Tự code Linux VM tích hợp NoVNC in streamlit cloud
-        #run_command_line("wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip -P /tmp")
-        #run_command_line("unzip /tmp/ngrok-stable-linux-amd64.zip -d /tmp/ngrok-stable-linux-amd64")
-        #run_command_line("ls -a /tmp/ngrok-stable-linux-amd64")   
-        #ngrok_authtoken = '2elQfBKwd0CX0jFToGi7zZVRoAI_2muVgZUZ2agRUxWCoCrqF'
-        #run_command_line(f"/tmp/ngrok-stable-linux-amd64/ngrok authtoken {ngrok_authtoken}")
-        #run_command_line("/tmp/ngrok-stable-linux-amd64/ngrok http 3000")
-
-        if not os.path.isdir('/tmp/noVNC'):    
-            run_command_line("git clone https://github.com/novnc/noVNC.git /tmp/noVNC")  
-            run_command_line("ls -la /tmp/noVNC/utils")
-            run_command_line("chmod +x /tmp/noVNC/utils/novnc_proxy")       
-            run_command_line("/tmp/noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 3000 &") #run cmd in background with '&' 
-        st.write('forward internal port 5901 of VNC to 3000 - DONE')
-        
         try:
-            NGROK_AUTHTOKEN = '2elQfBKwd0CX0jFToGi7zZVRoAI_2muVgZUZ2agRUxWCoCrqF'
-            ngrok.set_auth_token(NGROK_AUTHTOKEN)
-            ngrok_tunnel = ngrok.connect("3000")
-            st.write(ngrok_tunnel, ngrok_tunnel.public_url)        
+            #Case1; Dùng Linux VM via e2b_desktop và có tích hợp sẵn NoVNC
+            import e2b_desktop
+            st.write(e2b_desktop)
 
+            import asyncio
+            import nest_asyncio
+            nest_asyncio.apply() #Enable asyncio in the main thread and Run the asynchronous function        
+            from e2b_desktop import Sandbox, AsyncSandbox
+
+            E2B_API_KEY = st.secrets["E2B_API_KEY"]
+
+            async def e2b_func():
+                desktop = await AsyncSandbox.create(
+                    api_key=E2B_API_KEY,
+                    resolution=(1366, 768),
+                    timeout=600,
+                    metadata={"project": "ai-agent-demo"}
+                )
+                st.write("Sandbox started:", desktop.sandbox_id)
+                st.write("URL to access the desktop:", desktop.url)
+
+                # Chạy lệnh trong môi trường ảo
+                result = await desktop.run("echo Hello from inside the sandbox!")
+                st.write(result.output)
+
+                # (Tùy chọn) Chụp ảnh màn hình
+                screenshot_path = await desktop.screenshot("desktop.png")
+                st.write(f"Screenshot saved at {screenshot_path}")
+
+                # Đóng sandbox khi xong
+                #await desktop.close()
+
+            asyncio.run(e2b_func())
+
+
+            _ = """
+            #desktop = Sandbox.create(api_key=E2B_API_KEY,resolution=(1366, 768), timeout=600, metadata={"project": "ai-agent-demo"})
+            st.write(desktop)
+
+            execution = desktop.commands.run("echo $E2B_TEMPLATE_ID")
+            #st.write(execution)
+            st.write('E2B_TEMPLATE_ID: ',execution.stdout)
+
+            #stream toàn bộ Linux VM
+            # Start the stream Linux VM via NOVNC
+            desktop.stream.start()
+            # Get stream URL and able user interaction (vào link này tương tác trực tiếp với Linux VM)
+            stream_url = desktop.stream.get_url()
+            st.write(stream_url)
+            # Get stream URL and disable user interaction
+            stream_url = desktop.stream.get_url(view_only=True)
+            st.write(stream_url)
+            # Stop the stream Linux VM via NOVNC - mỗi lần chỉ stream được 1 app only
+            #desktop.stream.stop()
+
+
+
+            #desktop.launch('google-chrome')  # mở ứng dụng - Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
+            desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
+
+            #desktop.open("file.txt")  # Opens default text editor
+            #desktop.open("https://google.com")  # Opens default firefox and go to url
+            desktop.open(website)
+            desktop.wait(10000)
+
+            # Get current (active) window ID
+            window_id = desktop.get_current_window_id()
+            # Get window title
+            title = desktop.get_window_title(window_id)     
+            st.write('Title of current active window id: ',title)
+
+            # Get all windows of the application
+            window_ids = desktop.get_application_windows("Firefox")
+            st.write(window_ids)
+
+            desktop.write("Hello, world!")
+            desktop.press("enter")
+
+            # Save the screenshot to a file
+            image = desktop.screenshot()
+            screenshot_file = "/tmp/screenshot.png"
+            with open(screenshot_file, "wb") as f:
+                f.write(image)
+            st.image(screenshot_file)
+
+            execution = desktop.files.write("/home/user/example.txt", "Sample content")
+            st.write(execution)
+
+            #stream window_id only
+            window_id = desktop.get_current_window_id() #get active window id
+            st.write('window_id - ',window_id)
+            desktop.stream.start(
+                window_id=window_id, # if not provided the whole desktop will be streamed
+                require_auth=False
+            )
+            stream_url = desktop.stream.get_url()
+            st.write(stream_url)
+            # Stop the stream window_id - mỗi lần chỉ stream được 1 app only
+            #desktop.stream.stop()        
+            _ = """
+
+
+            _ = """
+            #Case2; Tự code Linux VM tích hợp NoVNC in streamlit cloud
+            #run_command_line("wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip -P /tmp")
+            #run_command_line("unzip /tmp/ngrok-stable-linux-amd64.zip -d /tmp/ngrok-stable-linux-amd64")
+            #run_command_line("ls -a /tmp/ngrok-stable-linux-amd64")   
+            #ngrok_authtoken = '2elQfBKwd0CX0jFToGi7zZVRoAI_2muVgZUZ2agRUxWCoCrqF'
+            #run_command_line(f"/tmp/ngrok-stable-linux-amd64/ngrok authtoken {ngrok_authtoken}")
+            #run_command_line("/tmp/ngrok-stable-linux-amd64/ngrok http 3000")
+
+            if not os.path.isdir('/tmp/noVNC'):    
+                run_command_line("git clone https://github.com/novnc/noVNC.git /tmp/noVNC")  
+                run_command_line("ls -la /tmp/noVNC/utils")
+                run_command_line("chmod +x /tmp/noVNC/utils/novnc_proxy")       
+                run_command_line("/tmp/noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 3000 &") #run cmd in background with '&' 
+            st.write('forward internal port 5901 of VNC to 3000 - DONE')
+            
+            try:
+                NGROK_AUTHTOKEN = '2elQfBKwd0CX0jFToGi7zZVRoAI_2muVgZUZ2agRUxWCoCrqF'
+                ngrok.set_auth_token(NGROK_AUTHTOKEN)
+                ngrok_tunnel = ngrok.connect("3000")
+                st.write(ngrok_tunnel, ngrok_tunnel.public_url)        
+
+            except Exception as e:
+                ngrok.kill() #kill all running tunnel in advance        
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                #st.write(exc_type, fname, exc_tb.tb_lineno)
+                st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}") 
+
+            #run_command_line("whereis novnc && whereis vncserver") 
+            #run_command_line('echo "nicepassword" | vncpasswd -f > ~/.vnc/passwd')     
+            #run_command_line("chmod 600 ~/.vnc/passwd")           
+            #run_command_line("vncserver :1")       
+            #run_command_line("websockify -D --web=/usr/share/novnc/ 3000 localhost:5901")        
+
+            st.write(f"your website is {website}")  
+            with st.container():
+                with st.spinner('Wait for it...'):
+                    time.sleep(5)
+
+                    #@st.cache_resource  #Phải chuyển comment cái này để nó ko nhớ cache và crawl nhiều urls được
+                    def get_driver():
+                        return webdriver.Chrome(
+                            service=Service(
+                                ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
+                            ),
+                            options=options,
+                        )
+
+                    options = Options()
+                    options.add_argument("--disable-gpu")
+                    options.add_argument("--headless=new")
+                    options.add_argument('--no-sandbox')
+                    options.add_argument('--disable-dev-shm-usage')
+                    options.add_argument("--enable-javascript")
+                    options.add_argument("user-agent=Mozilla/5.0 (Linux; Android 13; SAMSUNG SM-G988B) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/20.0 Chrome/106.0.5249.126 Mobile Safari/537.36")
+                    #proxy = '23.23.23.23:3128'
+                    #options.add_argument('--proxy-server='+proxy) #use proxy with --proxy-server=23.23.23.23:3128
+                    #options.add_argument('--proxy-server=socks5://'+proxy) #use socks5 with --proxy-server=socks5://23.23.23.23:3128
+
+                    driver = get_driver()
+                    driver.get(website) #driver.get("https://vnexpress.net")
+
+                    def wait_for_page_load(driver): 
+                        return driver.execute_script('return document.readyState') == 'complete'             
+                    
+                    Page_Loaded = wait_for_page_load(driver)
+                    if Page_Loaded:
+                        st.write(f"Page Loaded: {Page_Loaded}")
+
+                        html = driver.page_source
+                        #st.code(html) #show code html để user nhìn thấy
+                        st.markdown(html, unsafe_allow_html=True) #load html and render it in streamlit page
+                        
+                        #Đưa vào BeautifulSoup cho dễ scrape elements
+                        soup = BeautifulSoup(html)
+                        for tag in soup.find_all('title'):
+                            st.write(tag.text)
+                        for tag_body in soup.find_all('body'):
+                            st.write(tag_body.text)
+
+                        time.sleep(5000)
+
+                        # Quit the driver
+                        driver.close()
+                        driver.quit()
+                st.success('Done!')
+            _ = """
         except Exception as e:
-            ngrok.kill() #kill all running tunnel in advance        
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             #st.write(exc_type, fname, exc_tb.tb_lineno)
-            st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}") 
-
-        #run_command_line("whereis novnc && whereis vncserver") 
-        #run_command_line('echo "nicepassword" | vncpasswd -f > ~/.vnc/passwd')     
-        #run_command_line("chmod 600 ~/.vnc/passwd")           
-        #run_command_line("vncserver :1")       
-        #run_command_line("websockify -D --web=/usr/share/novnc/ 3000 localhost:5901")        
-
-        st.write(f"your website is {website}")  
-        with st.container():
-            with st.spinner('Wait for it...'):
-                time.sleep(5)
-
-                #@st.cache_resource  #Phải chuyển comment cái này để nó ko nhớ cache và crawl nhiều urls được
-                def get_driver():
-                    return webdriver.Chrome(
-                        service=Service(
-                            ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
-                        ),
-                        options=options,
-                    )
-
-                options = Options()
-                options.add_argument("--disable-gpu")
-                options.add_argument("--headless=new")
-                options.add_argument('--no-sandbox')
-                options.add_argument('--disable-dev-shm-usage')
-                options.add_argument("--enable-javascript")
-                options.add_argument("user-agent=Mozilla/5.0 (Linux; Android 13; SAMSUNG SM-G988B) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/20.0 Chrome/106.0.5249.126 Mobile Safari/537.36")
-                #proxy = '23.23.23.23:3128'
-                #options.add_argument('--proxy-server='+proxy) #use proxy with --proxy-server=23.23.23.23:3128
-                #options.add_argument('--proxy-server=socks5://'+proxy) #use socks5 with --proxy-server=socks5://23.23.23.23:3128
-
-                driver = get_driver()
-                driver.get(website) #driver.get("https://vnexpress.net")
-
-                def wait_for_page_load(driver): 
-                    return driver.execute_script('return document.readyState') == 'complete'             
-                
-                Page_Loaded = wait_for_page_load(driver)
-                if Page_Loaded:
-                    st.write(f"Page Loaded: {Page_Loaded}")
-
-                    html = driver.page_source
-                    #st.code(html) #show code html để user nhìn thấy
-                    st.markdown(html, unsafe_allow_html=True) #load html and render it in streamlit page
-                    
-                    #Đưa vào BeautifulSoup cho dễ scrape elements
-                    soup = BeautifulSoup(html)
-                    for tag in soup.find_all('title'):
-                        st.write(tag.text)
-                    for tag_body in soup.find_all('body'):
-                        st.write(tag_body.text)
-
-                    time.sleep(5000)
-
-                    # Quit the driver
-                    driver.close()
-                    driver.quit()
-            st.success('Done!')
-        _ = """
+            st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")   
 
 if __name__ == "__main__":
     myrun()
