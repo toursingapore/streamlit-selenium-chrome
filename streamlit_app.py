@@ -46,6 +46,7 @@ def myrun():
         import e2b_desktop
         st.write(e2b_desktop)
 
+        import asyncio
         from e2b_desktop import Sandbox, AsyncSandbox
 
         E2B_API_KEY = st.secrets["E2B_API_KEY"]
