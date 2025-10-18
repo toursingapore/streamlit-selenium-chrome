@@ -112,7 +112,7 @@ async def myfunc(display_intercept=False):
         
         # Define logging function for all requests
         async def log_and_continue_request(route, request):
-            print(f"Requesting: {request.url}")
+            #print(f"Requesting: {request.url}")
             await route.continue_() 
 
         try:
@@ -139,17 +139,19 @@ async def myfunc(display_intercept=False):
                 await page.route("**/*", log_and_continue_request)
 
             await page.goto("https://www.browserscan.net/bot-detection", wait_until='load')
-            await page.wait_for_timeout(10000)            
-            await page.screenshot(path="/tmp/example.png")
+            await page.wait_for_timeout(10000)     
+
+            screenshot_file = "/tmp/example.png"
+            await page.screenshot(path=screenshot_file)
             
-            await page.wait_for_timeout(10_000_000)
+            await asyncio.sleep(120)
+            print(screenshot_file)
 
         except Exception as e:
             print(f"Error during execution: {e}")
         finally:
             if browser:
-                #await browser.close() #not close để check
-                pass
+                await browser.close()
 
 asyncio.run(myfunc(display_intercept=True))
 #await myfunc(display_intercept=True) #Use this when running in colab mới work            
