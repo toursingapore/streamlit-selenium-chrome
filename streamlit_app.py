@@ -48,8 +48,7 @@ def myrun():
             with st.expander("Click here to view data - e2b_desktop"):
                 st.write('e2b_desktop',e2b_desktop)    
                         
-            from e2b_desktop import Sandbox, AsyncSandbox
-            from template import template
+            from e2b_desktop import Sandbox, AsyncSandbox, Template
             with st.expander("Click here to view data - AsyncSandbox"):
                 st.write('AsyncSandbox',AsyncSandbox)
 
@@ -67,6 +66,12 @@ def myrun():
             st.write('E2B_TEMPLATE_ID: ',execution.stdout)
 
             #template = (Template().from_base_image().set_envs({"HELLO": "Hello, World!"}).set_start_cmd("echo $HELLO", wait_for_timeout(5_000)))
+            
+            template = Template(
+                file_context_path=".",  # Custom file context path
+                file_ignore_patterns=[".git", "node_modules"],  # File patterns to ignore
+            )            
+            
             # Install Python packages
             template.pip_install("requests pandas numpy patchright")
 
