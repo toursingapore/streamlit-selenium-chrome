@@ -77,6 +77,7 @@ def myrun():
             #desktop.stream.stop()
 
             # Save the screenshot to a file
+            desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
             image = desktop.screenshot()
             screenshot_file = "/tmp/screenshot.png"
             with open(screenshot_file, "wb") as f:
