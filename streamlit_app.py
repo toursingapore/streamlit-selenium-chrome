@@ -172,7 +172,7 @@ asyncio.run(myfunc(display_intercept=True))
             st.write(execution.stdout)
 
             # Read file from VM
-            content = sandbox.files.read('/tmp/example.png')
+            content = desktop.files.read('/tmp/example.png')
             # Write file to local filesystem
             with open('/tmp/screenshot.png', 'w') as file:
                 file.write(content)
