@@ -76,8 +76,8 @@ def myrun():
             # Stop the stream Linux VM via NOVNC - mỗi lần chỉ stream được 1 app only
             #desktop.stream.stop()
 
-            # Save the screenshot to a file
-            desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
+            # Pause to allow the app to initialize (in milliseconds), Save the screenshot to a file
+            desktop.wait(10000)  
             image = desktop.screenshot()
             screenshot_file = "/tmp/screenshot.png"
             with open(screenshot_file, "wb") as f:
