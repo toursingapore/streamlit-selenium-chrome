@@ -68,7 +68,8 @@ def myrun():
 
                     # Có thể chạy lệnh trong sandbox (terminal)
                     #st.write(sandbox.commands)
-                    result = await sandbox.commands.run("echo Hello from desktop")
+                    result = await sandbox.commands.run("echo Hello from desktop", background=False)
+                    sandbox.wait()
                     st.write("Output:", result.stdout)
 
                     # Chụp màn hình toàn Linux VM
