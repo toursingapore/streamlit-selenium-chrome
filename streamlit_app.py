@@ -54,7 +54,6 @@ def myrun():
             E2B_API_KEY = st.secrets["E2B_API_KEY"]
 
             desktop = Sandbox.create(api_key=E2B_API_KEY,resolution=(1366, 768), timeout=600, metadata={"project": "ai-agent-demo"})
-            st.write(desktop)
 
             execution = desktop.commands.run("echo $E2B_TEMPLATE_ID")
             #st.write(execution)
