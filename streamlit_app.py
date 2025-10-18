@@ -72,7 +72,7 @@ def myrun():
             st.write(f"Screenshot saved at {screenshot_path}")
 
             # Đóng sandbox khi xong
-            await desktop.close()
+            #await desktop.close()
 
         asyncio.run(e2b_func())
 
