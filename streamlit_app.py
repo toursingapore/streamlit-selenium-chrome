@@ -56,7 +56,7 @@ def myrun():
         )
         st.write(desktop)
 
-        result = desktop.commands.run("echo $E2B_SANDBOX_ID")
+        result = desktop.commands.run("echo $E2B_TEMPLATE_ID")
         st.write(result)
 
 
