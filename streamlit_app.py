@@ -147,7 +147,7 @@ def myrun():
             
             """
             # Write single file
-            info = sandbox.write(path="/tmp/file.py", data=python_script)
+            info = desktop.write(path="/tmp/file.py", data=python_script)
 
             execution = desktop.commands.run("python /tmp/file.py")
             st.write(execution.stdout)
