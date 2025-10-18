@@ -152,7 +152,7 @@ async def myfunc(display_intercept=False):
             screenshot_file = "/tmp/example.png"
             await page.screenshot(path=screenshot_file)
             
-            await asyncio.sleep(120)
+            #await asyncio.sleep(120)
             print(screenshot_file)
 
         except Exception as e:
@@ -170,7 +170,13 @@ asyncio.run(myfunc(display_intercept=True))
 
             execution = desktop.commands.run("python3 /tmp/file.py", background=False, timeout=0) #default process timeout 30 seconds, if timeout=0 wait until code finished
             st.write(execution.stdout)
-            st.image(execution.stdout)
+
+            # Read file from VM
+            content = sandbox.files.read('/tmp/example.png')
+            # Write file to local filesystem
+            with open('/tmp/screenshot.png', 'w') as file:
+                file.write(content)
+            st.image('/tmp/screenshot.png'.stdout)
 
             # Pause the app to initialize (milliseconds), then Save the screenshot to a file
             desktop.wait(10000)  
