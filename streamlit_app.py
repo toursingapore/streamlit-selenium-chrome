@@ -157,6 +157,15 @@ asyncio.run(myfunc(display_intercept=True))
             execution = desktop.commands.run("python3 /tmp/file.py")
             st.write(execution.stdout)
 
+            # Pause the app to initialize (milliseconds), then Save the screenshot to a file
+            desktop.wait(10000)  
+            image = desktop.screenshot()
+            screenshot_file = "/tmp/screenshot.png"
+            with open(screenshot_file, "wb") as f:
+                f.write(image)
+            st.image(screenshot_file)
+
+
             _ = """
             #desktop.launch('google-chrome')  # mở ứng dụng - Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
             desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
