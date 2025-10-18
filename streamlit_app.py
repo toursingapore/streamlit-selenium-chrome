@@ -158,7 +158,7 @@ asyncio.run(myfunc(display_intercept=True))
 
             desktop.wait(5000)  
 
-            execution = desktop.commands.run("python3 /tmp/file.py")
+            execution = desktop.commands.run("python3 /tmp/file.py", background=True)
             st.write(execution.stdout)
 
             # Pause the app to initialize (milliseconds), then Save the screenshot to a file
