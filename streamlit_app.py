@@ -68,7 +68,7 @@ def myrun():
             st.write('Running OS: ',execution.stdout)
 
             execution = desktop.commands.run('python3 -c "print(3 + 5)"')
-            st.write("Inline Python Output:", execution.stdout)
+            st.write("Python Output:", execution.stdout)
 
             #Stream toàn bộ Linux VM
             # Start the stream Linux VM via NOVNC
@@ -94,7 +94,7 @@ def myrun():
             execution = desktop.commands.run("pip install --user requests patchright==1.55.2 html2text==2025.4.15 nest_asyncio")
             st.write(execution.stdout)
 
-            execution = desktop.commands.run("sudo add-apt-repository ppa:deadsnakes/ppa -y && sudo apt update -y && sudo apt install python3.10 ffmpeg -y && python3.10 --version")
+            execution = desktop.commands.run("sudo apt install ffmpeg -y")
             st.write(execution.stdout)
 
             python_script = """
@@ -145,8 +145,8 @@ async def myfunc(display_intercept=False):
             if browser:
                 await browser.close()
 
-#asyncio.run(myfunc(display_intercept=True))
-await myfunc(display_intercept=True) #Use this when running in colab mới work            
+asyncio.run(myfunc(display_intercept=True))
+#await myfunc(display_intercept=True) #Use this when running in colab mới work            
             """
             # Write single file
             execution = desktop.files.write("/tmp/file.py", python_script)
