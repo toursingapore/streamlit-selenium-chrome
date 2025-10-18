@@ -90,10 +90,10 @@ def myrun():
                 f.write(image)
             st.image(screenshot_file)
 
-            #Sau khi VM init xong thì cài packages
+            #Sau khi VM init xong thì cài python packages
             execution = desktop.commands.run("pip install --user requests patchright==1.55.2 html2text==2025.4.15 nest_asyncio")
             st.write(execution.stdout)
-
+            #cài system packages
             execution = desktop.commands.run("sudo apt install ffmpeg -y")
             st.write(execution.stdout)
 
@@ -164,13 +164,14 @@ async def myfunc(display_intercept=False):
 asyncio.run(myfunc(display_intercept=True))
 #await myfunc(display_intercept=True) #Use this when running in colab mới work            
             """
-            # Write single file
+            # Write python script file
             execution = desktop.files.write("/tmp/file.py", python_script)
-            st.write(execution)
-
-            execution = desktop.commands.run("python3 /tmp/file.py", background=False, timeout=0) #default process timeout 30 seconds, if timeout=0 wait until code finished
+            st.write(execution)            
+            # Run python script file with timeout=0 is wait until code finished (default process timeout 30 seconds)
+            execution = desktop.commands.run("python3 /tmp/file.py", background=False, timeout=0) 
             st.write(execution.stdout)
 
+            # Open a file
             desktop.open("/tmp/example.png")
 
             # Pause the app to initialize (milliseconds), then Save the screenshot to a file
@@ -181,16 +182,7 @@ asyncio.run(myfunc(display_intercept=True))
                 f.write(image)
             st.image(screenshot_file)
 
-
             _ = """
-            #desktop.launch('google-chrome')  # mở ứng dụng - Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
-            desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
-
-            #desktop.open("file.txt")  # Opens default text editor
-            #desktop.open("https://google.com")  # Opens default firefox and go to url
-            desktop.open(website)
-            desktop.wait(10000)
-
             # Get current (active) window ID
             window_id = desktop.get_current_window_id()
             # Get window title
