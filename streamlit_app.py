@@ -89,6 +89,8 @@ def myrun():
             execution = desktop.commands.run("pip install --user requests patchright==1.55.2")
             st.write(execution.stdout)
 
+            execution = desktop.commands.run("apt install --user ffmpeg")
+            st.write(execution.stdout)
 
             _ = """
             #desktop.launch('google-chrome')  # mở ứng dụng - Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
