@@ -43,6 +43,9 @@ def myrun():
     button = st.button("SUBMIT", type="primary" , key="1")
     if button:
         #Case1; Dùng Linux VM via e2b_desktop và có tích hợp sẵn NoVNC
+        import e2b_desktop
+        st.write(e2b_desktop)
+        
         from e2b_desktop import Sandbox
 
         E2B_API_KEY = st.secrets["E2B_API_KEY"]
