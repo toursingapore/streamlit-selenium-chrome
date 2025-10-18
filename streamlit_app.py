@@ -56,8 +56,8 @@ def myrun():
         )
         st.write(desktop)
 
-        result = desktop.commands.run("echo $E2B_TEMPLATE_ID")
-        st.write(result)
+        execution = desktop.commands.run("echo $E2B_TEMPLATE_ID")
+        st.write('E2B_TEMPLATE_ID: ',execution.stdout)
 
 
         #stream toàn bộ Linux VM
