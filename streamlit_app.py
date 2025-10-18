@@ -63,13 +63,14 @@ def myrun():
                         timeout = 600,
                         metadata = {"project": "ai-agent-demo"},
                     )
+                    st.write(sandbox)
+
                     # sandbox bây giờ đã khởi động GUI desktop ảo
                     st.write("Desktop sandbox ID:", sandbox.sandbox_id)
 
                     # Có thể chạy lệnh trong sandbox (terminal)
                     #st.write(sandbox.commands)
                     result = await sandbox.commands.run("echo Hello from desktop", background=False)
-                    sandbox.wait()
                     st.write("Output:", result.stdout)
 
                     # Chụp màn hình toàn Linux VM
@@ -109,8 +110,6 @@ def myrun():
             st.write(stream_url)
             # Stop the stream Linux VM via NOVNC - mỗi lần chỉ stream được 1 app only
             #desktop.stream.stop()
-
-
 
             #desktop.launch('google-chrome')  # mở ứng dụng - Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
             desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
