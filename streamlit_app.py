@@ -56,22 +56,28 @@ def myrun():
 
             async def e2b_func():
                 try:
-                    desktop = await AsyncSandbox.create(
-                        api_key=E2B_API_KEY,
+                    sandbox = await AsyncSandbox.create(
+                        api_key = E2B_API_KEY,
+                        resolution = (1366, 768),
+                        dpi = 96,                   # tùy chọn, mặc định 96 :contentReference[oaicite:3]{index=3}
+                        display = ":0",             # tùy chọn display của X server :contentReference[oaicite:4]{index=4}
+                        timeout = 600,              # giữ sandbox sống 600 giây (10 phút) :contentReference[oaicite:5]{index=5}
+                        metadata = {"project": "ai-agent-demo"},
+                        # Có thể có các tham số khác như template, secure, allow_internet_access nếu SDK hỗ trợ
                     )
-                    st.write("Sandbox started:", desktop.sandbox_id)
-                    st.write("URL to access the desktop:", desktop.url)
+                    # sandbox bây giờ đã khởi động GUI desktop ảo
+                    st.write("Desktop sandbox ID:", sandbox.sandbox_id)
 
-                    # Chạy lệnh trong môi trường ảo
-                    result = await desktop.run("echo Hello from inside the sandbox!")
-                    st.write(result.output)
+                    # Có thể chạy lệnh trong sandbox (terminal)
+                    result = await sandbox.run("echo Hello from desktop")
+                    st.write("Output:", result.stdout)
 
-                    # (Tùy chọn) Chụp ảnh màn hình
-                    screenshot_path = await desktop.screenshot("desktop.png")
-                    st.write(f"Screenshot saved at {screenshot_path}")
+                    # Chụp màn hình
+                    await sandbox.screenshot("/tmp/screenshot.png")
+                    st.image("/tmp/screenshot.png")
 
                     # Đóng sandbox khi xong
-                    #await desktop.kill()
+                    #await sandbox.kill()
                 except Exception as e:
                     exc_type, exc_obj, exc_tb = sys.exc_info()
                     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
