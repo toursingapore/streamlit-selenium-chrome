@@ -44,9 +44,6 @@ def myrun():
     if button:
         try:
             #Case1; Dùng Linux VM via e2b_desktop và có tích hợp sẵn NoVNC
-            import asyncio
-            import nest_asyncio
-            nest_asyncio.apply() #Enable asyncio in the main thread and Run the asynchronous function   
             import e2b_desktop
             with st.expander("Click here to view data - e2b_desktop"):
                 st.write('e2b_desktop',e2b_desktop)            
@@ -56,6 +53,75 @@ def myrun():
 
             E2B_API_KEY = st.secrets["E2B_API_KEY"]
 
+            #desktop = Sandbox.create(api_key=E2B_API_KEY,resolution=(1366, 768), timeout=600, metadata={"project": "ai-agent-demo"})
+            st.write(desktop)
+
+            execution = desktop.commands.run("echo $E2B_TEMPLATE_ID")
+            #st.write(execution)
+            st.write('E2B_TEMPLATE_ID: ',execution.stdout)
+
+            #stream toàn bộ Linux VM
+            # Start the stream Linux VM via NOVNC
+            desktop.stream.start()
+            # Get stream URL and able user interaction (vào link này tương tác trực tiếp với Linux VM)
+            stream_url = desktop.stream.get_url()
+            st.write(stream_url)
+            # Get stream URL and disable user interaction
+            stream_url = desktop.stream.get_url(view_only=True)
+            st.write(stream_url)
+            # Stop the stream Linux VM via NOVNC - mỗi lần chỉ stream được 1 app only
+            #desktop.stream.stop()
+
+            # Save the screenshot to a file
+            image = desktop.screenshot()
+            screenshot_file = "/tmp/screenshot.png"
+            with open(screenshot_file, "wb") as f:
+                f.write(image)
+            st.image(screenshot_file)
+
+            _ = """
+            #desktop.launch('google-chrome')  # mở ứng dụng - Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
+            desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
+
+            #desktop.open("file.txt")  # Opens default text editor
+            #desktop.open("https://google.com")  # Opens default firefox and go to url
+            desktop.open(website)
+            desktop.wait(10000)
+
+            # Get current (active) window ID
+            window_id = desktop.get_current_window_id()
+            # Get window title
+            title = desktop.get_window_title(window_id)     
+            st.write('Title of current active window id: ',title)
+
+            # Get all windows of the application
+            window_ids = desktop.get_application_windows("Firefox")
+            st.write(window_ids)
+
+            desktop.write("Hello, world!")
+            desktop.press("enter")
+
+            execution = desktop.files.write("/home/user/example.txt", "Sample content")
+            st.write(execution)
+
+            #stream window_id only
+            window_id = desktop.get_current_window_id() #get active window id
+            st.write('window_id - ',window_id)
+            desktop.stream.start(
+                window_id=window_id, # if not provided the whole desktop will be streamed
+                require_auth=False
+            )
+            stream_url = desktop.stream.get_url()
+            st.write(stream_url)
+            # Stop the stream window_id - mỗi lần chỉ stream được 1 app only
+            #desktop.stream.stop()        
+            _ = """
+
+
+            _ = """
+            import asyncio
+            import nest_asyncio
+            nest_asyncio.apply() #Enable asyncio in the main thread and Run the asynchronous function               
             async def e2b_func():
                 try:
                     sandbox = await AsyncSandbox.create(
@@ -82,72 +148,7 @@ def myrun():
                     st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")                   
 
             asyncio.run(e2b_func())
-
-
             _ = """
-            #desktop = Sandbox.create(api_key=E2B_API_KEY,resolution=(1366, 768), timeout=600, metadata={"project": "ai-agent-demo"})
-            st.write(desktop)
-
-            execution = desktop.commands.run("echo $E2B_TEMPLATE_ID")
-            #st.write(execution)
-            st.write('E2B_TEMPLATE_ID: ',execution.stdout)
-
-            #stream toàn bộ Linux VM
-            # Start the stream Linux VM via NOVNC
-            desktop.stream.start()
-            # Get stream URL and able user interaction (vào link này tương tác trực tiếp với Linux VM)
-            stream_url = desktop.stream.get_url()
-            st.write(stream_url)
-            # Get stream URL and disable user interaction
-            stream_url = desktop.stream.get_url(view_only=True)
-            st.write(stream_url)
-            # Stop the stream Linux VM via NOVNC - mỗi lần chỉ stream được 1 app only
-            #desktop.stream.stop()
-
-            #desktop.launch('google-chrome')  # mở ứng dụng - Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
-            desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
-
-            #desktop.open("file.txt")  # Opens default text editor
-            #desktop.open("https://google.com")  # Opens default firefox and go to url
-            desktop.open(website)
-            desktop.wait(10000)
-
-            # Get current (active) window ID
-            window_id = desktop.get_current_window_id()
-            # Get window title
-            title = desktop.get_window_title(window_id)     
-            st.write('Title of current active window id: ',title)
-
-            # Get all windows of the application
-            window_ids = desktop.get_application_windows("Firefox")
-            st.write(window_ids)
-
-            desktop.write("Hello, world!")
-            desktop.press("enter")
-
-            # Save the screenshot to a file
-            image = desktop.screenshot()
-            screenshot_file = "/tmp/screenshot.png"
-            with open(screenshot_file, "wb") as f:
-                f.write(image)
-            st.image(screenshot_file)
-
-            execution = desktop.files.write("/home/user/example.txt", "Sample content")
-            st.write(execution)
-
-            #stream window_id only
-            window_id = desktop.get_current_window_id() #get active window id
-            st.write('window_id - ',window_id)
-            desktop.stream.start(
-                window_id=window_id, # if not provided the whole desktop will be streamed
-                require_auth=False
-            )
-            stream_url = desktop.stream.get_url()
-            st.write(stream_url)
-            # Stop the stream window_id - mỗi lần chỉ stream được 1 app only
-            #desktop.stream.stop()        
-            _ = """
-
 
             _ = """
             #Case2; Tự code Linux VM tích hợp NoVNC in streamlit cloud
