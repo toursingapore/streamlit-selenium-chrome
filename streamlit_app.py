@@ -85,8 +85,9 @@ def myrun():
                 f.write(image)
             st.image(screenshot_file)
 
-            execution = desktop.commands.run("pip install requests")
-            st.write(execution)
+            #Sau khi VM init xong thì cài packages
+            execution = desktop.commands.run("pip install requests patchright==1.55.2")
+            st.write(execution.stdout)
 
 
             _ = """
