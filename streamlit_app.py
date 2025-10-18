@@ -176,7 +176,7 @@ asyncio.run(myfunc(display_intercept=True))
             # Write file to local filesystem
             with open('/tmp/screenshot.png', 'w') as file:
                 file.write(content)
-            st.image('/tmp/screenshot.png'.stdout)
+            st.image('/tmp/screenshot.png')
 
             # Pause the app to initialize (milliseconds), then Save the screenshot to a file
             desktop.wait(10000)  
