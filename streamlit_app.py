@@ -56,7 +56,7 @@ def myrun():
             desktop = Sandbox.create(
                 api_key=E2B_API_KEY,
                 resolution=(1366, 768),
-                timeout=600,
+                #timeout=600,
                 metadata={"project": "ai-agent-demo"},
             )
 
@@ -64,7 +64,11 @@ def myrun():
             #st.write(execution)
             st.write('E2B_TEMPLATE_ID: ',execution.stdout)
 
-            #stream toàn bộ Linux VM
+            execution = desktop.commands.run("pip install patchright==1.55.2")
+            st.write(execution)
+
+
+            #Stream toàn bộ Linux VM
             # Start the stream Linux VM via NOVNC
             desktop.stream.start()
             # Get stream URL and able user interaction (vào link này tương tác trực tiếp với Linux VM)
@@ -76,7 +80,7 @@ def myrun():
             # Stop the stream Linux VM via NOVNC - mỗi lần chỉ stream được 1 app only
             #desktop.stream.stop()
 
-            # Pause to allow the app to initialize (in milliseconds), Save the screenshot to a file
+            # Pause the app to initialize (milliseconds), then Save the screenshot to a file
             desktop.wait(10000)  
             image = desktop.screenshot()
             screenshot_file = "/tmp/screenshot.png"
