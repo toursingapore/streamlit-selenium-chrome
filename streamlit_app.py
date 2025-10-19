@@ -98,7 +98,7 @@ def myrun():
             st.write(execution.stdout)
 
             #Check ip
-            execution = desktop.commands.run('curl ifconfig.me')
+            execution = desktop.commands.run('curl http://ifconfig.me/')
             st.write("Info IP:", execution.stdout)
 
             #desktop.launch('google-chrome')  # mở ứng dụng - Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
