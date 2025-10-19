@@ -115,7 +115,7 @@ async def myfunc(display_intercept=False):
         
         # Define logging function for all requests
         async def log_and_continue_request(route, request):
-            #print(f"Requesting: {request.url}")
+            #print(f"Requesting: {{request.url}}")
             await route.continue_() 
 
         try:
