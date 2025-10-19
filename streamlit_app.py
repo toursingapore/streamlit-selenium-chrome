@@ -103,7 +103,7 @@ def myrun():
             #desktop.launch('google-chrome')  # mở ứng dụng - Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
             #desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
 
-            python_script = """
+            python_script = f"""
 import asyncio
 import nest_asyncio
 nest_asyncio.apply()
@@ -124,7 +124,7 @@ async def myfunc(display_intercept=False):
                 headless=False,
                 channel="chrome",
                 executable_path="/usr/bin/google-chrome",  # nếu cần dùng chrome cụ thể
-                viewport={"width": 1280, "height": 800},
+                viewport={{"width": 1280, "height": 800}},
                 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.6998.165 Safari/537.36", #User-agent phù hợp current Google Chrome 134.0.6998.165 mới chuẩn được
                 args=[
                     "--disable-blink-features=AutomationControlled",
@@ -142,7 +142,7 @@ async def myfunc(display_intercept=False):
 
             # Set context-level settings AFTER launch
             await page.context.grant_permissions(["geolocation"])
-            await page.context.set_geolocation({"longitude": 12.492507, "latitude": 41.889938})
+            await page.context.set_geolocation({{"longitude": 12.492507, "latitude": 41.889938}})
             await page.context.set_extra_http_headers({"Accept-Language": "en-US"})
 
             if display_intercept:
@@ -150,7 +150,7 @@ async def myfunc(display_intercept=False):
                 await page.route("**/*", log_and_continue_request)
 
             #await page.goto("https://www.browserscan.net/bot-detection", wait_until='load')
-            await page.goto({}, wait_until='load')            
+            await page.goto({website}, wait_until='load')            
             await page.wait_for_timeout(10000)     
 
             screenshot_file = "/tmp/example.png"
@@ -167,8 +167,7 @@ async def myfunc(display_intercept=False):
 
 asyncio.run(myfunc(display_intercept=True))
 #await myfunc(display_intercept=True) #Use this when running in colab mới work            
-            """.format(website)
-
+            """
             # Write python script file
             execution = desktop.files.write("/tmp/file.py", python_script)
             st.write(execution)            
