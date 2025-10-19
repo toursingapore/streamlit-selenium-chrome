@@ -153,7 +153,7 @@ async def myfunc(display_intercept=False):
             await page.goto("{website}", wait_until='load')            
             await page.wait_for_timeout(10000)     
 
-            # Bỏ chặn autoplay
+            # Dùng code cho youtube auto play
             await page.evaluate("document.querySelector('video').muted = true")
             await page.evaluate("document.querySelector('video').play()")
             await asyncio.sleep(60)
