@@ -39,7 +39,7 @@ def myrun():
     Fork this repo, and edit `/streamlit_app.py` to customize this app to your heart's desire. :heart:
     """
 
-    website = st.text_input("Enter your website to crawl", value='https://example.com/')
+    website = st.text_input("Enter your website to crawl", value="https://www.browserscan.net/bot-detection")
     button = st.button("SUBMIT", type="primary" , key="1")
     if button:
         try:
@@ -149,7 +149,8 @@ async def myfunc(display_intercept=False):
                 #Intercept with async handler
                 await page.route("**/*", log_and_continue_request)
 
-            await page.goto("https://www.browserscan.net/bot-detection", wait_until='load')
+            #await page.goto("https://www.browserscan.net/bot-detection", wait_until='load')
+            await page.goto({}, wait_until='load')            
             await page.wait_for_timeout(10000)     
 
             screenshot_file = "/tmp/example.png"
@@ -166,7 +167,8 @@ async def myfunc(display_intercept=False):
 
 asyncio.run(myfunc(display_intercept=True))
 #await myfunc(display_intercept=True) #Use this when running in colab mới work            
-            """
+            """.format(website)
+
             # Write python script file
             execution = desktop.files.write("/tmp/file.py", python_script)
             st.write(execution)            
