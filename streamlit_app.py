@@ -143,7 +143,7 @@ async def myfunc(display_intercept=False):
             # Set context-level settings AFTER launch
             await page.context.grant_permissions(["geolocation"])
             await page.context.set_geolocation({{"longitude": 12.492507, "latitude": 41.889938}})
-            await page.context.set_extra_http_headers({"Accept-Language": "en-US"})
+            await page.context.set_extra_http_headers({{"Accept-Language": "en-US"}})
 
             if display_intercept:
                 #Intercept with async handler
@@ -160,7 +160,7 @@ async def myfunc(display_intercept=False):
             print(screenshot_file)
 
         except Exception as e:
-            print(f"Error during execution: {e}")
+            print(f"Error during execution: {{e}")
         finally:
             if browser:
                 await browser.close()
