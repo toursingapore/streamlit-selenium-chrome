@@ -168,6 +168,7 @@ async def myfunc(display_intercept=False):
 asyncio.run(myfunc(display_intercept=True))
 #await myfunc(display_intercept=True) #Use this when running in colab mới work            
             """
+            
             # Write python script file
             execution = desktop.files.write("/tmp/file.py", python_script)
             st.write(execution)            
