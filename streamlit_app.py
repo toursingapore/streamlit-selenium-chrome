@@ -91,14 +91,18 @@ def myrun():
             st.image(screenshot_file)
 
             #Sau khi VM init xong thì cài python packages
-            execution = desktop.commands.run("pip install --user requests patchright==1.55.2 html2text==2025.4.15 nest_asyncio")
+            execution = desktop.commands.run("pip install --user curl requests patchright==1.55.2 html2text==2025.4.15 nest_asyncio")
             st.write(execution.stdout)
             #cài system packages
             execution = desktop.commands.run("sudo apt install ffmpeg -y")
             st.write(execution.stdout)
 
-            desktop.launch('google-chrome')  # mở ứng dụng - Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
-            desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
+            #Check ip
+            execution = desktop.commands.run('curl ifconfig.me')
+            st.write("Info IP:", execution.stdout)
+
+            #desktop.launch('google-chrome')  # mở ứng dụng - Alternatives: 'vscode', 'firefox', 'google-chrome', etc.
+            #desktop.wait(10000)  # Pause to allow the app to initialize (in milliseconds)
 
             python_script = """
 import asyncio
