@@ -91,10 +91,10 @@ def myrun():
             st.image(screenshot_file)
 
             #Sau khi VM init xong thì cài python packages
-            execution = desktop.commands.run("pip install --user curl requests patchright==1.55.2 html2text==2025.4.15 nest_asyncio")
+            execution = desktop.commands.run("pip install --user requests patchright==1.55.2 html2text==2025.4.15 nest_asyncio")
             st.write(execution.stdout)
             #cài system packages
-            execution = desktop.commands.run("sudo apt install ffmpeg -y")
+            execution = desktop.commands.run("sudo apt install curl ffmpeg -y")
             st.write(execution.stdout)
 
             #Check ip
