@@ -160,7 +160,7 @@ async def myfunc(display_intercept=False):
             print(screenshot_file)
 
         except Exception as e:
-            print(f"Error during execution: {{e}")
+            print(f"Error during execution: {{e}}")
         finally:
             if browser:
                 await browser.close()
@@ -168,7 +168,7 @@ async def myfunc(display_intercept=False):
 asyncio.run(myfunc(display_intercept=True))
 #await myfunc(display_intercept=True) #Use this when running in colab mới work            
             """
-            
+
             # Write python script file
             execution = desktop.files.write("/tmp/file.py", python_script)
             st.write(execution)            
