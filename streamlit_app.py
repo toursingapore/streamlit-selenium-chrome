@@ -149,7 +149,7 @@ async def myfunc(display_intercept=False):
                 #Intercept with async handler
                 await page.route("**/*", log_and_continue_request)
 
-            await page.goto("https://www.google.com/", wait_until='load')             
+            await page.goto("https://www.google.com/search?q=gi%C3%A1+v%C3%A0ng", wait_until='load')             
             await page.wait_for_timeout(10000)
 
             #Phải vào google trước để lấy cookies, nếu vào thẳng luôn sẽ bị 'Sign in to confirm you're not a bot'
@@ -171,7 +171,8 @@ async def myfunc(display_intercept=False):
             print(f"Error during execution: {{e}}")
         finally:
             if browser:
-                await browser.close()
+                #await browser.close()
+                pass
 
 asyncio.run(myfunc(display_intercept=True))
 #await myfunc(display_intercept=True) #Use this when running in colab mới work            
