@@ -57,7 +57,7 @@ def myrun():
             desktop = Sandbox.create(
                 api_key=E2B_API_KEY,
                 resolution=(1366, 768),
-                #timeout=600,
+                timeout=3600, #max live 1hour
                 metadata={"project": "ai-agent-demo"},
             )
             desktop.wait(3000)
