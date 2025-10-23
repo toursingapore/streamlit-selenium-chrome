@@ -185,6 +185,7 @@ asyncio.run(myfunc(display_intercept=True))
             execution = desktop.commands.run("python3 /tmp/file.py", background=False, timeout=0) 
             st.write(execution.stdout)
 
+            _ = """
             # Open a file
             desktop.open("/tmp/example.png")
 
@@ -196,7 +197,6 @@ asyncio.run(myfunc(display_intercept=True))
                 f.write(image)
             st.image(screenshot_file)
 
-            _ = """
             # Get current (active) window ID
             window_id = desktop.get_current_window_id()
             # Get window title
