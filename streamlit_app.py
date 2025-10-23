@@ -161,11 +161,11 @@ async def myfunc(display_intercept=False):
             await page.evaluate("document.querySelector('video').play()")
             await asyncio.sleep(3600)
 
-            screenshot_file = "/tmp/example.png"
-            await page.screenshot(path=screenshot_file)
+            #screenshot_file = "/tmp/example.png"
+            #await page.screenshot(path=screenshot_file)
             
             #await asyncio.sleep(120)
-            print(screenshot_file)
+            #print(screenshot_file)
 
         except Exception as e:
             print(f"Error during execution: {{e}}")
