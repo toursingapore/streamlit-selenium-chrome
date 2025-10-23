@@ -149,9 +149,12 @@ async def myfunc(display_intercept=False):
                 #Intercept with async handler
                 await page.route("**/*", log_and_continue_request)
 
-            #await page.goto("https://www.browserscan.net/bot-detection", wait_until='load')
-            await page.goto("{website}", wait_until='load')            
-            await page.wait_for_timeout(10000)     
+			await page.goto("https://www.google.com/", wait_until='load')             
+			await page.wait_for_timeout(10000)     
+
+			#Phải vào google trước để lấy cookies, nếu vào thẳng luôn sẽ bị 'Sign in to confirm you're not a bot'
+			await page.goto("{website}", referer="https://www.google.com/", wait_until='load')            
+			await page.wait_for_timeout(10000)        
 
             # Dùng code cho youtube auto play
             await page.evaluate("document.querySelector('video').muted = true")
