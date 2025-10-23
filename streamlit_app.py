@@ -181,7 +181,7 @@ asyncio.run(myfunc(display_intercept=True))
             execution = desktop.files.write("/tmp/file.py", python_script)
             st.write(execution)            
             # Run python script file with timeout=0 is wait until code finished (default process timeout 30 seconds)
-            execution = desktop.commands.run("python3 /tmp/file.py", background=True, timeout=0) 
+            execution = desktop.commands.run("python3 /tmp/file.py", background=False, timeout=0) 
             st.write(execution.stdout)
 
             # Open a file
