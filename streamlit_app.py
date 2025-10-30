@@ -341,7 +341,8 @@ asyncio.run(myfunc(display_intercept=True))
                 #Disable IPv6 in urllib3, skips AAAA records, uses IPv4 only to Solves error EAFNOSUPPORT on IPv6-disabled systems (Docker, VMs, etc.)
                 requests.packages.urllib3.util.connection.HAS_IPV6 = False
 
-                session = DNSOverHTTPSSession(provider='google')
+                #session = DNSOverHTTPSSession(provider='google')
+                session = DNSOverHTTPSSession(url="https://1.1.1.1/dns-query")
                 #website = 'https://example.com/'
                 response = session.get(website, verify=False)
                 html_code = response.text
