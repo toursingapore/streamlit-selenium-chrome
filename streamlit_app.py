@@ -346,6 +346,14 @@ asyncio.run(myfunc(display_intercept=True))
                 ips = resolve_doh("scrape.do")
                 st.write("IPs:", ips)
 
+                ip = ips[0]
+                url = "https://scrape.do/pricing/"
+
+                # Gửi request trực tiếp đến IP, nhưng giữ Host header
+                with httpx.Client(headers={"Host": "scrape.do"}) as client:
+                    response = client.get(f"https://{ip}/pricing/", verify=True)
+                    st.write(response.status_code)
+                    st.write(response.text[:500])
 
                 _ = """
                 #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
