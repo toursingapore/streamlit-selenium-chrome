@@ -1,4 +1,4 @@
-streamlit==1.41.1
+streamlit
 pyngrok==7.4.1
 nest_asyncio==1.6.0
 e2b-desktop==2.1.0
