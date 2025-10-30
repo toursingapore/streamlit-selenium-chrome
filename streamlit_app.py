@@ -352,7 +352,7 @@ asyncio.run(myfunc(display_intercept=True))
 
                 # Gửi request trực tiếp đến IP, nhưng giữ Host header
                 with httpx.Client(headers={"Host": "scrape.do"}) as client:
-                    response = client.get(f"https://{ip}/pricing/", verify=True)
+                    response = client.get(f"https://{ip}/pricing/")
                     st.write(response.status_code)
                     st.write(response.text[:500])
 
