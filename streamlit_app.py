@@ -333,17 +333,23 @@ asyncio.run(myfunc(display_intercept=True))
         website = st.text_input("Enter your website to crawl", value="https://scrape.do/pricing/", key="245daf")
         button = st.button("SUBMIT", type="primary" , key="245235")
         if button:
-            st.write(website)            
+            try:            
+                st.write(website)            
 
-            #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
-            session = DNSOverHTTPSSession(provider='google')
-            response = session.get('https://scrape.do/pricing/')
-            html_code = response.text
-            st.write(html_code)            
-            
-            markdown_str = html2text.html2text(html_code)
-            st.write(markdown_str)
-
+                #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
+                session = DNSOverHTTPSSession(provider='google')
+                response = session.get('https://scrape.do/pricing/')
+                html_code = response.text
+                st.write(html_code)            
+                
+                markdown_str = html2text.html2text(html_code)
+                st.write(markdown_str)
+                
+            except Exception as e:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                #st.write(exc_type, fname, exc_tb.tb_lineno)
+                st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")  
 
 
 if __name__ == "__main__":
