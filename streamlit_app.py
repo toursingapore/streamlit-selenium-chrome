@@ -338,23 +338,38 @@ asyncio.run(myfunc(display_intercept=True))
                 import dns.message
                 import dns.query
                 import dns.rdatatype
+                import socket
 
-                def resolve_doh(domain, server="https://cloudflare-dns.com/dns-query"):
-                    q = dns.message.make_query(domain, dns.rdatatype.A)
-                    response = dns.query.https(q, server)
-                    return [rr.address for rr in response.answer[0]]
+                # --- Step 1: Resolve scrape.do using DNS-over-HTTPS ---
+                def resolve_domain_via_doh(domain: str) -> str:
+                    query = dns.message.make_query(domain, dns.rdatatype.A)
+                    response = dns.query.https(query, "https://cloudflare-dns.com/dns-query")
+                    return str(response.answer[0][0].address)  # First IPv4 address
 
-                ips = resolve_doh("scrape.do")
-                st.write("IPs:", ips)
+                # --- Step 2: Temporarily override DNS for scrape.do ---
+                original_getaddrinfo = socket.getaddrinfo
 
-                ip = ips[0]
-                url = "https://scrape.do/pricing/"
+                def patched_getaddrinfo(host, *args, **kwargs):
+                    if host == "scrape.do":
+                        # Use the IP we got from DoH
+                        resolved_ip = resolve_domain_via_doh("scrape.do")
+                        return original_getaddrinfo(resolved_ip, *args, **kwargs)
+                    return original_getaddrinfo(host, *args, **kwargs)
 
-                # Gửi request trực tiếp đến IP, nhưng giữ Host header
-                with httpx.Client(headers={"Host": "scrape.do"}) as client:
-                    response = client.get(f"https://{ip}/pricing/")
-                    st.write(response.status_code)
+                # --- Step 3: Make the request safely ---
+                try:
+                    socket.getaddrinfo = patched_getaddrinfo  # Apply DNS override
+
+                    # Use the real domain in the URL → SNI works!
+                    response = httpx.get("https://scrape.do/pricing/")
+                    
+                    st.write("✅ Status Code:", response.status_code)
+                    st.write("📄 Page preview (first 500 chars):")
                     st.write(response.text[:500])
+
+                finally:
+                    # Always restore original DNS behavior
+                    socket.getaddrinfo = original_getaddrinfo
 
                 _ = """
                 #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
