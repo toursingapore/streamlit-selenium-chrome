@@ -331,7 +331,7 @@ asyncio.run(myfunc(display_intercept=True))
     with st.container(border=True):   
         st.write("## REQUESTS VIA DNS")
 
-        website = st.text_input("Enter your website to crawl", value="https://www.browserscan.net/bot-detection", key="245daf")
+        website = st.text_input("Enter your website to crawl", value="https://scrape.do/pricing/", key="245daf")
         button = st.button("SUBMIT", type="primary" , key="245235")
         if button:
             pass
