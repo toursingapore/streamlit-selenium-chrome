@@ -336,5 +336,12 @@ asyncio.run(myfunc(display_intercept=True))
         if button:
             st.write(website)
 
+            from requests_doh import DNSOverHTTPSSession
+
+            #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
+            session = DNSOverHTTPSSession(provider='google')
+            response = session.get('https://scrape.do/pricing/')
+            st.write(response.text)            
+
 if __name__ == "__main__":
     myrun()
