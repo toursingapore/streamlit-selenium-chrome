@@ -338,7 +338,7 @@ asyncio.run(myfunc(display_intercept=True))
                 from requests_doh import DNSOverHTTPSAdapter
 
                 #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
-                adapter = DNSOverHTTPSAdapter(provider='cloudflare-security')
+                adapter = DNSOverHTTPSAdapter(provider='google')
                 session = requests.Session()
                 # For HTTPS
                 session.mount('https://', adapter)
