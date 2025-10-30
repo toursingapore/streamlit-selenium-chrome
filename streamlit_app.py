@@ -359,13 +359,12 @@ asyncio.run(myfunc(display_intercept=True))
                 # --- Step 3: Make the request safely ---
                 try:
                     socket.getaddrinfo = patched_getaddrinfo  # Apply DNS override
-
                     # Use the real domain in the URL → SNI works!
                     response = httpx.get("https://scrape.do/pricing/")
-                    
-                    st.write(response.status_code)
-                    st.write(response.text)
-
+                    html_code = response.text
+                    #st.write(html_code)            
+                    markdown_str = html2text.html2text(html_code)
+                    st.write(markdown_str)
                 finally:
                     # Always restore original DNS behavior
                     socket.getaddrinfo = original_getaddrinfo
