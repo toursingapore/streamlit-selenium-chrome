@@ -363,9 +363,8 @@ asyncio.run(myfunc(display_intercept=True))
                     # Use the real domain in the URL → SNI works!
                     response = httpx.get("https://scrape.do/pricing/")
                     
-                    st.write("✅ Status Code:", response.status_code)
-                    st.write("📄 Page preview (first 500 chars):")
-                    st.write(response.text[:500])
+                    st.write(response.status_code)
+                    st.write(response.text)
 
                 finally:
                     # Always restore original DNS behavior
