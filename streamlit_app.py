@@ -338,13 +338,23 @@ asyncio.run(myfunc(display_intercept=True))
                 import requests
                 from requests_doh import DNSOverHTTPSSession, get_dns_provider, add_dns_provider
 
-                st.write(get_dns_provider())
+                #st.write(get_dns_provider())
 
                 #Disable IPv6 in urllib3, skips AAAA records, uses IPv4 only to Solves error EAFNOSUPPORT on IPv6-disabled systems (Docker, VMs, etc.)
-                requests.packages.urllib3.util.connection.HAS_IPV6 = False
+                #requests.packages.urllib3.util.connection.HAS_IPV6 = False
+
+
 
                 add_dns_provider("cf-ip", "https://1.1.1.1/dns-query", switch=True)
-                session = DNSOverHTTPSSession("cf-ip")
+                adapter = DNSOverHTTPSAdapter("cf-ip")
+
+                session = requests.Session()
+                session.mount("https://", adapter)
+                session.mount("http://", adapter)
+
+                resp = session.get("https://scrape.do/pricing/")
+                st.write(resp.status_code)
+
 
                 #website = 'https://example.com/'
                 response = session.get(website, verify=False)
