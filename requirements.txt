@@ -1,6 +1,4 @@
 streamlit==1.41.1
-seleniumbase
-webdriver-manager==4.0.2
 pyngrok==7.4.1
 nest_asyncio==1.6.0
 e2b-desktop==2.1.0
