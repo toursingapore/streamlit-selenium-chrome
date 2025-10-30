@@ -337,14 +337,14 @@ asyncio.run(myfunc(display_intercept=True))
                 st.write(website)            
 
                 #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
-                session = DNSOverHTTPSSession(provider='google')
+                session = DNSOverHTTPSSession(provider='cloudflare')
                 response = session.get('https://scrape.do/pricing/')
                 html_code = response.text
                 st.write(html_code)            
                 
                 markdown_str = html2text.html2text(html_code)
                 st.write(markdown_str)
-                
+
             except Exception as e:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
