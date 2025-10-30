@@ -336,20 +336,17 @@ asyncio.run(myfunc(display_intercept=True))
             try:            
                 st.write(website)
 
-                import pydoh
-                import requests
+                import dns.message
+                import dns.query
+                import dns.rdatatype
 
-                # Phân giải scrape.do qua DoH
-                ip = pydoh.query("scrape.do", dns_type="A")[0]  # trả về list IP
-                st.write(ip)
+                def resolve_doh(domain, server="https://cloudflare-dns.com/dns-query"):
+                    q = dns.message.make_query(domain, dns.rdatatype.A)
+                    response = dns.query.https(q, server)
+                    return [rr.address for rr in response.answer[0]]
 
-                # Gửi request với IP, nhưng giữ Host header
-                response = requests.get(
-                    f"https://{ip}/pricing/",
-                    headers={"Host": "scrape.do"},
-                    verify=True  # Giữ SSL verification
-                )
-                st.write(response.status_code)
+                ips = resolve_doh("scrape.do")
+                st.write("IPs:", ips)
 
 
                 _ = """
