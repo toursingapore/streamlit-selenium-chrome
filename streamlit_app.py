@@ -2,6 +2,7 @@ import streamlit as st
 from bs4 import BeautifulSoup
 import time, os, sys
 from pyngrok import ngrok
+import requests
 from requests_doh import DNSOverHTTPSSession
 import html2text
 
