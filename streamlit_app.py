@@ -339,7 +339,7 @@ asyncio.run(myfunc(display_intercept=True))
 
                 #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
                 session = DNSOverHTTPSSession(provider='cloudflare')
-                response = session.get(website)
+                response = session.get(website, verify=False)
                 html_code = response.text
                 #st.write(html_code)            
                 markdown_str = html2text.html2text(html_code)
