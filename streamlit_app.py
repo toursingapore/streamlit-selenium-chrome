@@ -337,8 +337,8 @@ asyncio.run(myfunc(display_intercept=True))
                 from requests_doh import DNSOverHTTPSSession
 
                 #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
-                session = DNSOverHTTPSSession(provider='cloudflare')
-                response = session.get('https://scrape.do/pricing/')
+                session = DNSOverHTTPSSession(provider='google')
+                response = session.get(website)
                 html_code = response.text
                 st.write(html_code)            
                 
