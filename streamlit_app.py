@@ -373,8 +373,8 @@ asyncio.run(myfunc(display_intercept=True))
                         # Always restore original DNS
                         socket.getaddrinfo = _original_getaddrinfo
 
-                url = "https://scrape.do/pricing/"
-                markdown_str = fetch_with_doh(url)
+                #website = "https://scrape.do/pricing/"
+                markdown_str = fetch_with_doh(website)
                 st.write(markdown_str)
 
 
