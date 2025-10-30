@@ -338,7 +338,7 @@ asyncio.run(myfunc(display_intercept=True))
 
                 import aiohttp
                 import asyncio
-                nest_asyncio.apply(), patch_wait() **OPTIONAL** (not needed)
+                nest_asyncio.apply() # patch_wait() **OPTIONAL** (not needed)
 
                 async def fetch_doh():
                     # **Cloudflare DoH IP** (your IPv6 fix!)
