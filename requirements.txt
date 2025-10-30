@@ -2,8 +2,8 @@ streamlit==1.41.1
 pyngrok==7.4.1
 nest_asyncio==1.6.0
 e2b-desktop==2.0.1
-requests==2.32.3
+requests
 requests-doh
-urllib3==2.5.0
+urllib3
 html2text==2025.4.15
 beautifulsoup4==4.14.2
