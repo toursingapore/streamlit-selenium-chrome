@@ -335,17 +335,11 @@ asyncio.run(myfunc(display_intercept=True))
                 st.write(website)
 
                 import requests
-                from requests_doh import DNSOverHTTPSAdapter
+                from requests_doh import DNSOverHTTPSSession
 
                 #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
-                adapter = DNSOverHTTPSAdapter(provider='google')
-                session = requests.Session()
-                # For HTTPS
-                session.mount('https://', adapter)
-                # For HTTP
-                session.mount('http://', adapter)
-
-                response = session.get(website) 
+                session = DNSOverHTTPSSession(provider='google')
+                response = session.get(website)
                 html_code = response.text
                 #st.write(html_code)            
                 markdown_str = html2text.html2text(html_code)
