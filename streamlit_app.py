@@ -334,10 +334,16 @@ asyncio.run(myfunc(display_intercept=True))
             try:            
                 st.write(website)
 
+                #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
+
                 import requests
                 from requests_doh import DNSOverHTTPSSession
 
-                #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
+                # 🔥 FIX: Disable IPv6 in urllib3 → skips AAAA records, uses IPv4 only
+                # Solves [Errno -9] EAFNOSUPPORT on IPv6-disabled systems (Docker, VMs, etc.)
+                requests.packages.urllib3.util.connection.HAS_IPV6 = False
+
+                # Your original code (works now!):
                 session = DNSOverHTTPSSession(provider='cloudflare')
                 response = session.get(website, verify=False)
                 html_code = response.text
