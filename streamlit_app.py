@@ -336,7 +336,7 @@ asyncio.run(myfunc(display_intercept=True))
 
                 #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
                 import requests
-                from requests_doh import DNSOverHTTPSSession, get_dns_provider, add_dns_provider
+                from requests_doh import DNSOverHTTPSSession, DNSOverHTTPSAdapter, get_dns_provider, add_dns_provider
 
                 #st.write(get_dns_provider())
 
