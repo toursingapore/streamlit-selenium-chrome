@@ -341,6 +341,7 @@ asyncio.run(myfunc(display_intercept=True))
 
                 # Phân giải scrape.do qua DoH
                 ip = pydoh.query("scrape.do", dns_type="A")[0]  # trả về list IP
+                st.write(ip)
 
                 # Gửi request với IP, nhưng giữ Host header
                 response = requests.get(
