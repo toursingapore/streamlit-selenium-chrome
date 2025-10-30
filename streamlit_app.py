@@ -32,21 +32,21 @@ def myrun():
 
     with st.sidebar:
         #Navigate to element in current page
-        st.markdown(f"<a href='#ask-bot'>ASK BOT</a>", unsafe_allow_html=True)                    
+        st.markdown(f"<a href='#web-scraper'>WEB SCRAPER</a>", unsafe_allow_html=True)                    
         st.markdown(f"<a href='#google-indexing-checker'>GOOGLE INDEXING CHECKER</a>", unsafe_allow_html=True)
 
     st.markdown(
     """
-    ## Web scraping
+    ## Web scraping on Streamlit Cloud with Selenium
     [![Source](https://img.shields.io/badge/View-Source-<COLOR>.svg)](https://github.com/snehankekre/streamlit-selenium-chrome/)
     This is a minimal, reproducible example of how to scrape the web with Selenium and Chrome on Streamlit's Community Cloud.
     Fork this repo, and edit `/streamlit_app.py` to customize this app to your heart's desire. :heart:
     """
     )
 
-    with st.container(border=True):
-        st.write("## ASK BOT")
-        
+    with st.container(border=True):   
+        st.write("## WEB SCRAPER")
+
         website = st.text_input("Enter your website to crawl", value="https://www.browserscan.net/bot-detection")
         button = st.button("SUBMIT", type="primary" , key="1")
         if button:
