@@ -3,9 +3,7 @@ from bs4 import BeautifulSoup
 import time, os, sys
 from pyngrok import ngrok
 import html2text
-import asyncio
-import nest_asyncio
-nest_asyncio.apply() #Enable asyncio in the main thread and Run the asynchronous function
+
 
 
 def run_command_line(command):
