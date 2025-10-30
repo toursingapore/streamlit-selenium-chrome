@@ -33,7 +33,7 @@ def myrun():
     with st.sidebar:
         #Navigate to element in current page
         st.markdown(f"<a href='#web-scraper'>WEB SCRAPER</a>", unsafe_allow_html=True)                    
-        st.markdown(f"<a href='#google-indexing-checker'>GOOGLE INDEXING CHECKER</a>", unsafe_allow_html=True)
+        st.markdown(f"<a href='#requests-via-dns'>REQUESTS VIA DNS</a>", unsafe_allow_html=True)
 
     st.markdown(
     """
@@ -234,9 +234,6 @@ asyncio.run(myfunc(display_intercept=True))
                 #desktop.stream.stop()        
                 _ = """
 
-
-
-
                 _ = """
                 #Case2; Tự code Linux VM tích hợp NoVNC in streamlit cloud
                 #run_command_line("wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip -P /tmp")
@@ -330,6 +327,14 @@ asyncio.run(myfunc(display_intercept=True))
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                 #st.write(exc_type, fname, exc_tb.tb_lineno)
                 st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")   
+
+    with st.container(border=True):   
+        st.write("## REQUESTS VIA DNS")
+
+        website = st.text_input("Enter your website to crawl", value="https://www.browserscan.net/bot-detection")
+        button = st.button("SUBMIT", type="primary" , key="2")
+        if button:
+            pass
 
 if __name__ == "__main__":
     myrun()
