@@ -340,8 +340,7 @@ asyncio.run(myfunc(display_intercept=True))
                 session = DNSOverHTTPSSession(provider='google')
                 response = session.get(website)
                 html_code = response.text
-                st.write(html_code)            
-                
+                #st.write(html_code)            
                 markdown_str = html2text.html2text(html_code)
                 st.write(markdown_str)
 
