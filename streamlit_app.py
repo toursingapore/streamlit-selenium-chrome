@@ -2,8 +2,6 @@ import streamlit as st
 from bs4 import BeautifulSoup
 import time, os, sys
 from pyngrok import ngrok
-import requests
-from requests_doh import DNSOverHTTPSSession
 import html2text
 
 
@@ -334,7 +332,9 @@ asyncio.run(myfunc(display_intercept=True))
         button = st.button("SUBMIT", type="primary" , key="245235")
         if button:
             try:            
-                st.write(website)            
+                st.write(website)
+
+                from requests_doh import DNSOverHTTPSSession
 
                 #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
                 session = DNSOverHTTPSSession(provider='cloudflare')
