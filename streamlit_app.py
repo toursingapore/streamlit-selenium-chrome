@@ -334,7 +334,7 @@ asyncio.run(myfunc(display_intercept=True))
         website = st.text_input("Enter your website to crawl", value="https://scrape.do/pricing/", key="245daf")
         button = st.button("SUBMIT", type="primary" , key="245235")
         if button:
-            pass
+            st.write(website)
 
 if __name__ == "__main__":
     myrun()
