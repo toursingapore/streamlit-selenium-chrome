@@ -342,7 +342,7 @@ asyncio.run(myfunc(display_intercept=True))
                 requests.packages.urllib3.util.connection.HAS_IPV6 = False
 
                 session = DNSOverHTTPSSession(provider='cloudflare')
-                response = session.get(website, verify=False, timeout=30)
+                response = session.get(website)
                 html_code = response.text
                 #st.write(html_code)            
                 markdown_str = html2text.html2text(html_code)
