@@ -2,6 +2,8 @@ import streamlit as st
 from bs4 import BeautifulSoup
 import time, os, sys
 from pyngrok import ngrok
+from requests_doh import DNSOverHTTPSSession
+import html2text
 
 
 
@@ -229,6 +231,7 @@ asyncio.run(myfunc(display_intercept=True))
                 #desktop.stream.stop()        
                 _ = """
 
+
                 _ = """
                 #Case2; Tự code Linux VM tích hợp NoVNC in streamlit cloud
                 #run_command_line("wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip -P /tmp")
@@ -329,14 +332,18 @@ asyncio.run(myfunc(display_intercept=True))
         website = st.text_input("Enter your website to crawl", value="https://scrape.do/pricing/", key="245daf")
         button = st.button("SUBMIT", type="primary" , key="245235")
         if button:
-            st.write(website)
-
-            from requests_doh import DNSOverHTTPSSession
+            st.write(website)            
 
             #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
             session = DNSOverHTTPSSession(provider='google')
             response = session.get('https://scrape.do/pricing/')
-            st.write(response.text)            
+            html_code = response.text
+            st.write(html_code)            
+            
+            markdown_str = html2text.html2text(html_code)
+            st.write(markdown_str)
+
+
 
 if __name__ == "__main__":
     myrun()
