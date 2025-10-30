@@ -336,23 +336,19 @@ asyncio.run(myfunc(display_intercept=True))
             try:            
                 st.write(website)
 
-                import aiohttp
-                import asyncio
-                nest_asyncio.apply() # patch_wait() **OPTIONAL** (not needed)
+                import pydoh
+                import requests
 
-                async def myfunc():
-                    # **Cloudflare DoH IP** (your IPv6 fix!)
-                    doh_url = "https://1.1.1.1/dns-query"
-                    
-                    connector = aiohttp.TCPConnector(resolver=aiohttp.dns.AsyncResolver())  # Default OK
-                    # **Manual resolve** (simple DoH via aiohttp)
-                    
-                    async with aiohttp.ClientSession(connector=connector) as session:
-                        resp = await session.get('https://scrape.do/pricing/')
-                        html_code = await resp.text()
-                        return html_code
-                
-                html_code = asyncio.run(myfunc())
+                # Phân giải scrape.do qua DoH
+                ip = pydoh.query("scrape.do", dns_type="A")[0]  # trả về list IP
+
+                # Gửi request với IP, nhưng giữ Host header
+                response = requests.get(
+                    f"https://{ip}/pricing/",
+                    headers={"Host": "scrape.do"},
+                    verify=True  # Giữ SSL verification
+                )
+                st.write(response.status_code)
 
 
                 _ = """
