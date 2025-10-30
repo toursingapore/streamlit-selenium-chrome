@@ -334,6 +334,7 @@ asyncio.run(myfunc(display_intercept=True))
             try:            
                 st.write(website)
 
+                import httpx
                 import dns.message
                 import dns.query
                 import dns.rdatatype
