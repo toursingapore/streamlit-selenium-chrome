@@ -349,9 +349,10 @@ asyncio.run(myfunc(display_intercept=True))
                     
                     async with aiohttp.ClientSession(connector=connector) as session:
                         resp = await session.get('https://scrape.do/pricing/')
-                        return await resp.text()
+                        html_code = await resp.text()
+                        return html_code
                 
-                asyncio.run(myfunc())
+                html_code = asyncio.run(myfunc())
 
 
                 _ = """
