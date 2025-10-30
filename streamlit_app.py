@@ -341,6 +341,7 @@ asyncio.run(myfunc(display_intercept=True))
                     import dns.query
                     import dns.rdatatype
                     import socket
+                    import html2text
                     from urllib.parse import urlparse
 
                     # Parse domain from URL
@@ -348,19 +349,35 @@ asyncio.run(myfunc(display_intercept=True))
                     domain = parsed.hostname
                     if not domain:
                         raise ValueError("Invalid URL: missing hostname")
-                    # Resolve domain via DoH (Cloudflare)
+
+                    # Resolve domain via DoH (Cloudflare), with CNAME support
                     def resolve_via_doh(host: str) -> str:
-                        q = dns.message.make_query(host, dns.rdatatype.A)
-                        resp = dns.query.https(q, "https://cloudflare-dns.com/dns-query")
-                        return str(resp.answer[0][0].address)
+                        while True:
+                            q = dns.message.make_query(host, dns.rdatatype.A)
+                            resp = dns.query.https(q, "https://cloudflare-dns.com/dns-query")
+                            for rrset in resp.answer:
+                                for rr in rrset:
+                                    if rr.rdtype == dns.rdatatype.A:
+                                        return str(rr.address)
+                                    elif rr.rdtype == dns.rdatatype.CNAME:
+                                        host = str(rr.target).rstrip('.')  # follow CNAME
+                                        break
+                                else:
+                                    continue
+                                break
+                            else:
+                                raise RuntimeError(f"Could not resolve {host} to an IPv4 address")
+
                     # Save original DNS resolver
                     _original_getaddrinfo = socket.getaddrinfo
+
                     # Patch DNS only for this domain
                     def patched_getaddrinfo(host, *args, **kwargs):
                         if host == domain:
                             ip = resolve_via_doh(host)
                             return _original_getaddrinfo(ip, *args, **kwargs)
                         return _original_getaddrinfo(host, *args, **kwargs)
+
                     # Temporarily override DNS
                     socket.getaddrinfo = patched_getaddrinfo
                     try:
@@ -373,6 +390,7 @@ asyncio.run(myfunc(display_intercept=True))
                         # Always restore original DNS
                         socket.getaddrinfo = _original_getaddrinfo
 
+                # Usage
                 #website = "https://scrape.do/pricing/"
                 markdown_str = fetch_with_doh(website)
                 st.write(markdown_str)
