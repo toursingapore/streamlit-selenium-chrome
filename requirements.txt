@@ -4,3 +4,5 @@ webdriver-manager
 pyngrok
 nest_asyncio
 e2b-desktop==2.1.0
+requests-doh
+urllib3
