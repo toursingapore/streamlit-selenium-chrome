@@ -334,40 +334,52 @@ asyncio.run(myfunc(display_intercept=True))
             try:            
                 st.write(website)
 
-                import httpx
-                import dns.message
-                import dns.query
-                import dns.rdatatype
-                import socket
 
-                # --- Step 1: Resolve scrape.do using DNS-over-HTTPS ---
-                def resolve_domain_via_doh(domain: str) -> str:
-                    query = dns.message.make_query(domain, dns.rdatatype.A)
-                    response = dns.query.https(query, "https://cloudflare-dns.com/dns-query")
-                    return str(response.answer[0][0].address)  # First IPv4 address
+                def fetch_with_doh(url: str) -> str:
+                    import httpx
+                    import dns.message
+                    import dns.query
+                    import dns.rdatatype
+                    import socket
+                    from urllib.parse import urlparse
 
-                # --- Step 2: Temporarily override DNS for scrape.do ---
-                original_getaddrinfo = socket.getaddrinfo
+                    # Parse domain from URL
+                    parsed = urlparse(url)
+                    domain = parsed.hostname
+                    if not domain:
+                        raise ValueError("Invalid URL: missing hostname")
 
-                def patched_getaddrinfo(host, *args, **kwargs):
-                    if host == "scrape.do":
-                        # Use the IP we got from DoH
-                        resolved_ip = resolve_domain_via_doh("scrape.do")
-                        return original_getaddrinfo(resolved_ip, *args, **kwargs)
-                    return original_getaddrinfo(host, *args, **kwargs)
+                    # Resolve domain via DoH (Cloudflare)
+                    def resolve_via_doh(host: str) -> str:
+                        q = dns.message.make_query(host, dns.rdatatype.A)
+                        resp = dns.query.https(q, "https://cloudflare-dns.com/dns-query")
+                        return str(resp.answer[0][0].address)
 
-                # --- Step 3: Make the request safely ---
-                try:
-                    socket.getaddrinfo = patched_getaddrinfo  # Apply DNS override
-                    # Use the real domain in the URL → SNI works!
-                    response = httpx.get("https://scrape.do/pricing/")
-                    html_code = response.text
-                    #st.write(html_code)            
-                    markdown_str = html2text.html2text(html_code)
-                    st.write(markdown_str)
-                finally:
-                    # Always restore original DNS behavior
-                    socket.getaddrinfo = original_getaddrinfo
+                    # Save original DNS resolver
+                    _original_getaddrinfo = socket.getaddrinfo
+
+                    # Patch DNS only for this domain
+                    def patched_getaddrinfo(host, *args, **kwargs):
+                        if host == domain:
+                            ip = resolve_via_doh(host)
+                            return _original_getaddrinfo(ip, *args, **kwargs)
+                        return _original_getaddrinfo(host, *args, **kwargs)
+
+                    # Temporarily override DNS
+                    socket.getaddrinfo = patched_getaddrinfo
+                    try:
+                        response = httpx.get(url)
+                        response.raise_for_status()
+                        # Convert HTML → Markdown
+                        return html2text.html2text(response.text)
+                    finally:
+                        # Always restore original DNS
+                        socket.getaddrinfo = _original_getaddrinfo
+
+                url = "https://scrape.do/pricing/"
+                markdown_content = fetch_with_doh(url)
+                st.write(markdown_content)
+
 
                 _ = """
                 #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
