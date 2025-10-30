@@ -334,6 +334,21 @@ asyncio.run(myfunc(display_intercept=True))
             try:            
                 st.write(website)
 
+                from aiohttp_doh import ClientSession
+
+                async def myfunc():
+                    async with ClientSession() as session:
+                        async with session.get('http://example.com') as resp:
+                            html_code = await resp.text()
+
+                    #st.write(html_code)            
+                    markdown_str = html2text.html2text(html_code)
+                    st.write(markdown_str)
+                
+                asyncio.run(myfunc())
+
+
+                _ = """
                 #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
                 import requests
                 from requests_doh import DNSOverHTTPSSession
@@ -348,6 +363,7 @@ asyncio.run(myfunc(display_intercept=True))
                 #st.write(html_code)            
                 markdown_str = html2text.html2text(html_code)
                 st.write(markdown_str)
+                _ = """
 
             except Exception as e:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
