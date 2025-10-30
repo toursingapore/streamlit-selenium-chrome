@@ -340,7 +340,7 @@ asyncio.run(myfunc(display_intercept=True))
                 import asyncio
                 nest_asyncio.apply() # patch_wait() **OPTIONAL** (not needed)
 
-                async def fetch_doh():
+                async def myfunc():
                     # **Cloudflare DoH IP** (your IPv6 fix!)
                     doh_url = "https://1.1.1.1/dns-query"
                     
