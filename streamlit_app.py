@@ -345,7 +345,7 @@ asyncio.run(myfunc(display_intercept=True))
                 # For HTTP
                 session.mount('http://', adapter)
 
-                response = session.get(website)
+                response = session.get(website) 
                 html_code = response.text
                 #st.write(html_code)            
                 markdown_str = html2text.html2text(html_code)
