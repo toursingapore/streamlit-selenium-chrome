@@ -429,8 +429,7 @@ asyncio.run(myfunc(display_intercept=True))
 
         @st.cache_resource
         def get_engine():
-            #DATABASE_URL = st.secrets["DATABASE_URL"]
-            DATABASE_URL = "postgresql://neondb_owner:npg_wMyzWps5uQP3@ep-long-sky-adwidf9a-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+            DATABASE_URL = st.secrets["DATABASE_URL"]
             return create_engine(DATABASE_URL)
 
         button = st.button("SUBMIT", type="primary" , key="24dfdas5235")
