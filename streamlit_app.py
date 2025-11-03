@@ -423,5 +423,17 @@ asyncio.run(myfunc(display_intercept=True))
     with st.container(border=True):   
         st.write("## CONNECT POSTGRESSQL")
 
+        @st.cache_resource
+        def get_engine():
+            DATABASE_URL = st.secrets["DATABASE_URL"]
+            return create_engine(DATABASE_URL)
+
+        engine = get_engine()    
+        table_name = "my_table_1"  
+
+        #Load existing table into a Pandas DataFrame
+        df = pd.read_sql_table(table_name, con=engine)
+        st.write(df)        
+
 if __name__ == "__main__":
     myrun()

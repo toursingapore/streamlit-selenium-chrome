@@ -7,3 +7,5 @@ requests==2.32.3
 urllib3==2.5.0
 requests-doh==1.0.0
 dnspython[doh]
+sqlalchemy
+psycopg2-binary
