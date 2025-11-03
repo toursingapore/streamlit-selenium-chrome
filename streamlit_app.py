@@ -440,11 +440,11 @@ asyncio.run(myfunc(display_intercept=True))
                 engine = get_engine()    
                 table_name = "my_table_1"  
 
-                #Load existing table into a Pandas DataFrame
+                #Case1; Load existing table into a Pandas DataFrame
                 df = pd.read_sql_table(table_name, con=engine)
                 st.write(df)        
 
-                # Add the new column and its data to the DataFrame
+                #Case2; Add the new column and its data to the DataFrame
                 new_column_arr = [
                     "default_value",
                     "default_value2"    
@@ -452,10 +452,19 @@ asyncio.run(myfunc(display_intercept=True))
                 df['new_column'] = pd.Series(new_column_arr)
                 #Update table
                 df.to_sql(table_name, con=engine, if_exists='replace', index=False)
-                
                 #Load existing table into a Pandas DataFrame
                 df = pd.read_sql_table(table_name, con=engine)
+                st.write('Add the new column and its data to the DataFrame')  
                 st.write(df)  
+
+                #Case3; Delete column
+                df = df.drop(columns=["new_column"])
+                #Update table
+                df.to_sql(table_name, con=engine, if_exists="replace", index=False)
+                #Load existing table into a Pandas DataFrame
+                df = pd.read_sql_table(table_name, con=engine)
+                st.write('Delete column')                  
+                st.write(df)
 
             except Exception as e:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
