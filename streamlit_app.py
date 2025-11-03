@@ -428,12 +428,16 @@ asyncio.run(myfunc(display_intercept=True))
             DATABASE_URL = st.secrets["DATABASE_URL"]
             return create_engine(DATABASE_URL)
 
-        engine = get_engine()    
-        table_name = "my_table_1"  
+        button = st.button("SUBMIT", type="primary" , key="245235")
+        if button:
+            st.write('Hello world')
 
-        #Load existing table into a Pandas DataFrame
-        df = pd.read_sql_table(table_name, con=engine)
-        st.write(df)        
+            engine = get_engine()    
+            table_name = "my_table_1"  
+
+            #Load existing table into a Pandas DataFrame
+            df = pd.read_sql_table(table_name, con=engine)
+            st.write(df)        
 
 if __name__ == "__main__":
     myrun()
