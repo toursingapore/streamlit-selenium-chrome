@@ -441,7 +441,7 @@ asyncio.run(myfunc(display_intercept=True))
 
                 #Case1; Load existing table into a Pandas DataFrame
                 table_name = "my_table_1"  
-                df = pd.read_sql_table(table_name, con=engine)
+                df = pd.read_sql_table(table_name, con=engine, chunksize=5000)
                 st.write(df)        
 
                 #Case2; Add the new column and its data to the DataFrame
