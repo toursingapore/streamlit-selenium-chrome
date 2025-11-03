@@ -430,14 +430,23 @@ asyncio.run(myfunc(display_intercept=True))
 
         button = st.button("SUBMIT", type="primary" , key="24dfdas5235")
         if button:
-            st.write('Hello world')
+            try:
+                st.write('Hello world')
 
-            engine = get_engine()    
-            table_name = "my_table_1"  
+                engine = get_engine()    
+                table_name = "my_table_1"  
 
-            #Load existing table into a Pandas DataFrame
-            df = pd.read_sql_table(table_name, con=engine)
-            st.write(df)        
+                #Load existing table into a Pandas DataFrame
+                df = pd.read_sql_table(table_name, con=engine)
+                st.write(df)        
+
+            except Exception as e:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                #st.write(exc_type, fname, exc_tb.tb_lineno)
+                st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")  
+
+
 
 if __name__ == "__main__":
     myrun()
