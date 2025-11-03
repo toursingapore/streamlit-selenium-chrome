@@ -423,6 +423,10 @@ asyncio.run(myfunc(display_intercept=True))
     with st.container(border=True):   
         st.write("## CONNECT POSTGRESSQL")
 
+        import pandas as pd
+        from sqlalchemy import create_engine, text
+        from sqlalchemy.exc import SQLAlchemyError
+
         @st.cache_resource
         def get_engine():
             DATABASE_URL = st.secrets["DATABASE_URL"]
