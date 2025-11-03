@@ -421,7 +421,7 @@ asyncio.run(myfunc(display_intercept=True))
                 st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")  
 
     with st.container(border=True):   
-        st.write("## CONNECT POSTGRESSQ")
+        st.write("## CONNECT POSTGRESSQL")
 
 if __name__ == "__main__":
     myrun()
