@@ -438,9 +438,9 @@ asyncio.run(myfunc(display_intercept=True))
                 st.write('Hello world')
 
                 engine = get_engine()    
-                table_name = "my_table_1"  
 
                 #Case1; Load existing table into a Pandas DataFrame
+                table_name = "my_table_1"  
                 df = pd.read_sql_table(table_name, con=engine)
                 st.write(df)        
 
