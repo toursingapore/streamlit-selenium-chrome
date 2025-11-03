@@ -444,6 +444,19 @@ asyncio.run(myfunc(display_intercept=True))
                 df = pd.read_sql_table(table_name, con=engine)
                 st.write(df)        
 
+                # Add the new column and its data to the DataFrame
+                new_column_arr = [
+                    "default_value",
+                    "default_value2"    
+                ]
+                df['new_column'] = pd.Series(new_column_arr)
+                #Update table
+                df.to_sql(table_name, con=engine, if_exists='replace', index=False)
+                
+                #Load existing table into a Pandas DataFrame
+                df = pd.read_sql_table(table_name, con=engine)
+                st.write(df)  
+
             except Exception as e:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
