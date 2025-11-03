@@ -30,6 +30,7 @@ def myrun():
         #Navigate to element in current page
         st.markdown(f"<a href='#web-scraper'>WEB SCRAPER</a>", unsafe_allow_html=True)                    
         st.markdown(f"<a href='#requests-via-dns'>REQUESTS VIA DNS</a>", unsafe_allow_html=True)
+        st.markdown(f"<a href='#connect-postgressql'>CONNECT POSTGRESSQL</a>", unsafe_allow_html=True)
 
     st.markdown(
     """
@@ -419,6 +420,8 @@ asyncio.run(myfunc(display_intercept=True))
                 #st.write(exc_type, fname, exc_tb.tb_lineno)
                 st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")  
 
+    with st.container(border=True):   
+        st.write("## CONNECT POSTGRESSQ")
 
 if __name__ == "__main__":
     myrun()
