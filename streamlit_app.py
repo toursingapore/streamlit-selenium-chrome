@@ -564,15 +564,17 @@ asyncio.run(myfunc(display_intercept=True))
                 df = pd.read_sql_table(table_name, con=engine)
                 st.write(df)        
 
-                column_names = df.columns.tolist()
-                st.write(column_names)
+                #List all column names
+                #column_names = df.columns.tolist()
+                #st.write(column_names)
 
                 #Lấy all values tại cột và chuyển nó thành list, sau đó có thể merge thành 1 bảng mới
-                title = df["Title video"].tolist()
-                st.write(type(title))
-                st.write(title)
+                title_arr = df["Title video"].tolist()
+                st.write(title_arr)
+                desc_arr = df["Desc video"].tolist()
+                st.write(desc_arr)
 
-
+                #Create a list of column name filename
                 delete_files_in_temp_folder("mp4")
                 emailpcloud = st.secrets["EMAILPCLOUD"]
                 passpcloud = st.secrets["PASSPCLOUD"]
@@ -585,7 +587,8 @@ asyncio.run(myfunc(display_intercept=True))
                 #st.dataframe(df_table) 
                 sorted_df_filename = df_table.sort_values(by='filename', ascending=True)
                 st.write(sorted_df_filename)
-
+                filename_arr = sorted_df_filename.tolist()
+                st.write(filename_arr)
 
 
 
