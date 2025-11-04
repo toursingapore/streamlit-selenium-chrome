@@ -569,10 +569,10 @@ asyncio.run(myfunc(display_intercept=True))
                 #st.write(column_names)
 
                 #Lấy all values tại cột và chuyển nó thành list, sau đó có thể merge thành 1 bảng mới
-                title_arr = df["Title video"].tolist()
-                st.write(title_arr)
-                desc_arr = df["Desc video"].tolist()
-                st.write(desc_arr)
+                title_df = df["Title video"]
+                st.write(title_df)
+                desc_df = df["Desc video"]
+                st.write(desc_df)
 
                 #Create a list of column name filename
                 delete_files_in_temp_folder("mp4")
@@ -585,10 +585,9 @@ asyncio.run(myfunc(display_intercept=True))
                     'filename': pd.Series(video_path_arr),
                 })
                 #st.dataframe(df_table) 
-                sorted_df_filename = df_table.sort_values(by='filename', ascending=True)
-                st.write(sorted_df_filename)
-                filename_arr = sorted_df_filename.tolist()
-                st.write(filename_arr)
+                sorted_filename_df = df_table.sort_values(by='filename', ascending=True)
+                st.write(sorted_filename_df)
+
 
 
 
