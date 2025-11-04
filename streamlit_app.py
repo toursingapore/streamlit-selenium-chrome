@@ -28,6 +28,119 @@ def delete_files_in_temp_folder(defaultFolder='/tmp', Filename_extension='jpg'):
     for f in glob.glob(f'{defaultFolder}/*.{Filename_extension}'):
         os.remove(f)  
 
+# ========== START CỤM PCLOUD ==========
+from pcloud import PyCloud
+#PCLOUD_FOLDER_PATH = "/Temp-video"
+# ---------- AUTHENTICATION ----------
+def get_pcloud_client(email: str, password: str) -> PyCloud:
+    try:
+        pc = PyCloud(email, password)
+        #st.write(pc) #show all token and methods
+        st.success("Connected to pCloud successfully!")
+        auth_token = pc.auth_token
+        return pc, auth_token
+    except Exception as e:
+        st.error(f"Authentication failed: {e}")
+        raise
+
+# ---------- CREATE FOLDER ----------
+def create_folder_pcloud(pc: PyCloud, folder_path: str) -> dict:
+    try:
+        res = pc.createfolder(path=folder_path)
+        if res.get("result") == 0:
+            st.info(f"Folder ready: {folder_path}")
+        else:
+            st.warning(f"Folder creation: {res}")
+        return res
+    except Exception as e:
+        st.error(f"Error creating folder: {e}")
+        return {}
+
+# ---------- LISTING ALL FILES IN FOLDER ----------
+def list_files_pcloud(pc: PyCloud, folderid: str):
+    try:
+        #json_data = pc.listfolder(path='/Temp-video')
+        #json_data = pc.listfolder(folderid='27763883733')
+        json_data = pc.listfolder(folderid=folderid)
+        contents = json_data.get("metadata", {}).get("contents", [])
+        if not contents:
+            st.warning("No files found in folder.")
+        else:
+            st.success(f"Found {len(contents)} file(s) in {folderid}")
+        return contents
+    except Exception as e:
+        st.error(f"Error listing files: {e}")
+        return []
+
+# ---------- DOWNLOAD ALL FILES IN A FOLDER ----------
+def download_all_files_in_folder_pcloud(emailpcloud, passpcloud, folderidpcloud):
+    pc, auth_token = get_pcloud_client(emailpcloud,passpcloud)
+    #List all files in folder 
+    result_json_data = list_files_pcloud(pc, folderidpcloud)
+    #st.write(result_json_data) 
+    video_path_arr = []
+    for value in result_json_data:
+        fileid = value["fileid"]
+        fileName = value["name"]
+        created = value["created"]
+        st.write(f'fileid: {fileid} - fileName: {fileName} - created: {created}') 
+
+        #Download fileid
+        getlink_url = "https://api.pcloud.com/getfilelink"
+        params = {
+            "fileid": fileid,
+            "auth": auth_token,
+            'forcedownload': '1',
+        }
+        response = requests.get(getlink_url, params=params)
+        host = response.json()["hosts"][0]
+        path = response.json()["path"]
+        direct_link_download = f'https://{host}{path}'
+        #st.write(direct_link_download)
+        response = requests.get(direct_link_download, params=params)
+        file_bytes = response.content
+        #st.video(file_bytes)
+        filename_path = f'/tmp/{fileName}'
+        with open(filename_path, 'wb') as f:
+            f.write(file_bytes)
+        video_path_arr.append(filename_path)
+    return video_path_arr 
+
+# ---------- FILE DOWNLOAD ----------
+def download_file_pcloud(fileid: str, auth_token: str) -> bytes:
+    try:
+        res = requests.get(
+            "https://api.pcloud.com/getfilelink",
+            params={"fileid": fileid, "auth": auth_token, "forcedownload": "1"},
+            timeout=10,
+        )
+        res.raise_for_status()
+        data = res.json()
+        host, path = data["hosts"][0], data["path"]
+        direct_url = f"https://{host}{path}"
+        file_response = requests.get(direct_url, timeout=15)
+        file_response.raise_for_status()
+        return file_response.content
+    except Exception as e:
+        st.error(f"Failed to download fileid {fileid}: {e}")
+        return b""
+
+# ---------- FILE UPLOAD ----------
+def upload_files_pcloud(pc: PyCloud, files_Arr: list[str], folder_path: str):
+    try:
+        result = pc.uploadfile(files=files_Arr, path=folder_path)
+        if result.get("result") == 0:
+            st.success(f"Uploaded {len(files_Arr)} file(s) to {folder_path}")
+        else:
+            st.warning(f"Upload response: {result}")
+        return result
+    except Exception as e:
+        st.error(f"Upload failed: {e}")
+        return {}
+# ========== END CỤM PCLOUD ==========
+
+
+
 
 def myrun():
     st.set_page_config(
