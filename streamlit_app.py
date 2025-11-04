@@ -588,8 +588,17 @@ asyncio.run(myfunc(display_intercept=True))
                 sorted_filename_df = df_table.sort_values(by='filename', ascending=True).reset_index(drop=True)
                 st.write(sorted_filename_df)
 
+                publish_time_arr = [
+                    "2025-11-05T14:00:00Z",
+                    "2025-11-06T12:00:00Z"    
+                ]
+                publish_time_df = pd.DataFrame({
+                    'publish_time': pd.Series(publish_time_arr),
+                })
+                #st.dataframe(publish_time_df)
+
                 st.write('### Combined all') 
-                df_table_arr = [sorted_filename_df, title_df, desc_df]
+                df_table_arr = [sorted_filename_df, title_df, desc_df, publish_time_df]
                 df_table_merged = pd.concat(
                     df_table_arr,       # List or dictionary of DataFrames/Series to concatenate
                     axis=1,             # 0 for vertical stacking (rows), 1 for horizontal stacking (columns)
