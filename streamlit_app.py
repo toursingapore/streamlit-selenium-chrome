@@ -564,8 +564,13 @@ asyncio.run(myfunc(display_intercept=True))
                 df = pd.read_sql_table(table_name, con=engine, chunksize=5000)
                 st.write(df)        
 
-                delete_files_in_temp_folder("mp4")
+                #Lấy all values tại cột và chuyển nó thành list, sau đó có thể merge thành 1 bảng mới
+                title = df["Title video"].tolist()
+                st.write(type(title))
+                st.write(title)
 
+
+                delete_files_in_temp_folder("mp4")
                 emailpcloud = st.secrets["EMAILPCLOUD"]
                 passpcloud = st.secrets["PASSPCLOUD"]
                 folderidpcloud = '28474967031'
@@ -578,10 +583,7 @@ asyncio.run(myfunc(display_intercept=True))
                 sorted_df_filename = df_table.sort_values(by='filename', ascending=True)
                 st.write(sorted_df_filename)
 
-                #Lấy all values tại cột và chuyển nó thành list, sau đó có thể merge thành 1 bảng mới
-                title = df["Title video"]
-                st.write(type(title))
-                st.write(title)
+
 
 
 
