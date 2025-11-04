@@ -564,6 +564,9 @@ asyncio.run(myfunc(display_intercept=True))
                 df = pd.read_sql_table(table_name, con=engine, chunksize=5000)
                 st.write(df)        
 
+                column_names = df.columns.tolist()
+                st.write(column_names)
+
                 #Lấy all values tại cột và chuyển nó thành list, sau đó có thể merge thành 1 bảng mới
                 title = df["Title video"].tolist()
                 st.write(type(title))
