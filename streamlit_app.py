@@ -569,9 +569,9 @@ asyncio.run(myfunc(display_intercept=True))
                 #st.write(column_names)
 
                 #Lấy all values tại cột và chuyển nó thành list, sau đó có thể merge thành 1 bảng mới
-                title_df = df["Title video"]
+                title_df = df["Title video"].reset_index(drop=True)
                 st.write(title_df)
-                desc_df = df["Desc video"]
+                desc_df = df["Desc video"].reset_index(drop=True)
                 st.write(desc_df)
 
                 #Create a list of column name filename
@@ -585,7 +585,7 @@ asyncio.run(myfunc(display_intercept=True))
                     'filename': pd.Series(video_path_arr),
                 })
                 #st.dataframe(df_table) 
-                sorted_filename_df = df_table.sort_values(by='filename', ascending=True)
+                sorted_filename_df = df_table.sort_values(by='filename', ascending=True).reset_index(drop=True)
                 st.write(sorted_filename_df)
 
                 st.write('### Combined all') 
@@ -593,7 +593,7 @@ asyncio.run(myfunc(display_intercept=True))
                 df_table_merged = pd.concat(
                     df_table_arr,       # List or dictionary of DataFrames/Series to concatenate
                     axis=1,             # 0 for vertical stacking (rows), 1 for horizontal stacking (columns)
-                    #ignore_index=True,  # If True, reindexes the resulting DataFrame and ignore their column names
+                    #ignore_index=True, # If True, reindexes the resulting DataFrame and ignore their column names, False will keep column names
                     #keys=None,         # Adds hierarchical keys for identifying original DataFrames
                     #join='outer'       # 'outer' for union, 'inner' for intersection of indices/columns
                 ) 
