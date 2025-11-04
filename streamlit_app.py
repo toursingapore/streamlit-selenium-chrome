@@ -576,6 +576,7 @@ asyncio.run(myfunc(display_intercept=True))
 
                 #Create a list of column name filename
                 delete_files_in_temp_folder("mp4")
+                delete_files_in_temp_folder("csv")               
                 emailpcloud = st.secrets["EMAILPCLOUD"]
                 passpcloud = st.secrets["PASSPCLOUD"]
                 folderidpcloud = '28474967031'
@@ -588,6 +589,7 @@ asyncio.run(myfunc(display_intercept=True))
                 sorted_filename_df = df_table.sort_values(by='filename', ascending=True).reset_index(drop=True)
                 st.write(sorted_filename_df)
 
+                #Create a list of publish time
                 publish_time_arr = [
                     "2025-11-05T14:00:00Z",
                     "2025-11-06T12:00:00Z"    
@@ -607,7 +609,66 @@ asyncio.run(myfunc(display_intercept=True))
                     #join='outer'       # 'outer' for union, 'inner' for intersection of indices/columns
                 ) 
                 st.write(df_table_merged)  
+                # Export to CSV
+                df_table_merged.to_csv("/tmp/videos_schedule.csv")              
 
+                _ = """
+                #-------------Schedule upload video-------------
+                import os
+                import csv
+                import datetime
+                from googleapiclient.discovery import build
+                from googleapiclient.http import MediaFileUpload
+                from google.oauth2.credentials import Credentials
+
+                # Load API credentials
+                API_SERVICE_NAME = "youtube"
+                API_VERSION = "v3"
+                creds = Credentials.from_authorized_user_file("youtube_credentials.json")
+                youtube = build(API_SERVICE_NAME, API_VERSION, credentials=creds)
+
+                # Read CSV
+                with open("/tmp/videos_schedule.csv", "r", encoding="utf-8") as f:
+                    reader = csv.DictReader(f)
+                    videos_data = list(reader)
+
+                # Upload loop
+                for video in videos_data:
+                    filename = video["filename"]
+                    title = video["title"]
+                    description = video["description"]
+                    publish_time = video["publish_time"]
+
+                    video_path = os.path.join("videos", filename)
+                    if not os.path.exists(video_path):
+                        print(f"Missing video: {filename}")
+                        continue
+
+                    # Upload video as "private" and schedule publish time
+                    body = {
+                        "snippet": {
+                            "title": title,
+                            "description": description,
+                            "categoryId": "22",
+                        },
+                        "status": {
+                            "privacyStatus": "private",
+                            "publishAt": publish_time,  # RFC3339 format
+                            "selfDeclaredMadeForKids": False,
+                        },
+                    }
+                    media = MediaFileUpload(video_path, chunksize=-1, resumable=True)
+
+                    print(f"Uploading {filename} as '{title}' scheduled for {publish_time}")
+                    request = youtube.videos().insert(
+                        part="snippet,status",
+                        body=body,
+                        media_body=media
+                    )
+
+                    response = request.execute()
+                    print("Uploaded:", response["id"])
+                _ = """
 
 
 
