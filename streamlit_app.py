@@ -589,7 +589,7 @@ asyncio.run(myfunc(display_intercept=True))
                 st.write(sorted_filename_df)
 
                 st.write('### Combined all') 
-                df_table_arr = [title_df, desc_df, sorted_filename_df]
+                df_table_arr = [sorted_filename_df, title_df, desc_df]
                 df_table_merged = pd.concat(
                     df_table_arr,       # List or dictionary of DataFrames/Series to concatenate
                     axis=1,             # 0 for vertical stacking (rows), 1 for horizontal stacking (columns)
