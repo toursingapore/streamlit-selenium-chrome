@@ -591,11 +591,11 @@ asyncio.run(myfunc(display_intercept=True))
                 st.write('### Combined all') 
                 df_table_arr = [title_df, desc_df, sorted_filename_df]
                 df_table_merged = pd.concat(
-                    df_table_arr, # List or dictionary of DataFrames/Series to concatenate
-                    axis=1,              # 0 for vertical stacking (rows), 1 for horizontal stacking (columns)
-                    ignore_index=True,  # If True, reindexes the resulting DataFrame
-                    #keys=None,           # Adds hierarchical keys for identifying original DataFrames
-                    #join='outer'         # 'outer' for union, 'inner' for intersection of indices/columns
+                    df_table_arr,       # List or dictionary of DataFrames/Series to concatenate
+                    axis=1,             # 0 for vertical stacking (rows), 1 for horizontal stacking (columns)
+                    #ignore_index=True,  # If True, reindexes the resulting DataFrame and ignore their column names
+                    #keys=None,         # Adds hierarchical keys for identifying original DataFrames
+                    #join='outer'       # 'outer' for union, 'inner' for intersection of indices/columns
                 ) 
                 st.write(df_table_merged)  
 
