@@ -561,7 +561,7 @@ asyncio.run(myfunc(display_intercept=True))
 
                 #Case1; Load existing table into a Pandas DataFrame
                 table_name = "my_table_1"  
-                df = pd.read_sql_table(table_name, con=engine, chunksize=5000)
+                df = pd.read_sql_table(table_name, con=engine)
                 st.write(df)        
 
                 column_names = df.columns.tolist()
