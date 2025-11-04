@@ -580,7 +580,7 @@ asyncio.run(myfunc(display_intercept=True))
                 passpcloud = st.secrets["PASSPCLOUD"]
                 folderidpcloud = '28474967031'
                 video_path_arr = download_all_files_in_folder_pcloud(emailpcloud, passpcloud, folderidpcloud)
-                st.write(video_path_arr)
+                #st.write(video_path_arr)
                 df_table = pd.DataFrame({
                     'filename': pd.Series(video_path_arr),
                 })
