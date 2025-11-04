@@ -10,3 +10,4 @@ dnspython[doh]
 sqlalchemy
 psycopg2-binary
 pcloud==1.4
+requests
