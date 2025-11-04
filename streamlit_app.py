@@ -591,11 +591,16 @@ asyncio.run(myfunc(display_intercept=True))
 
                 #Create a list of publish time
                 publish_time_arr = [
-                    "2025-11-05T14:00:00Z",
-                    "2025-11-06T12:00:00Z"    
+                    "2025-11-15T14:00:00Z",
+                    "2025-11-15T12:00:00Z",
                 ]
+                # Auto-fill missing rows with blank
+                total_rows = len(sorted_filename_df) #Example totals rows is 11
+                publish_time_auto_fill_arr += [""] * (total_rows - len(publish_time_arr))
+
                 publish_time_df = pd.DataFrame({
-                    'publish_time': pd.Series(publish_time_arr),
+                    #'publish_time': pd.Series(publish_time_arr), #if empty row fill NULL
+                    'publish_time': pd.Series(publish_time_auto_fill_arr), #Auto-fill missing rows with blank
                 })
                 #st.dataframe(publish_time_df)
 
