@@ -458,7 +458,6 @@ asyncio.run(myfunc(display_intercept=True))
             try:            
                 st.write(website)
 
-
                 def fetch_with_doh(url: str) -> str:
                     import httpx
                     import dns.message
@@ -519,7 +518,6 @@ asyncio.run(myfunc(display_intercept=True))
                 markdown_str = fetch_with_doh(website)
                 st.write(markdown_str)
 
-
                 _ = """
                 #By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
                 import requests
@@ -577,8 +575,16 @@ asyncio.run(myfunc(display_intercept=True))
                     'filename': pd.Series(video_path_arr),
                 })
                 #st.dataframe(df_table) 
-                sorted_df = df_table.sort_values(by='filename', ascending=True)
-                st.write(sorted_df)
+                sorted_df_filename = df_table.sort_values(by='filename', ascending=True)
+                st.write(sorted_df_filename)
+
+                #Lấy all values tại cột và chuyển nó thành list, sau đó có thể merge thành 1 bảng mới
+                title = df["Title video"]
+                st.write(type(title))
+                st.write(title)
+
+
+
 
 
                 _ = """
