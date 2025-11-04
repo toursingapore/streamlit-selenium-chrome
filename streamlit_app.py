@@ -20,6 +20,15 @@ def run_command_line(command):
     except subprocess.CalledProcessError as e:
         st.write(f"An error occurred: {e}")
 
+def delete_files_in_temp_folder(defaultFolder='/tmp', Filename_extension='jpg'):
+    #Get list of files im temp folder, then Delete all temp files
+    import glob
+    #st.write(glob.glob('/tmp/*.*'))                    
+    #for f in glob.glob('/tmp/*.jpg'):    
+    for f in glob.glob(f'{defaultFolder}/*.{Filename_extension}'):
+        os.remove(f)  
+
+
 def myrun():
     st.set_page_config(
         page_title="Web scraping on Streamlit Cloud",
@@ -423,20 +432,19 @@ asyncio.run(myfunc(display_intercept=True))
     with st.container(border=True):   
         st.write("## CONNECT POSTGRESSQL")
 
-        import pandas as pd
-        from sqlalchemy import create_engine, text
-        from sqlalchemy.exc import SQLAlchemyError
-
-        @st.cache_resource
-        def get_engine():
-            DATABASE_URL = st.secrets["DATABASE_URL"]
-            return create_engine(DATABASE_URL)
-
         button = st.button("SUBMIT", type="primary" , key="24dfdas5235")
         if button:
             try:
                 st.write('Hello world')
 
+                import pandas as pd
+                from sqlalchemy import create_engine, text
+                from sqlalchemy.exc import SQLAlchemyError
+
+                @st.cache_resource
+                def get_engine():
+                    DATABASE_URL = st.secrets["DATABASE_URL"]
+                    return create_engine(DATABASE_URL)
                 engine = get_engine()    
 
                 #Case1; Load existing table into a Pandas DataFrame
@@ -444,6 +452,22 @@ asyncio.run(myfunc(display_intercept=True))
                 df = pd.read_sql_table(table_name, con=engine, chunksize=5000)
                 st.write(df)        
 
+                delete_files_in_temp_folder("mp4")
+
+                emailpcloud = st.secrets["EMAILPCLOUD"]
+                passpcloud = st.secrets["PASSPCLOUD"]
+                folderidpcloud = '28474967031'
+                video_path_arr = download_all_files_in_folder_pcloud(emailpcloud, passpcloud, folderidpcloud)
+                st.write(video_path_arr)
+                df_table = pd.DataFrame({
+                    'filename': pd.Series(video_path_arr),
+                })
+                #st.dataframe(df_table) 
+                sorted_df = df_table.sort_values(by='filename', ascending=True)
+                st.write(sorted_df)
+
+
+                _ = """
                 #Case2; Add the new column and its data to the DataFrame
                 new_column_arr = [
                     "default_value",
@@ -465,6 +489,7 @@ asyncio.run(myfunc(display_intercept=True))
                 df = pd.read_sql_table(table_name, con=engine)
                 st.write('Delete column')                  
                 st.write(df)
+                _ = """
 
             except Exception as e:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
