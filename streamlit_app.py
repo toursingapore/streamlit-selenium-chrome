@@ -627,12 +627,18 @@ asyncio.run(myfunc(display_intercept=True))
     with st.container(border=True):   
         st.write("## COLAB TEST CODE")
 
-        # Get all URLs from RSS feed URL directly
-        urls = feeds.find_feed_urls('https://news.google.com/rss?gl=US')
-        for i, url in enumerate(urls):
-            st.write(i, url)
-
-
+        button = st.button("SUBMIT", type="primary" , key="24dfdas5235")
+        if button:
+            try:
+                # Get all URLs from RSS feed URL directly
+                urls = feeds.find_feed_urls('https://news.google.com/rss?gl=US')
+                for i, url in enumerate(urls):
+                    st.write(i, url)
+            except Exception as e:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                #st.write(exc_type, fname, exc_tb.tb_lineno)
+                st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")  
 
 
 if __name__ == "__main__":
