@@ -4,10 +4,7 @@ html2text==2025.4.15
 beautifulsoup4==4.14.2
 e2b-desktop==2.0.1
 requests==2.32.3
-urllib3==2.5.0
-requests-doh==1.0.0
-dnspython[doh]
 sqlalchemy
 psycopg2-binary
 pcloud==1.4
-requests
+trafilatura==2.0.0

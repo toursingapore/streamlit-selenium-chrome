@@ -4,7 +4,7 @@ import time, os, sys
 from pyngrok import ngrok
 import html2text
 import requests
-
+from trafilatura import feeds
 
 
 def run_command_line(command):
@@ -626,6 +626,14 @@ asyncio.run(myfunc(display_intercept=True))
 
     with st.container(border=True):   
         st.write("## COLAB TEST CODE")
+
+        # Get all URLs from RSS feed URL directly
+        urls = feeds.find_feed_urls('https://news.google.com/rss?gl=US')
+        for i, url in enumerate(urls):
+            st.write(i, url)
+
+
+
 
 if __name__ == "__main__":
     myrun()
