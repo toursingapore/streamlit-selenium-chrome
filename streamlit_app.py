@@ -154,6 +154,7 @@ def myrun():
         st.markdown(f"<a href='#web-scraper'>WEB SCRAPER</a>", unsafe_allow_html=True)                    
         st.markdown(f"<a href='#requests-via-dns'>REQUESTS VIA DNS</a>", unsafe_allow_html=True)
         st.markdown(f"<a href='#connect-postgressql'>CONNECT POSTGRESSQL</a>", unsafe_allow_html=True)
+        st.markdown(f"<a href='#colab-test-code'>COLAB TEST CODE</a>", unsafe_allow_html=True)
 
     st.markdown(
     """
@@ -617,99 +618,14 @@ asyncio.run(myfunc(display_intercept=True))
                 # Export to CSV
                 df_table_merged.to_csv("/tmp/videos_schedule.csv")              
 
-                _ = """
-                #-------------Schedule upload video-------------
-                import os
-                import csv
-                import datetime
-                from googleapiclient.discovery import build
-                from googleapiclient.http import MediaFileUpload
-                from google.oauth2.credentials import Credentials
-
-                # Load API credentials
-                API_SERVICE_NAME = "youtube"
-                API_VERSION = "v3"
-                creds = Credentials.from_authorized_user_file("youtube_credentials.json")
-                youtube = build(API_SERVICE_NAME, API_VERSION, credentials=creds)
-
-                # Read CSV
-                with open("/tmp/videos_schedule.csv", "r", encoding="utf-8") as f:
-                    reader = csv.DictReader(f)
-                    videos_data = list(reader)
-
-                # Upload loop
-                for video in videos_data:
-                    filename = video["filename"]
-                    title = video["title"]
-                    description = video["description"]
-                    publish_time = video["publish_time"]
-
-                    video_path = os.path.join("videos", filename)
-                    if not os.path.exists(video_path):
-                        print(f"Missing video: {filename}")
-                        continue
-
-                    # Upload video as "private" and schedule publish time
-                    body = {
-                        "snippet": {
-                            "title": title,
-                            "description": description,
-                            "categoryId": "22",
-                        },
-                        "status": {
-                            "privacyStatus": "private",
-                            "publishAt": publish_time,  # RFC3339 format
-                            "selfDeclaredMadeForKids": False,
-                        },
-                    }
-                    media = MediaFileUpload(video_path, chunksize=-1, resumable=True)
-
-                    print(f"Uploading {filename} as '{title}' scheduled for {publish_time}")
-                    request = youtube.videos().insert(
-                        part="snippet,status",
-                        body=body,
-                        media_body=media
-                    )
-
-                    response = request.execute()
-                    print("Uploaded:", response["id"])
-                _ = """
-
-
-
-
-
-                _ = """
-                #Case2; Add the new column and its data to the DataFrame
-                new_column_arr = [
-                    "default_value",
-                    "default_value2"    
-                ]
-                df['new_column'] = pd.Series(new_column_arr)
-                #Update table
-                df.to_sql(table_name, con=engine, if_exists='replace', index=False)
-                #Load existing table into a Pandas DataFrame
-                df = pd.read_sql_table(table_name, con=engine)
-                st.write('Add the new column and its data to the DataFrame')  
-                st.write(df)  
-
-                #Case3; Delete column
-                df = df.drop(columns=["new_column"])
-                #Update table
-                df.to_sql(table_name, con=engine, if_exists="replace", index=False)
-                #Load existing table into a Pandas DataFrame
-                df = pd.read_sql_table(table_name, con=engine)
-                st.write('Delete column')                  
-                st.write(df)
-                _ = """
-
             except Exception as e:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                 #st.write(exc_type, fname, exc_tb.tb_lineno)
                 st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")  
 
-
+    with st.container(border=True):   
+        st.write("## COLAB TEST CODE")
 
 if __name__ == "__main__":
     myrun()
