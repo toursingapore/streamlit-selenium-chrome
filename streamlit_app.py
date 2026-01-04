@@ -630,10 +630,8 @@ asyncio.run(myfunc(display_intercept=True))
         button = st.button("SUBMIT", type="primary" , key="24dfdas5235")
         if button:
             try:
-                # Get all URLs from RSS feed URL directly
-                urls = feeds.find_feed_urls('https://news.google.com/rss?gl=US')
-                for i, url in enumerate(urls):
-                    st.write(i, url)
+                st.write('Hello world')
+                
             except Exception as e:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
