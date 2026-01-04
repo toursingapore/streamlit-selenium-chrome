@@ -4,7 +4,6 @@ import time, os, sys
 from pyngrok import ngrok
 import html2text
 import requests
-from trafilatura import feeds
 
 
 def run_command_line(command):
