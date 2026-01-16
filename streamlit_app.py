@@ -220,6 +220,7 @@ def myrun():
 	)     
 
 	mailtrap_api_key = st.secrets["MAILTRAP_API_KEY"]
+	global mailtrap_api_key
 
 	with st.sidebar:
 		#Navigate to element in current page
