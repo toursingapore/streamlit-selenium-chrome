@@ -25,7 +25,8 @@ def run_function_in_background_use_threadPool(
     executor = ThreadPoolExecutor(max_workers=1)
     future = executor.submit(function_name, *args, **kwargs)
     if not wait_until_finish:
-        return future
+        result = future
+        return result
     try:
         result = future.result(timeout=timeout)
         return result
@@ -662,7 +663,17 @@ asyncio.run(myfunc(display_intercept=True))
         if button:
             try:
                 st.write('Hello world')
-                
+
+                def func_test_threadPool_with_args(a, b):                        
+                    result = a + b
+                    return result
+
+                a = 5
+                b = 6
+                result = run_function_in_background_use_threadPool(func_test_threadPool_with_args, a, b)
+                st.write(future, 'running and no need to wait result.')
+
+
             except Exception as e:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
