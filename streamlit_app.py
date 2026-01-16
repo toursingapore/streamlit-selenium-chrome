@@ -219,8 +219,9 @@ def myrun():
 		page_icon=":star:",
 	)     
 
-	mailtrap_api_key = st.secrets["MAILTRAP_API_KEY"]
 	global mailtrap_api_key
+	mailtrap_api_key = st.secrets["MAILTRAP_API_KEY"]
+
 
 	with st.sidebar:
 		#Navigate to element in current page
