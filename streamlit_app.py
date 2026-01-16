@@ -219,7 +219,7 @@ def myrun():
 		page_icon=":star:",
 	)     
 
-	st.write(st.secrets["MAILTRAP_API_KEY"]) 
+	mailtrap_api_key = st.secrets["MAILTRAP_API_KEY"]
 
 	with st.sidebar:
 		#Navigate to element in current page
