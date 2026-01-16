@@ -9,6 +9,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 
 def send_email_notification_mailtrap(mailtrap_api_key, email_receiver, html_notify):
+    mailtrap_api_key = st.secrets["MAILTRAP_API_KEY"]    
 	import smtplib
 	from email.mime.multipart import MIMEMultipart
 	from email.mime.text import MIMEText   
@@ -217,9 +218,7 @@ def myrun():
     st.set_page_config(
         page_title="Web scraping on Streamlit Cloud", 
         page_icon=":star:",
-    ) 
-
-    mailtrap_api_key = st.secrets["MAILTRAP_API_KEY"]
+    )     
 
 
     with st.sidebar:
