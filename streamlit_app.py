@@ -215,7 +215,7 @@ def upload_files_pcloud(pc: PyCloud, files_Arr: list[str], folder_path: str):
 
 def myrun():
     st.set_page_config(
-        page_title="Web scraping on Streamlit Cloud",
+        page_title="Web scraping on Streamlit Cloud", 
         page_icon=":star:",
     ) 
 
