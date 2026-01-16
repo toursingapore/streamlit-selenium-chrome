@@ -670,9 +670,9 @@ asyncio.run(myfunc(display_intercept=True))
 
                 a = 5
                 b = 6
-                result = run_function_in_background_use_threadPool(func_test_threadPool_with_args, a, b)
-                st.write(future, 'running and no need to wait result.')
-
+                #2. Chạy background và chờ result
+                result = run_in_background(func_test_threadPool_with_args, a, b, wait_until_finish=True)
+                st.write('result - ',result)
 
             except Exception as e:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
