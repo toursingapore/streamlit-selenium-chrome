@@ -7,7 +7,7 @@ import requests
 from typing import Any, Dict, List, Optional, Type, Union, Callable
 from concurrent.futures import ThreadPoolExecutor
 
-mailtrap_api_key = os.getenv("mailtrap_api_key")
+mailtrap_api_key = st.secrets["mailtrap_api_key"]
 
 def send_email_notification_mailtrap(mailtrap_api_key, email_receiver, html_notify):
 	import smtplib
