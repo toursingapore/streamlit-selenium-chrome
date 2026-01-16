@@ -7,6 +7,33 @@ import requests
 from typing import Any, Dict, List, Optional, Type, Union, Callable
 from concurrent.futures import ThreadPoolExecutor
 
+mailtrap_api_key = os.getenv("mailtrap_api_key")
+
+def send_email_notification_mailtrap(mailtrap_api_key, email_receiver, html_notify):
+	import smtplib
+	from email.mime.multipart import MIMEMultipart
+	from email.mime.text import MIMEText   
+	from datetime import datetime
+
+	subject = "Notification for you"
+	sender  = "hello@demomailtrap.co"   # keep default
+	# Create proper MIME container
+	msg = MIMEMultipart("alternative")
+	msg["Subject"] = subject
+	msg["From"]    = sender
+	msg["To"]      = email_receiver
+	# Attach HTML body
+	html_part = MIMEText(html_notify, "html")
+	msg.attach(html_part)
+	smtp_server = "live.smtp.mailtrap.io"
+	smtp_port   = 587
+	username    = "api"
+	password    = mailtrap_api_key
+	with smtplib.SMTP(smtp_server, smtp_port) as server:
+		server.starttls()
+		server.login(username, password)
+		server.sendmail(sender, email_receiver, msg.as_string())
+	st.write(f"Email sent via SMTP to {email_receiver}")
 
 def run_function_in_background_use_threadPool(
     function_name: Callable,
@@ -31,6 +58,13 @@ def run_function_in_background_use_threadPool(
     try:
         result = future.result(timeout=timeout)
         return result
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        errorInfo = f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}"
+        html_notify = f'<p>No reply - {errorInfo}</p>'
+        email_receiver = "ahai72160@gmail.com" #chỉ gửi tới được email đã reg acc
+        send_email_notification_mailtrap(mailtrap_api_key, email_receiver, html_notify)
     finally:
         executor.shutdown(wait=False)
 #1. Chạy background, không chờ
