@@ -34,11 +34,11 @@ def run_function_in_background_use_threadPool(
     finally:
         executor.shutdown(wait=False)
 #1. Chạy background, không chờ
-#future = run_in_background(my_function, arg1, arg2)
+#future = run_function_in_background_use_threadPool(my_function, arg1, arg2)
 #2. Chạy background và chờ
-#future = run_in_background(my_function, arg1, arg2, wait_until_finish=True)
+#future = run_function_in_background_use_threadPool(my_function, arg1, arg2, wait_until_finish=True)
 #3. Chạy background và chờ có timeout
-#future = run_in_background(my_function, arg1, arg2, timeout=10)
+#future = run_function_in_background_use_threadPool(my_function, arg1, arg2, timeout=10)
 
 def run_command_line(command):
     import sys, subprocess
@@ -674,6 +674,8 @@ asyncio.run(myfunc(display_intercept=True))
                 #2. Chạy background và chờ result
                 result = run_function_in_background_use_threadPool(func_test_threadPool_with_args, a, b, wait_until_finish=True)
                 st.write('result - ',result)
+                finalResult = result + 2
+                st.write('finalResult - ',finalResult)
 
             except Exception as e:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
