@@ -6,6 +6,37 @@ import html2text
 import requests
 
 
+def run_function_in_background_use_threadPool(
+    function_name: Callable,
+    *args,
+    wait_until_finish: bool = False,
+    timeout: Optional[float] = None,
+    **kwargs
+) -> Any:
+    #C1; khó truyền tham số args và lấy return values 
+    #thread = threading.Thread(target=function_name, daemon=True)
+    #thread.start()
+    #st.write(f"Started background task: {function.__name__}")
+    #thread.join() #Optional; block UI để chờ thread chạy xong
+    #st.write(f"Thread completed function name {function_name}")
+        
+    #C2; Cái này tốt hơn threading ở trên vì sử dụng function with args or not args
+    executor = ThreadPoolExecutor(max_workers=1)
+    future = executor.submit(function_name, *args, **kwargs)
+    if not wait_until_finish:
+        return future
+    try:
+        result = future.result(timeout=timeout)
+        return result
+    finally:
+        executor.shutdown(wait=False)
+#1. Chạy background, không chờ
+#future = run_in_background(my_function, arg1, arg2)
+#2. Chạy background và chờ
+#future = run_in_background(my_function, arg1, arg2, wait_until_finish=True)
+#3. Chạy background và chờ có timeout
+#future = run_in_background(my_function, arg1, arg2, timeout=10)
+
 def run_command_line(command):
     import sys, subprocess
     try:
