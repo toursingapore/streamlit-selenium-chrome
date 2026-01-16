@@ -41,9 +41,9 @@ def run_function_in_background_use_threadPool(
 	timeout: Optional[float] = None,
 	**kwargs
 ) -> Any:
-	html_notify = f'<p>No reply - starting run function in background use threadPool</p>'
-	email_receiver = "ahai72160@gmail.com" #chỉ gửi tới được email đã reg acc
-	send_email_notification_mailtrap(mailtrap_api_key, email_receiver, html_notify)
+	#html_notify = f'<p>No reply - starting run function in background use threadPool</p>'
+	#email_receiver = "ahai72160@gmail.com" #chỉ gửi tới được email đã reg acc
+	#send_email_notification_mailtrap(mailtrap_api_key, email_receiver, html_notify)
 
 	#C1; khó truyền tham số args và lấy return values 
 	#thread = threading.Thread(target=function_name, daemon=True)
