@@ -7,7 +7,6 @@ import requests
 from typing import Any, Dict, List, Optional, Type, Union, Callable
 from concurrent.futures import ThreadPoolExecutor
 
-mailtrap_api_key = st.secrets["MAILTRAP_API_KEY"]
 
 def send_email_notification_mailtrap(mailtrap_api_key, email_receiver, html_notify):
 	import smtplib
@@ -219,6 +218,9 @@ def myrun():
         page_title="Web scraping on Streamlit Cloud",
         page_icon=":star:",
     ) 
+
+    mailtrap_api_key = st.secrets["MAILTRAP_API_KEY"]
+
 
     with st.sidebar:
         #Navigate to element in current page
