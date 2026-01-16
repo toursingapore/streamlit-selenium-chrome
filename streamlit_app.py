@@ -7,14 +7,13 @@ import requests
 from typing import Any, Dict, List, Optional, Type, Union, Callable
 from concurrent.futures import ThreadPoolExecutor
 
+mailtrap_api_key = st.secrets["MAILTRAP_API_KEY"]
 
 def send_email_notification_mailtrap(mailtrap_api_key, email_receiver, html_notify):
 	import smtplib
 	from email.mime.multipart import MIMEMultipart
 	from email.mime.text import MIMEText   
-	from datetime import datetime
-	
-	mailtrap_api_key = st.secrets["MAILTRAP_API_KEY"]
+	from datetime import datetime	
 
 	subject = "Notification for you"
 	sender  = "hello@demomailtrap.co"   # keep default
