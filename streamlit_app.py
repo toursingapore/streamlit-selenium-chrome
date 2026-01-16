@@ -8,7 +8,10 @@ from typing import Any, Dict, List, Optional, Type, Union, Callable
 from concurrent.futures import ThreadPoolExecutor
 
 
-def send_email_notification_mailtrap(mailtrap_api_key, email_receiver, html_notify):
+def send_email_notification_mailtrap(email_receiver, html_notify):
+	global mailtrap_api_key
+	mailtrap_api_key = st.secrets["MAILTRAP_API_KEY"]
+
 	import smtplib
 	from email.mime.multipart import MIMEMultipart
 	from email.mime.text import MIMEText   
@@ -43,7 +46,7 @@ def run_function_in_background_use_threadPool(
 ) -> Any:
 	#html_notify = f'<p>No reply - starting run function in background use threadPool</p>'
 	#email_receiver = "ahai72160@gmail.com" #chỉ gửi tới được email đã reg acc
-	#send_email_notification_mailtrap(mailtrap_api_key, email_receiver, html_notify)
+	#send_email_notification_mailtrap(email_receiver, html_notify)
 
 	#C1; khó truyền tham số args và lấy return values 
 	#thread = threading.Thread(target=function_name, daemon=True)
@@ -67,7 +70,7 @@ def run_function_in_background_use_threadPool(
 		errorInfo = f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}"
 		html_notify = f'<p>No reply - {errorInfo}</p>'
 		email_receiver = "ahai72160@gmail.com" #chỉ gửi tới được email đã reg acc
-		send_email_notification_mailtrap(mailtrap_api_key, email_receiver, html_notify)
+		send_email_notification_mailtrap(email_receiver, html_notify)
 	finally:
 		executor.shutdown(wait=False)
 #1. Chạy background, không chờ
@@ -218,10 +221,6 @@ def myrun():
 		page_title="Web scraping on Streamlit Cloud", 
 		page_icon=":star:",
 	)     
-
-	global mailtrap_api_key
-	mailtrap_api_key = st.secrets["MAILTRAP_API_KEY"]
-
 
 	with st.sidebar:
 		#Navigate to element in current page
