@@ -705,13 +705,9 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world')
 
-				from pyflowchart import Flowchart
-
-				with open('streamlit_app.py', 'r') as f:
-					code = f.read()
-
-				fc = Flowchart.from_code(code)
-				st.write(fc.flowchart())
+				from pycfg import CFGBuilder
+				cfg = CFGBuilder().build_from_file("x", "streamlit_app.py")
+				cfg.build_visual("flow", "png")
 
 
 				st.write(heoquay)
