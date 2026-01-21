@@ -705,6 +705,17 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world')
 
+				from pyflowchart import Flowchart
+
+				with open('streamlit_app.py', 'r') as f:
+					code = f.read()
+
+				fc = Flowchart.from_code(code)
+				st.write(fc.flowchart())
+
+
+				st.write(heoquay)
+
 				def func_test_threadPool_with_args(a, b):                        
 					result = a + b
 					return result
