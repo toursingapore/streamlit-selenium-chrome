@@ -7,4 +7,4 @@ requests==2.32.3
 sqlalchemy
 psycopg2-binary
 pcloud==1.4
-py2cfg
+pyflowchart

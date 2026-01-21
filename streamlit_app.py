@@ -80,19 +80,25 @@ def run_function_in_background_use_threadPool(
 #3. Chạy background và chờ có timeout
 #future = run_function_in_background_use_threadPool(my_function, arg1, arg2, timeout=10)
 
-def run_command_line(command):
-	import sys, subprocess
+def run_command_line(command, returnValue=False, ShowError=True):
+	whole_text = ""  # Initialize whole_text
 	try:
 		# Run the command and capture the output
-		output = subprocess.check_output(command, shell=True)
+		output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
 		output = output.decode('utf-8')
 		# Split the output into a list of lines
 		lines = output.split('\n')
 		# Write each line separately
 		for line in lines:
-			st.write(line)
+			if returnValue:
+				whole_text += line + '\n'  # Add a newline for better formatting
+			else:
+				st.write(line)                
+		if returnValue:
+			return whole_text  # Return the whole text if requested
 	except subprocess.CalledProcessError as e:
-		st.write(f"An error occurred: {e}")
+		if ShowError:
+			st.write(f"An error occurred: {e.output.decode('utf-8')}")      
 
 def delete_files_in_temp_folder(defaultFolder='/tmp', Filename_extension='jpg'):
 	#Get list of files im temp folder, then Delete all temp files
@@ -705,16 +711,8 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world')
 
-				from py2cfg import CFGBuilder
-
-				# Build the CFG from a file
-				cfg = CFGBuilder().build_from_file("my_script_name", "streamlit_app.py")
-
-				# Generate a visual representation (e.g., as a PNG file)
-				# This requires Graphviz to be installed on your system
-				cfg.build_visual("my_script_cfg", "png")
-
-
+				result = run_command_line(f'pyflowchart streamlit_app.py -o /tmp/flow.txt', returnValue=True, ShowError=True)
+				st.write(result)
 
 				st.write(heoquay)
 
