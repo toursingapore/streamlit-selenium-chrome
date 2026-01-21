@@ -1,6 +1,6 @@
 import streamlit as st
 from bs4 import BeautifulSoup
-import time, os, sys
+import time, os, sys, subprocess
 from pyngrok import ngrok
 import html2text
 import requests
