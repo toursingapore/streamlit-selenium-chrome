@@ -705,9 +705,15 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world')
 
-				from pycfg import CFGBuilder
-				cfg = CFGBuilder().build_from_file("x", "streamlit_app.py")
-				cfg.build_visual("flow", "png")
+				from py2cfg import CFGBuilder
+
+				# Build the CFG from a file
+				cfg = CFGBuilder().build_from_file("my_script_name", "streamlit_app.py")
+
+				# Generate a visual representation (e.g., as a PNG file)
+				# This requires Graphviz to be installed on your system
+				cfg.build_visual("my_script_cfg", "png")
+
 
 
 				st.write(heoquay)
