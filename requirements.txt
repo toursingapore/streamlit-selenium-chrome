@@ -7,4 +7,4 @@ requests==2.32.3
 sqlalchemy
 psycopg2-binary
 pcloud==1.4
-youtube-up
+youtube-up==0.5.6

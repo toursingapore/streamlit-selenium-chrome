@@ -724,8 +724,11 @@ asyncio.run(myfunc(display_intercept=True))
 					made_for_kids=False,
 					allow_comments_mode=AllowCommentsEnum.HOLD_ALL,
 				)
-				result = uploader.upload(video_file_path, metadata)
-				st.write('result - ', result)
+				video_id = uploader.upload(video_file_path, metadata)
+				if video_id:
+					st.write('video_id:', video_id)
+				else:
+					st.write('An occured error can be the reason for Youtube cookies')
 
 				st.write(heoquay)
 
