@@ -711,7 +711,21 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world')
 
+				from youtube_up import AllowCommentsEnum, Metadata, PrivacyEnum, YTUploaderSession
 
+				cookies_netscape_file = 'netscape_cookie_youtube_channel_ahai72160.txt'
+				video_file_path = '2026-01-28-07-38-03-output.mp4'
+
+				uploader = YTUploaderSession.from_cookies_txt(cookies_netscape_file)
+				metadata = Metadata(
+					title="Video title",
+					description="Video description",
+					privacy=PrivacyEnum.PUBLIC,
+					made_for_kids=False,
+					allow_comments_mode=AllowCommentsEnum.HOLD_ALL,
+				)
+				result = uploader.upload(video_file_path, metadata)
+				st.write('result - ', result)
 
 				st.write(heoquay)
 
