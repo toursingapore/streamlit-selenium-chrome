@@ -734,7 +734,7 @@ asyncio.run(myfunc(display_intercept=True))
 							allow_embedding=True,
 							auto_concepts=True, #YouTube tự gắn “concept”/chủ đề (AI tagging) SEO đề xuất video tốt hơn, vd; “Travel”, “Food”, “Unboxing”, “Podcast”…
 							publish_to_feed=True, #Default None, gửi thông báo cho subsribers sau khi đã upload video
-							tags=tags, #tags is tuple, default tags=() tags=('tag1', 'tag2')							
+							tags=tags, #tags is tuple, default tags=() tags=('tag1', 'tag2') or convert tuple to list tag_list=['tag1', 'tag2']; tags=tuple(tag_list), 							
 							#recorded_date = date(2026, 1, 28) #Khai báo ngày quay video (khác ngày upload)
 							#auto_places=True, #Cho phép YouTube tự phát hiện địa điểm trong video (ví dụ: Paris, Hà Nội, sân bay, khách sạn…) để hiển thị trong search/map
 							#can_view_ratings=True, #Hiện like/dislike
