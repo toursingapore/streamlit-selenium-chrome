@@ -713,7 +713,7 @@ asyncio.run(myfunc(display_intercept=True))
 
 				from youtube_up import AllowCommentsEnum, Metadata, PrivacyEnum, YTUploaderSession
 
-				cookies_netscape_file = 'studio.youtube.com_cookies.txt'
+				cookies_netscape_file = 'netscape_cookie_youtube_channel_ahai72160.txt'
 				video_file_path = '2026-01-28-07-38-03-output.mp4'
 
 				# Export cookies from here mới worked; https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc
