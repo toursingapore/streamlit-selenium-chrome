@@ -718,7 +718,7 @@ asyncio.run(myfunc(display_intercept=True))
 					# Export cookies from here mới worked; https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc
 					uploader = YTUploaderSession.from_cookies_txt(cookies_netscape_file)
 					if not uploader.has_valid_cookies():
-						raise RuntimeError("Cookies hết hạn hoặc chưa đăng nhập YouTube!")
+						raise RuntimeError("Youtube cookies expired or incorrect!")
 
 					# https://7x11x13.xyz/youtube-up/youtube_up#Metadata.__init__ ; List all params here
 					metadata = Metadata(
