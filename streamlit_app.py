@@ -774,7 +774,7 @@ asyncio.run(myfunc(display_intercept=True))
 				# TIMEZONE CONVERSION (VN UTC+7 -> youtube standard UTC timezone UTC+0)
 				scheduled_time = (vn_time - timedelta(hours=7)).replace(tzinfo=timezone.utc)
 
-				video_id = upload_video_to_youtube_channel_with_cookies(cookies_netscape_file, video_file_path, video_title, video_description, playlist_ids=playlist_ids, thumbnail=thumbnail, tags=tags)
+				video_id = upload_video_to_youtube_channel_with_cookies(cookies_netscape_file, video_file_path, video_title, video_description, playlist_ids=playlist_ids, thumbnail=thumbnail, tags=None)
 				if video_id:
 					st.write('video_id:', video_id)
 				else:
