@@ -717,6 +717,9 @@ asyncio.run(myfunc(display_intercept=True))
 				def upload_video_to_youtube_channel_with_cookies(cookies_netscape_file, video_file_path, video_title, video_description, playlist_ids=None, thumbnail=None, tags=None):
 					# Export cookies from here mới worked; https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc
 					uploader = YTUploaderSession.from_cookies_txt(cookies_netscape_file)
+					if not uploader.has_valid_cookies():
+						raise RuntimeError("Cookies hết hạn hoặc chưa đăng nhập YouTube!")
+
 					# https://7x11x13.xyz/youtube-up/youtube_up#Metadata.__init__ ; List all params here
 					metadata = Metadata(
 						title=video_title,
