@@ -716,14 +716,16 @@ asyncio.run(myfunc(display_intercept=True))
 				cookies_netscape_file = 'studio.youtube.com_cookies.txt'
 				video_file_path = '2026-01-28-07-38-03-output.mp4'
 
+				# Export cookies from here mới worked; https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc
 				uploader = YTUploaderSession.from_cookies_txt(cookies_netscape_file)
 				# https://7x11x13.xyz/youtube-up/youtube_up#Metadata.__init__ ; List all params here
 				metadata = Metadata(
 					title="Video title",
 					description="Video description",
-					privacy=PrivacyEnum.PUBLIC, #PrivacyEnum.PUBLIC or PrivacyEnum.PRIVATE
+					privacy=PrivacyEnum.PRIVATE, #PrivacyEnum.PUBLIC or PrivacyEnum.PRIVATE
 					made_for_kids=False,
-					allow_comments_mode=AllowCommentsEnum.HOLD_ALL,
+					#allow_comments_mode=None #None or AllowCommentsEnum.HOLD_ALL
+					playlist_ids=['PL0Um4vDqQBLuhqIwuRKClTS6DwX3nx27r'], #None or PlaylistID
 				)
 				video_id = uploader.upload(video_file_path, metadata)
 				if video_id:
