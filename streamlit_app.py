@@ -714,9 +714,33 @@ asyncio.run(myfunc(display_intercept=True))
 				from youtube_up import AllowCommentsEnum, Metadata, CategoryEnum, PrivacyEnum, YTUploaderSession
 				from datetime import datetime, timedelta, timezone
 
+				def upload_video_to_youtube_channel_with_cookies(cookies_netscape_file, video_file_path, video_title, video_description, playlist_ids=None, thumbnail=None):
+					# Export cookies from here mới worked; https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc
+					uploader = YTUploaderSession.from_cookies_txt(cookies_netscape_file)
+					# https://7x11x13.xyz/youtube-up/youtube_up#Metadata.__init__ ; List all params here
+					metadata = Metadata(
+						title=video_title,
+						description=video_description,
+						category=CategoryEnum.PEOPLE_BLOGS, #chọn category; People and Blog
+						playlist_ids=playlist_ids, #Default None or PlaylistIDs arr
+						thumbnail=thumbnail, #Default None or local file '/tmp/thumbnail.png'
+						made_for_kids=False,
+						privacy=PrivacyEnum.PRIVATE, #MUST be PRIVATE for scheduling
+						scheduled_upload=scheduled_time, #datetime object						
+						#allow_comments_mode=None, #Default None or AllowCommentsEnum.HOLD_ALL
+					)				
+					video_id = uploader.upload(video_file_path, metadata)
+					return video_id
+
+				# RUN
 				cookies_netscape_file = 'netscape_cookie_youtube_channel_ahai72160.txt'
 				video_file_path = '2026-01-28-07-38-03-output.mp4'
-				playlist_ids=['PL0Um4vDqQBLuhqIwuRKClTS6DwX3nx27r']
+				video_title = "Video title"
+				video_description = "Video description"
+				playlist_ids=None
+				#playlist_ids=['PL0Um4vDqQBLuhqIwuRKClTS6DwX3nx27r']
+				thumbnail=None
+				#thumbnail='/tmp/thumbnail.png'
 
 				# Publish time (VIETNAM TIME)
 				YEAR = 2026
@@ -728,21 +752,7 @@ asyncio.run(myfunc(display_intercept=True))
 				# TIMEZONE CONVERSION (VN UTC+7 -> youtube standard UTC timezone UTC+0)
 				scheduled_time = (vn_time - timedelta(hours=7)).replace(tzinfo=timezone.utc)
 
-				# Export cookies from here mới worked; https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc
-				uploader = YTUploaderSession.from_cookies_txt(cookies_netscape_file)
-				# https://7x11x13.xyz/youtube-up/youtube_up#Metadata.__init__ ; List all params here
-				metadata = Metadata(
-					title="Video title",
-					description="Video description",
-					category=CategoryEnum.PEOPLE_BLOGS,
-					privacy=PrivacyEnum.PRIVATE, #MUST be PRIVATE for scheduling
-					scheduled_upload=scheduled_time, #datetime object
-					made_for_kids=False,
-					playlist_ids=playlist_ids, #Default None or PlaylistIDs arr
-					#thumbnail='/tmp/thumbnail.png', #Default None or local file
-					#allow_comments_mode=None, #Default None or AllowCommentsEnum.HOLD_ALL
-				)				
-				video_id = uploader.upload(video_file_path, metadata)
+				video_id = upload_video_to_youtube_channel_with_cookies(cookies_netscape_file, video_file_path, video_title, video_description, playlist_ids=playlist_ids, thumbnail=thumbnail)
 				if video_id:
 					st.write('video_id:', video_id)
 				else:
