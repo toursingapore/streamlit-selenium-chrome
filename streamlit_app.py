@@ -723,11 +723,12 @@ asyncio.run(myfunc(display_intercept=True))
 						description=video_description,
 						category=CategoryEnum.PEOPLE_BLOGS, #chọn category; People and Blog
 						playlist_ids=playlist_ids, #Default None or PlaylistIDs arr
-						thumbnail=thumbnail, #Default None or local file '/tmp/thumbnail.png'
+						thumbnail=thumbnail, #Default None or path to image file '/tmp/thumbnail.png'
 						made_for_kids=False,
 						privacy=PrivacyEnum.PRIVATE, #MUST be PRIVATE for scheduling
 						scheduled_upload=scheduled_time, #datetime object						
 						#allow_comments_mode=None, #Default None or AllowCommentsEnum.HOLD_ALL
+						#captions_files='/tmp/captions.srt' #Default None or path to image file '/tmp/captions.srt'
 					)				
 					video_id = uploader.upload(video_file_path, metadata)
 					return video_id
