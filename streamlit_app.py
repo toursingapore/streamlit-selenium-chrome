@@ -723,9 +723,10 @@ asyncio.run(myfunc(display_intercept=True))
 					title="Video title",
 					description="Video description",
 					privacy=PrivacyEnum.PRIVATE, #PrivacyEnum.PUBLIC or PrivacyEnum.PRIVATE
-					made_for_kids=False,
-					#allow_comments_mode=None #None or AllowCommentsEnum.HOLD_ALL
+					scheduled_upload="2026-02-05T7:00:00", #UTC+0 vd "2023-12-25T17:00:00" or chọn giờ VN thì +7 giờ nữa
 					playlist_ids=['PL0Um4vDqQBLuhqIwuRKClTS6DwX3nx27r'], #None or PlaylistID
+					made_for_kids=False,
+					#allow_comments_mode=None #Default None or AllowCommentsEnum.HOLD_ALL
 				)
 				video_id = uploader.upload(video_file_path, metadata)
 				if video_id:
