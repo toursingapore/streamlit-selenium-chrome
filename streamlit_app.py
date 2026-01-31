@@ -731,18 +731,18 @@ asyncio.run(myfunc(display_intercept=True))
 							made_for_kids=False,
 							privacy=PrivacyEnum.PRIVATE, #MUST be PRIVATE for scheduling
 							scheduled_upload=scheduled_time, #datetime object
-							#allow_embedding=True,
-							#auto_concepts=True, #YouTube tự gắn “concept”/chủ đề (AI tagging) SEO đề xuất video tốt hơn, vd; “Travel”, “Food”, “Unboxing”, “Podcast”…
+							tags=tags, #tags=['tag1', 'tag2']
+							allow_embedding=True,
+							auto_concepts=True, #YouTube tự gắn “concept”/chủ đề (AI tagging) SEO đề xuất video tốt hơn, vd; “Travel”, “Food”, “Unboxing”, “Podcast”…
+							publish_to_feed=True, #Default None, gửi thông báo cho subsribers sau khi đã upload video
 							#recorded_date = date(2026, 1, 28) #Khai báo ngày quay video (khác ngày upload)
 							#auto_places=True, #Cho phép YouTube tự phát hiện địa điểm trong video (ví dụ: Paris, Hà Nội, sân bay, khách sạn…) để hiển thị trong search/map
 							#can_view_ratings=True, #Hiện like/dislike
-							#publish_to_feed=True, #Default None, gửi thông báo cho subsribers sau khi đã upload video
 							#allow_comments=True,
 							#allow_comments_mode=None, #Default None sẽ auto public comments or AllowCommentsEnum.HOLD_ALL, AllowCommentsEnum.ALL_COMMENTS, AllowCommentsEnum.HOLD_INAPPROPRIATE, AllowCommentsEnum.HOLD_INAPPROPRIATE_STRICT						
 							#captions_files='/tmp/captions.srt' #Default None or path to image file '/tmp/captions.srt'
 							#has_product_placement=True, #Default None, Khai báo video có quảng cáo sản phẩm (theo luật quảng cáo nhiều nước)
 							#show_product_placement_overlay=True #Hiển thị nhãn “Includes paid promotion” ở đầu video
-							#tags=tags, #tags=['tag1', 'tag2']
 						)				
 						video_id = uploader.upload(video_file_path, metadata)
 						return video_id
