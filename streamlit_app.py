@@ -728,7 +728,6 @@ asyncio.run(myfunc(display_intercept=True))
 							category=CategoryEnum.PEOPLE_BLOGS, #chọn category; People and Blog
 							playlist_ids=playlist_ids, #Default None or PlaylistIDs arr
 							thumbnail=thumbnail, #Default None or path to image file '/tmp/thumbnail.png'
-							tags=tags, #tags=['tag1', 'tag2']
 							made_for_kids=False,
 							privacy=PrivacyEnum.PRIVATE, #MUST be PRIVATE for scheduling
 							scheduled_upload=scheduled_time, #datetime object
@@ -743,6 +742,7 @@ asyncio.run(myfunc(display_intercept=True))
 							#captions_files='/tmp/captions.srt' #Default None or path to image file '/tmp/captions.srt'
 							#has_product_placement=True, #Default None, Khai báo video có quảng cáo sản phẩm (theo luật quảng cáo nhiều nước)
 							#show_product_placement_overlay=True #Hiển thị nhãn “Includes paid promotion” ở đầu video
+							#tags=tags, #tags=['tag1', 'tag2']
 						)				
 						video_id = uploader.upload(video_file_path, metadata)
 						return video_id
@@ -775,7 +775,7 @@ asyncio.run(myfunc(display_intercept=True))
 				# TIMEZONE CONVERSION (VN UTC+7 -> youtube standard UTC timezone UTC+0)
 				scheduled_time = (vn_time - timedelta(hours=7)).replace(tzinfo=timezone.utc)
 
-				video_id = upload_video_to_youtube_channel_with_cookies(cookies_netscape_file, video_file_path, video_title, video_description, playlist_ids=playlist_ids, thumbnail=thumbnail)
+				video_id = upload_video_to_youtube_channel_with_cookies(cookies_netscape_file, video_file_path, video_title, video_description, playlist_ids=playlist_ids, thumbnail=thumbnail, tags=tags)
 				if video_id:
 					st.write('video_id:', video_id)
 				else:
