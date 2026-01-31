@@ -723,17 +723,30 @@ asyncio.run(myfunc(display_intercept=True))
 				# Export cookies from here mới worked; https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc
 				uploader = YTUploaderSession.from_cookies_txt(cookies_netscape_file)
 				# https://7x11x13.xyz/youtube-up/youtube_up#Metadata.__init__ ; List all params here
+				_ = """
 				metadata = Metadata(
 					title="Video title",
 					description="Video description",
 					category="PEOPLE_BLOGS",
 					#privacy=PrivacyEnum.PRIVATE, #PrivacyEnum.PUBLIC or PrivacyEnum.PRIVATE
 					scheduled_upload=scheduled_time, #UTC+0 vd "2023-12-25T17:00:00" or chọn giờ VN thì +7 giờ nữa
+					premiere_countdown_duration="ONE_MIN",
+					premiere_theme="BRIGHT",
 					playlist_ids=['PL0Um4vDqQBLuhqIwuRKClTS6DwX3nx27r'], #Default None or PlaylistID
 					made_for_kids=False,
 					#thumbnail='/tmp/thumbnail.png', #Default None or localfile
 					allow_comments_mode=None, #Default None or AllowCommentsEnum.HOLD_ALL
 				)
+				_ = """
+				metadata = Metadata(
+					title="Video title",
+					description="Video description",
+					category=CategoryEnum.PEOPLE_BLOGS,
+					privacy=PrivacyEnum.PRIVATE,      # MUST be PRIVATE for scheduling
+					scheduled_upload=scheduled_time, # datetime object
+					made_for_kids=False,
+					playlist_ids=['PL0Um4vDqQBLuhqIwuRKClTS6DwX3nx27r'],
+				)				
 				video_id = uploader.upload(video_file_path, metadata)
 				if video_id:
 					st.write('video_id:', video_id)
