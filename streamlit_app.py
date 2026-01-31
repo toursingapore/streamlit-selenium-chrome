@@ -711,7 +711,7 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world') 
 
-				from youtube_up import AllowCommentsEnum, Metadata, PrivacyEnum, YTUploaderSession
+				from youtube_up import AllowCommentsEnum, Metadata, CategoryEnum, PrivacyEnum, YTUploaderSession
 				from datetime import datetime, timedelta, timezone
 
 				cookies_netscape_file = 'netscape_cookie_youtube_channel_ahai72160.txt'
