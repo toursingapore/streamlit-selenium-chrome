@@ -712,12 +712,13 @@ asyncio.run(myfunc(display_intercept=True))
 				st.write('Hello world') 
 
 				from youtube_up import AllowCommentsEnum, Metadata, PrivacyEnum, YTUploaderSession
-				from datetime import datetime, timezone
+				from datetime import datetime, timedelta, timezone
 
 				cookies_netscape_file = 'netscape_cookie_youtube_channel_ahai72160.txt'
 				video_file_path = '2026-01-28-07-38-03-output.mp4'
-				scheduled_time = datetime(2026, 2, 5, 7, 0, 0, tzinfo=timezone.utc) 
 				#scheduled_time = datetime.fromisoformat("2026-02-05T07:00:00").replace(tzinfo=timezone.utc)
+				vn_time = datetime(2026, 2, 5, 7, 0, 0)   # 07:00 VN
+				scheduled_time = (vn_time - timedelta(hours=7)).replace(tzinfo=timezone.utc)
 
 				# Export cookies from here mới worked; https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc
 				uploader = YTUploaderSession.from_cookies_txt(cookies_netscape_file)
@@ -731,7 +732,7 @@ asyncio.run(myfunc(display_intercept=True))
 					playlist_ids=['PL0Um4vDqQBLuhqIwuRKClTS6DwX3nx27r'], #Default None or PlaylistID
 					made_for_kids=False,
 					#thumbnail='/tmp/thumbnail.png', #Default None or localfile
-					#allow_comments_mode=None, #Default None or AllowCommentsEnum.HOLD_ALL
+					allow_comments_mode=None, #Default None or AllowCommentsEnum.HOLD_ALL
 				)
 				video_id = uploader.upload(video_file_path, metadata)
 				if video_id:
