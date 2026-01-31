@@ -713,7 +713,7 @@ asyncio.run(myfunc(display_intercept=True))
 
 				from youtube_up import AllowCommentsEnum, Metadata, PrivacyEnum, YTUploaderSession
 
-				st.write(Metadata.scheduled_upload)
+				st.write(Metadata)
 
 				st.write(heoquay)
 
