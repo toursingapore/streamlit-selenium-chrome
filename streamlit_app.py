@@ -731,10 +731,10 @@ asyncio.run(myfunc(display_intercept=True))
 							made_for_kids=False,
 							privacy=PrivacyEnum.PRIVATE, #MUST be PRIVATE for scheduling
 							scheduled_upload=scheduled_time, #datetime object
-							tags=tags, #tags is tuple tags=('tag1', 'tag2')
 							allow_embedding=True,
 							auto_concepts=True, #YouTube tự gắn “concept”/chủ đề (AI tagging) SEO đề xuất video tốt hơn, vd; “Travel”, “Food”, “Unboxing”, “Podcast”…
 							publish_to_feed=True, #Default None, gửi thông báo cho subsribers sau khi đã upload video
+							tags=tags, #tags is tuple, default tags=() tags=('tag1', 'tag2')							
 							#recorded_date = date(2026, 1, 28) #Khai báo ngày quay video (khác ngày upload)
 							#auto_places=True, #Cho phép YouTube tự phát hiện địa điểm trong video (ví dụ: Paris, Hà Nội, sân bay, khách sạn…) để hiển thị trong search/map
 							#can_view_ratings=True, #Hiện like/dislike
@@ -774,7 +774,7 @@ asyncio.run(myfunc(display_intercept=True))
 				# TIMEZONE CONVERSION (VN UTC+7 -> youtube standard UTC timezone UTC+0)
 				scheduled_time = (vn_time - timedelta(hours=7)).replace(tzinfo=timezone.utc)
 
-				video_id = upload_video_to_youtube_channel_with_cookies(cookies_netscape_file, video_file_path, video_title, video_description, playlist_ids=playlist_ids, thumbnail=thumbnail, tags=None)
+				video_id = upload_video_to_youtube_channel_with_cookies(cookies_netscape_file, video_file_path, video_title, video_description, playlist_ids=playlist_ids, thumbnail=thumbnail, tags=())
 				if video_id:
 					st.write('video_id:', video_id)
 				else:
