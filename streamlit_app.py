@@ -711,8 +711,7 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world')
 
-				result = run_command_line(f'pyflowchart streamlit_app.py -o /tmp/flow.txt', returnValue=True, ShowError=True)
-				st.write(result)
+
 
 				st.write(heoquay)
 
