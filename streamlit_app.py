@@ -717,10 +717,11 @@ asyncio.run(myfunc(display_intercept=True))
 				video_file_path = '2026-01-28-07-38-03-output.mp4'
 
 				uploader = YTUploaderSession.from_cookies_txt(cookies_netscape_file)
+				# https://7x11x13.xyz/youtube-up/youtube_up#Metadata.__init__ ; List all params here
 				metadata = Metadata(
 					title="Video title",
 					description="Video description",
-					privacy=PrivacyEnum.PUBLIC,
+					privacy=PrivacyEnum.PUBLIC, #PrivacyEnum.PUBLIC or PrivacyEnum.PRIVATE
 					made_for_kids=False,
 					allow_comments_mode=AllowCommentsEnum.HOLD_ALL,
 				)
