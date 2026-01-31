@@ -762,7 +762,7 @@ asyncio.run(myfunc(display_intercept=True))
 				#playlist_ids=['PL0Um4vDqQBLuhqIwuRKClTS6DwX3nx27r']
 				thumbnail=None
 				#thumbnail='/tmp/thumbnail.png'
-				tags=None
+				tags=[None]
 				#tags=['tag1', 'tag2']
 
 				# Publish time (VIETNAM TIME)
