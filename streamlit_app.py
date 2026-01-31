@@ -731,7 +731,7 @@ asyncio.run(myfunc(display_intercept=True))
 							made_for_kids=False,
 							privacy=PrivacyEnum.PRIVATE, #MUST be PRIVATE for scheduling
 							scheduled_upload=scheduled_time, #datetime object
-							tags=tags, #tags=['tag1', 'tag2']
+							tags=tags, #tags is tuple tags=('tag1', 'tag2')
 							allow_embedding=True,
 							auto_concepts=True, #YouTube tự gắn “concept”/chủ đề (AI tagging) SEO đề xuất video tốt hơn, vd; “Travel”, “Food”, “Unboxing”, “Podcast”…
 							publish_to_feed=True, #Default None, gửi thông báo cho subsribers sau khi đã upload video
@@ -762,8 +762,7 @@ asyncio.run(myfunc(display_intercept=True))
 				#playlist_ids=['PL0Um4vDqQBLuhqIwuRKClTS6DwX3nx27r']
 				thumbnail=None
 				#thumbnail='/tmp/thumbnail.png'
-				tags=[None]
-				#tags=['tag1', 'tag2']
+				#tags=('tag1', 'tag2')
 
 				# Publish time (VIETNAM TIME)
 				YEAR = 2026
