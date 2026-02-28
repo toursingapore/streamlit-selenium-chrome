@@ -636,7 +636,7 @@ asyncio.run(myfunc(display_intercept=True))
 					result = task_1(param)
 
 					param = result
-					task_2(result)
+					task_2(param)
 
 				my_flow()
 
