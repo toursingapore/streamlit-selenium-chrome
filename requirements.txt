@@ -7,5 +7,5 @@ requests==2.32.3
 sqlalchemy
 psycopg2-binary
 pcloud==1.4
-youtube-up==0.5.
-prefect 3.6.20
+youtube-up==0.5.6
+prefect==3.6.20
