@@ -567,14 +567,16 @@ asyncio.run(myfunc(display_intercept=True))
 					if result:
 						task_2(result)
 
-				#my_flow() #chạy one time only
+				my_flow() #chạy one time only
 
-				# Schedule run workflow
+				_ = """
+				# Schedule run workflow on server
 				my_flow.serve(
 					name="daily-6am-flow",
 					schedule=Cron("0 6 * * *") #Lên lịch: chạy mỗi ngày lúc 6h sáng - phút giờ ngày tháng thứ (0 6 * * * = 6:00 hàng ngày)
 					#schedule=Interval(interval=datetime.timedelta(seconds=5))#Lên lịch: chạy mỗi 5 giây
-				)				
+				)	
+				_ = """			
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
