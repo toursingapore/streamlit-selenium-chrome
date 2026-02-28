@@ -620,7 +620,7 @@ asyncio.run(myfunc(display_intercept=True))
 
 				from prefect import task, flow
 
-				@task(log_prints=True)
+				@task(log_prints=False)
 				def task_1(param):
 					st.write("Run task 1 already")
 					result = param + 6
