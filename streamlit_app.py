@@ -1,5 +1,4 @@
 import streamlit as st
-from prefect import task, flow
 from bs4 import BeautifulSoup
 import time, os, sys, subprocess
 from pyngrok import ngrok
@@ -7,6 +6,9 @@ import html2text
 import requests
 from typing import Any, Dict, List, Optional, Type, Union, Callable
 from concurrent.futures import ThreadPoolExecutor
+
+from prefect import task, flow
+from prefect.schedules import Cron
 
 
 def send_email_notification_mailtrap(email_receiver, html_notify):
@@ -565,7 +567,14 @@ asyncio.run(myfunc(display_intercept=True))
 					if result:
 						task_2(result)
 
-				my_flow()
+				#my_flow() #chạy one time only
+
+				# Schedule run workflow
+				my_flow.serve(
+					name="daily-6am-flow",
+					schedule=Cron("0 6 * * *") #Lên lịch: chạy mỗi ngày lúc 6h sáng - phút giờ ngày tháng thứ (0 6 * * * = 6:00 hàng ngày)
+					#schedule=Interval(interval=datetime.timedelta(seconds=5))#Lên lịch: chạy mỗi 5 giây
+				)				
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
