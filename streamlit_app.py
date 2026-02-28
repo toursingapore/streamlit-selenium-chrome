@@ -622,7 +622,7 @@ asyncio.run(myfunc(display_intercept=True))
 
 				@task
 				def say_hello():
-					print("Hello, World!")
+					st.write("Hello, World!")
 
 				@flow
 				def my_flow():
