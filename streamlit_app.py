@@ -1,4 +1,5 @@
 import streamlit as st
+from prefect import task, flow
 from bs4 import BeautifulSoup
 import time, os, sys, subprocess
 from pyngrok import ngrok
@@ -535,7 +536,27 @@ asyncio.run(myfunc(display_intercept=True))
 		button = st.button("SUBMIT", type="primary" , key="24dfdas5vb235")
 		if button:
 			try:
-				st.write('Hello world') 
+				st.write('Hello world') 				
+
+				@task(log_prints=False)
+				def task_1(param):
+					st.write("Run task 1 already")
+					result = param + 6
+					return result
+
+				@task
+				def task_2(param):
+					st.write("Result is", param)
+
+				@flow
+				def my_flow():
+					param = 2
+					result = task_1(param)
+
+					param = result
+					task_2(param)
+
+				my_flow()
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -632,28 +653,6 @@ asyncio.run(myfunc(display_intercept=True))
 		if button:
 			try:
 				st.write('Hello world') 
-
-				from prefect import task, flow
-
-				@task(log_prints=False)
-				def task_1(param):
-					st.write("Run task 1 already")
-					result = param + 6
-					return result
-
-				@task
-				def task_2(param):
-					st.write("Result is", param)
-
-				@flow
-				def my_flow():
-					param = 2
-					result = task_1(param)
-
-					param = result
-					task_2(param)
-
-				my_flow()
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
