@@ -621,12 +621,22 @@ asyncio.run(myfunc(display_intercept=True))
 				from prefect import task, flow
 
 				@task
-				def say_hello():
-					st.write("Hello, World!")
+				def task_1(param):
+					st.write("Run task 1 already")
+					result = param + 6
+					return result
+
+				@task
+				def task_2(param):
+					st.write("Result is", param)
 
 				@flow
 				def my_flow():
-					say_hello()
+					param = 2
+					result = task_1(param)
+
+					param = result
+					task_2(result)
 
 				my_flow()
 
