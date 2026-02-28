@@ -556,10 +556,10 @@ asyncio.run(myfunc(display_intercept=True))
 
 					# Kiểm tra trạng thái
 					if state_1.is_completed():
-						st.write("Task 1 thành công")
+						st.write("Task 1 is success")
 						result = state_1.result()
 					else:
-						st.write("Task 1 thất bại")
+						st.write("Task 1 is failed")
 						result = None
 
 					if result:
