@@ -538,7 +538,7 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world') 				
 
-				@task(log_prints=False)
+				@task(retries=1, retry_delay_seconds=5, timeout_seconds=300)
 				def task_1(param):
 					st.write("Run task 1 already")
 					result = param + 6
