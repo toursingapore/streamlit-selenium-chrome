@@ -231,7 +231,6 @@ def myrun():
 	with st.sidebar:
 		#Navigate to element in current page
 		st.markdown(f"<a href='#web-scraper'>WEB SCRAPER</a>", unsafe_allow_html=True)                    
-		st.markdown(f"<a href='#requests-via-dns'>REQUESTS VIA DNS</a>", unsafe_allow_html=True)
 		st.markdown(f"<a href='#connect-postgressql'>CONNECT POSTGRESSQL</a>", unsafe_allow_html=True)
 		st.markdown(f"<a href='#colab-test-code'>COLAB TEST CODE</a>", unsafe_allow_html=True)
 
@@ -528,98 +527,6 @@ asyncio.run(myfunc(display_intercept=True))
 				fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 				#st.write(exc_type, fname, exc_tb.tb_lineno)
 				st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")   
-
-	with st.container(border=True):   
-		st.write("## REQUESTS VIA DNS")
-
-		website = st.text_input("Enter your website to crawl", value="https://scrape.do/pricing/", key="245daf")
-		button = st.button("SUBMIT", type="primary" , key="245235")
-		if button:
-			try:            
-				st.write(website)
-
-				def fetch_with_doh(url: str) -> str:
-					import httpx
-					import dns.message
-					import dns.query
-					import dns.rdatatype
-					import socket
-					import html2text
-					from urllib.parse import urlparse
-
-					# Parse domain from URL
-					parsed = urlparse(url)
-					domain = parsed.hostname
-					if not domain:
-						raise ValueError("Invalid URL: missing hostname")
-
-					# Resolve domain via DoH (Cloudflare), with CNAME support
-					def resolve_via_doh(host: str) -> str:
-						while True:
-							q = dns.message.make_query(host, dns.rdatatype.A)
-							resp = dns.query.https(q, "https://cloudflare-dns.com/dns-query")
-							for rrset in resp.answer:
-								for rr in rrset:
-									if rr.rdtype == dns.rdatatype.A:
-										return str(rr.address)
-									elif rr.rdtype == dns.rdatatype.CNAME:
-										host = str(rr.target).rstrip('.')  # follow CNAME
-										break
-								else:
-									continue
-								break
-							else:
-								raise RuntimeError(f"Could not resolve {host} to an IPv4 address")
-
-					# Save original DNS resolver
-					_original_getaddrinfo = socket.getaddrinfo
-
-					# Patch DNS only for this domain
-					def patched_getaddrinfo(host, *args, **kwargs):
-						if host == domain:
-							ip = resolve_via_doh(host)
-							return _original_getaddrinfo(ip, *args, **kwargs)
-						return _original_getaddrinfo(host, *args, **kwargs)
-
-					# Temporarily override DNS
-					socket.getaddrinfo = patched_getaddrinfo
-					try:
-						response = httpx.get(url)
-						response.raise_for_status()
-						html_code = response.text
-						markdown_str = html2text.html2text(html_code)
-						return markdown_str
-					finally:
-						# Always restore original DNS
-						socket.getaddrinfo = _original_getaddrinfo
-
-				# Usage
-				#website = "https://scrape.do/pricing/"
-				markdown_str = fetch_with_doh(website)
-				st.write(markdown_str)
-
-				_ = """
-				#By default DoH provider will set to 'google', `cloudflare`, ... List all providers here - https://requests-doh.mansuf.link/en/stable/doh_providers.html
-				import requests
-				from requests_doh import DNSOverHTTPSSession
-
-				#Disable IPv6 in urllib3, skips AAAA records, uses IPv4 only to Solves error EAFNOSUPPORT on IPv6-disabled systems (Docker, VMs, etc.)
-				requests.packages.urllib3.util.connection.HAS_IPV6 = False
-
-				session = DNSOverHTTPSSession(provider='cloudflare-security')
-				#website = 'https://example.com/'
-				response = session.get(website, verify=False)
-				html_code = response.text
-				#st.write(html_code)            
-				markdown_str = html2text.html2text(html_code)
-				st.write(markdown_str)
-				_ = """
-
-			except Exception as e:
-				exc_type, exc_obj, exc_tb = sys.exc_info()
-				fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-				#st.write(exc_type, fname, exc_tb.tb_lineno)
-				st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")  
 
 	with st.container(border=True):   
 		st.write("## CONNECT POSTGRESSQL")
