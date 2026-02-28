@@ -551,10 +551,19 @@ asyncio.run(myfunc(display_intercept=True))
 				@flow
 				def my_flow():
 					param = 2
-					result = task_1(param)
+					# Gọi task với return_state=True để lấy trạng thái
+					state_1 = task_1(param, return_state=True)
 
-					param = result
-					task_2(param)
+					# Kiểm tra trạng thái
+					if state_1.is_completed():
+						st.write("Task 1 thành công")
+						result = state_1.result()
+					else:
+						st.write("Task 1 thất bại")
+						result = None
+
+					if result:
+						task_2(result)
 
 				my_flow()
 
