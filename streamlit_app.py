@@ -550,7 +550,7 @@ asyncio.run(myfunc(display_intercept=True))
 
 				@flow
 				def my_flow():
-					param = 2
+					param = 'nice'
 					result = task_1(param)
 
 					param = result
