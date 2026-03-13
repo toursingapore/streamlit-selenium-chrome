@@ -5,3 +5,4 @@ tightvncserver
 unzip
 wget
 screen
+openvpn
