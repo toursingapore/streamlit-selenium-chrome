@@ -564,65 +564,44 @@ asyncio.run(myfunc(display_intercept=True))
 				st.write('Hello world') 
 
 				import requests
-				import subprocess
+				import base64
 				import tempfile
+				from openvpnclient import OpenVPNClient
 
-				def get_public_ip():
-					try:
-						return requests.get("https://api.ipify.org", timeout=5).text
-					except:
-						return "Không thể lấy IP"
+				# Bước 1: Tải danh sách máy chủ từ VPNGate
+				st.write("Đang tải danh sách máy chủ...")
+				response = requests.get("http://www.vpngate.net/api/iphone/", timeout=10)
+				lines = response.text.strip().split("\n")
+				servers = [line.split(",") for line in lines if line and "@" not in line]
 
-				def connect_vpn(country="US"):
-					try:
-						st.write("Đang lấy danh sách máy chủ...")
-						response = requests.get("http://www.vpngate.net/api/iphone/", timeout=10)
-						lines = response.text.strip().split("\n")
-						servers = [line.split(",") for line in lines if line and "@" not in line]
-						
-						matched = [s for s in servers[2:] if len(s) > 6 and country.lower() in s[5].lower()]
-						if not matched:
-							st.write("Không tìm thấy máy chủ.")
-							return False
+				# Lọc máy chủ Nhật Bản (hoặc thay bằng quốc gia khác)
+				jp_servers = [s for s in servers[2:] if len(s) > 6 and "Japan" in s[5]]
+				if not jp_servers:
+					st.write("Không tìm thấy máy chủ.")
+					exit()
 
-						best = max(matched, key=lambda x: float(x[2].replace(',', '.')))
-						config = best[-1]
+				# Chọn máy chủ nhanh nhất
+				best = max(jp_servers, key=lambda x: float(x[2].replace(',', '.')))
+				config_b64 = best[-1]  # Cấu hình base64
+				config = base64.b64decode(config_b64).decode("utf-8")
 
-						with tempfile.NamedTemporaryFile(mode='w', suffix='.ovpn', delete=False) as f:
-							f.write(config)
-							f.write('\ndata-ciphers-fallback AES-128-CBC\n')  # Fix cipher lỗi
-							config_path = f.name
+				# Lưu vào file tạm
+				with tempfile.NamedTemporaryFile(mode='w', suffix='.ovpn', delete=False) as f:
+					f.write(config)
+					f.write('\ndata-ciphers-fallback AES-128-CBC\n')  # Fix lỗi cipher
+					config_path = f.name
 
-						st.write(f"Đang kết nối đến {best[5]}...")
-						st.write(f"IP trước: {get_public_ip()}")
+				st.write(f"Đã chọn máy chủ: {best[0]} - Tốc độ: {best[2]} KBps")
 
-						# Bắt lỗi chi tiết từ OpenVPN
-						result = subprocess.run(
-							["sudo", "openvpn", "--config", config_path],
-							stdout=subprocess.PIPE,
-							stderr=subprocess.PIPE,
-							text=True,
-							timeout=30
-						)
-
-						if result.returncode == 0:
-							st.write("Kết nối thành công!")
-							st.write(f"IP sau: {get_public_ip()}")
-							return True
-						else:
-							st.write("Lỗi OpenVPN:")
-							st.write(result.stderr)
-							return False
-
-					except subprocess.TimeoutExpired:
-						st.write("Kết nối bị timeout.")
-						return False
-					except Exception as e:
-						st.write(f"Lỗi hệ thống: {e}")
-						return False
-
-				# Chạy
-				connect_vpn("Japan")   
+				# Bước 2: Kết nối bằng OpenVPNClient
+				try:
+					with OpenVPNClient(config_path):
+						st.write("Đã kết nối!")
+						import requests
+						st.write("IP hiện tại:", requests.get("https://api.ipify.org").text)
+						input("Giữ kết nối... Nhấn Enter để ngắt.")  # Giữ kết nối
+				except Exception as e:
+					st.write("Lỗi kết nối:", e)   
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
