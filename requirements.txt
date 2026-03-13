@@ -8,3 +8,4 @@ sqlalchemy
 psycopg2-binary
 pcloud==1.4
 prefect==3.6.20
+nordvpn-connect
