@@ -562,14 +562,27 @@ asyncio.run(myfunc(display_intercept=True))
 		if button:
 			try:
 				st.write('Hello world') 
+
+				from openvpn_api import OpenVPN
 				import requests
-				import base64
-				import tempfile
-				import subprocess
-				import sys
-				import subprocess
-				
-				subprocess.run(["python", "vpn_connect.py"])   
+				import time
+
+				vpn = OpenVPN('127.0.0.1', 7505)
+
+				vpn.connect()
+
+				# chờ vpn connect
+				time.sleep(5)
+
+				status = vpn.get_status()
+				st.write("VPN connected clients:", status.client_list)
+
+				# check ip public
+				try:
+					ip = requests.get("https://api.ipify.org").text
+					st.write("Public IP:", ip)
+				except Exception as e:
+					st.write("Check IP error:", e)
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
