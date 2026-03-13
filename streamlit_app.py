@@ -562,8 +562,13 @@ asyncio.run(myfunc(display_intercept=True))
 		if button:
 			try:
 				st.write('Hello world') 
-
+				import requests
+				import base64
+				import tempfile
 				import subprocess
+				import sys
+				import subprocess
+				
 				subprocess.run(["python", "vpn_connect.py"])   
 
 			except Exception as e:

@@ -1,10 +1,4 @@
 # vpn_connect.py
-import requests
-import base64
-import tempfile
-import subprocess
-import sys
-
 def main(country="Japan"):
     try:
         print("Đang tải danh sách máy chủ VPNGate...")
