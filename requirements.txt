@@ -6,4 +6,5 @@ e2b-desktop
 sqlalchemy
 psycopg2-binary
 prefect==3.6.20
+openpyn
 python-openvpn-client
