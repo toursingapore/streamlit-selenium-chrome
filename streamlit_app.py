@@ -167,7 +167,7 @@ def myrun():
 				execution = desktop.commands.run("lsb_release -a")
 				st.write('Running OS: ',execution.stdout)
 
-				execution = desktop.commands.run('python3 -c "print(3 + 5)"')
+				execution = desktop.commands.run('python3 -c "st.write(3 + 5)"')
 				st.write("Python Output:", execution.stdout)
 
 				#Stream toàn bộ Linux VM
@@ -215,7 +215,7 @@ async def myfunc(display_intercept=False):
 		
 		# Define logging function for all requests
 		async def log_and_continue_request(route, request):
-			#print(f"Requesting: {{request.url}}")
+			#st.write(f"Requesting: {{request.url}}")
 			await route.continue_() 
 
 		try:
@@ -265,10 +265,10 @@ async def myfunc(display_intercept=False):
 			#await page.screenshot(path=screenshot_file)
 			
 			#await asyncio.sleep(120)
-			#print(screenshot_file)
+			#st.write(screenshot_file)
 
 		except Exception as e:
-			print(f"Error during execution: {{e}}")
+			st.write(f"Error during execution: {{e}}")
 		finally:
 			if browser:
 				#await browser.close()
@@ -566,38 +566,54 @@ asyncio.run(myfunc(display_intercept=True))
 				import requests
 				import subprocess
 				import tempfile
-				import sys
+				import time
+
+				def get_public_ip():
+					try:
+						return requests.get("https://api.ipify.org", timeout=5).text
+					except:
+						return "Không thể lấy IP"
 
 				def connect_vpn(country="US"):
 					try:
-						# Lấy dữ liệu máy chủ
-						data = requests.get("http://www.vpngate.net/api/iphone/").text
-						lines = data.split("\n")
+						st.write("Đang lấy danh sách máy chủ...")
+						response = requests.get("http://www.vpngate.net/api/iphone/", timeout=10)
+						lines = response.text.strip().split("\n")
 						servers = [line.split(",") for line in lines if line and "@" not in line]
-
-						# Tìm máy chủ theo quốc gia
-						matched = [s for s in servers[2:] if len(s) > 1 and country.lower() in s[5].lower()]
+						
+						# Lọc máy chủ theo quốc gia
+						matched = [s for s in servers[2:] if len(s) > 6 and country.lower() in s[5].lower()]
 						if not matched:
-							st.write("Không tìm thấy máy chủ")
-							return
+							st.write("Không tìm thấy máy chủ cho quốc gia này.")
+							return False
 
-						# Chọn máy chủ tốt nhất (dựa trên tốc độ)
-						best = sorted(matched, key=lambda x: float(x[2].replace(',', '.')), reverse=True)[0]
-						config = best[-1]  # OpenVPN config (base64)
+						# Chọn máy chủ có tốc độ cao nhất
+						best = max(matched, key=lambda x: float(x[2].replace(',', '.')))
+						config = best[-1]  # Cấu hình OpenVPN (base64)
 
 						# Lưu cấu hình tạm
 						with tempfile.NamedTemporaryFile(mode='w', suffix='.ovpn', delete=False) as f:
 							f.write(config)
 							config_path = f.name
 
-						st.write(f"Kết nối đến {best[5]}...")
-						subprocess.run(["sudo", "openvpn", "--config", config_path])
+						st.write(f"Đang kết nối đến {best[5]} (Tốc độ: {best[2]} MBps)...")
+						st.write(f"IP trước: {get_public_ip()}")
+
+						# Kết nối bằng OpenVPN
+						subprocess.run(["sudo", "openvpn", "--config", config_path], check=True)
+						return True
 
 					except Exception as e:
 						st.write(f"Lỗi: {e}")
+						return False
 
-				# Gọi hàm
-				connect_vpn("Japan")   
+				# Chạy script
+				if connect_vpn("Japan"):
+					st.write("Kết nối thành công!")
+					time.sleep(2)
+					st.write(f"IP sau: {get_public_ip()}")
+				else:
+					st.write("Kết nối thất bại.")    
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
