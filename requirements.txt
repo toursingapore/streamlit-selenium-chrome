@@ -3,7 +3,6 @@ pyngrok==7.4.1
 html2text==2025.4.15
 beautifulsoup4==4.14.2
 e2b-desktop==2.0.1
-requests==2.32.3
 sqlalchemy
 psycopg2-binary
 pcloud==1.4
