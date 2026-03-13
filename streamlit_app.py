@@ -674,6 +674,18 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world') 
 
+				from nordvpn_connect import initialize_vpn, rotate_VPN, close_vpn_connection
+
+				# optional, use this on Linux and if you are not logged in when using nordvpn command
+
+				settings = initialize_vpn("France")  # starts nordvpn and stuff
+				rotate_VPN(settings)  # actually connect to server
+
+				# YOUR STUFF
+				st.write('hello worlds')
+
+				close_vpn_connection(settings)
+
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
 				fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
