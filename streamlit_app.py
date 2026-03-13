@@ -563,7 +563,32 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world') 
 
+				import os
+				import time
+				import requests
 
+				def connect_random():
+					os.system("protonvpn-cli c -r")
+
+				def disconnect():
+					os.system("protonvpn-cli d")
+
+				def get_ip():
+					return requests.get("https://api.ipify.org").text
+
+				for i in range(5):
+
+					disconnect()
+					time.sleep(3)
+
+					connect_random()
+					time.sleep(8)
+
+					st.write("New IP:", get_ip())
+
+					# chạy crawler
+					r = requests.get("https://httpbin.org/ip")
+					st.write(r.text)
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
