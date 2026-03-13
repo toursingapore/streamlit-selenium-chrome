@@ -566,7 +566,6 @@ asyncio.run(myfunc(display_intercept=True))
 				import requests
 				import subprocess
 				import tempfile
-				import time
 
 				def get_public_ip():
 					try:
@@ -581,39 +580,49 @@ asyncio.run(myfunc(display_intercept=True))
 						lines = response.text.strip().split("\n")
 						servers = [line.split(",") for line in lines if line and "@" not in line]
 						
-						# Lọc máy chủ theo quốc gia
 						matched = [s for s in servers[2:] if len(s) > 6 and country.lower() in s[5].lower()]
 						if not matched:
-							st.write("Không tìm thấy máy chủ cho quốc gia này.")
+							st.write("Không tìm thấy máy chủ.")
 							return False
 
-						# Chọn máy chủ có tốc độ cao nhất
 						best = max(matched, key=lambda x: float(x[2].replace(',', '.')))
-						config = best[-1]  # Cấu hình OpenVPN (base64)
+						config = best[-1]
 
-						# Lưu cấu hình tạm
 						with tempfile.NamedTemporaryFile(mode='w', suffix='.ovpn', delete=False) as f:
 							f.write(config)
+							f.write('\ndata-ciphers-fallback AES-128-CBC\n')  # Fix cipher lỗi
 							config_path = f.name
 
-						st.write(f"Đang kết nối đến {best[5]} (Tốc độ: {best[2]} MBps)...")
+						st.write(f"Đang kết nối đến {best[5]}...")
 						st.write(f"IP trước: {get_public_ip()}")
 
-						# Kết nối bằng OpenVPN
-						subprocess.run(["sudo", "openvpn", "--config", config_path], check=True)
-						return True
+						# Bắt lỗi chi tiết từ OpenVPN
+						result = subprocess.run(
+							["sudo", "openvpn", "--config", config_path],
+							stdout=subprocess.PIPE,
+							stderr=subprocess.PIPE,
+							text=True,
+							timeout=30
+						)
 
+						if result.returncode == 0:
+							st.write("Kết nối thành công!")
+							st.write(f"IP sau: {get_public_ip()}")
+							return True
+						else:
+							st.write("Lỗi OpenVPN:")
+							st.write(result.stderr)
+							return False
+
+					except subprocess.TimeoutExpired:
+						st.write("Kết nối bị timeout.")
+						return False
 					except Exception as e:
-						st.write(f"Lỗi: {e}")
+						st.write(f"Lỗi hệ thống: {e}")
 						return False
 
-				# Chạy script
-				if connect_vpn("Japan"):
-					st.write("Kết nối thành công!")
-					time.sleep(2)
-					st.write(f"IP sau: {get_public_ip()}")
-				else:
-					st.write("Kết nối thất bại.")    
+				# Chạy
+				connect_vpn("Japan")   
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
