@@ -1,5 +1,7 @@
 streamlit==1.41.1
 pyngrok==7.4.1
+requests
+openvpn-api
 html2text==2025.4.15
 beautifulsoup4
 e2b-desktop
