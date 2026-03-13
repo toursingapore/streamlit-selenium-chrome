@@ -563,51 +563,8 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world') 
 
-				import requests
-				import base64
-				import tempfile
-				from openvpnclient import OpenVPNClient
-
-				import shutil
-
-				if not shutil.which("openvpn"):
-					raise RuntimeError("OpenVPN chưa được cài đặt. Dùng: sudo apt install openvpn")   
-
-
-				# Bước 1: Tải danh sách máy chủ từ VPNGate
-				st.write("Đang tải danh sách máy chủ...")
-				response = requests.get("http://www.vpngate.net/api/iphone/", timeout=10)
-				lines = response.text.strip().split("\n")
-				servers = [line.split(",") for line in lines if line and "@" not in line]
-
-				# Lọc máy chủ Nhật Bản (hoặc thay bằng quốc gia khác)
-				jp_servers = [s for s in servers[2:] if len(s) > 6 and "Japan" in s[5]]
-				if not jp_servers:
-					st.write("Không tìm thấy máy chủ.")
-					exit()
-
-				# Chọn máy chủ nhanh nhất
-				best = max(jp_servers, key=lambda x: float(x[2].replace(',', '.')))
-				config_b64 = best[-1]  # Cấu hình base64
-				config = base64.b64decode(config_b64).decode("utf-8")
-
-				# Lưu vào file tạm
-				with tempfile.NamedTemporaryFile(mode='w', suffix='.ovpn', delete=False) as f:
-					f.write(config)
-					f.write('\ndata-ciphers-fallback AES-128-CBC\n')  # Fix lỗi cipher
-					config_path = f.name
-
-				st.write(f"Đã chọn máy chủ: {best[0]} - Tốc độ: {best[2]} KBps")
-
-				# Bước 2: Kết nối bằng OpenVPNClient
-				try:
-					with OpenVPNClient(config_path):
-						st.write("Đã kết nối!")
-						import requests
-						st.write("IP hiện tại:", requests.get("https://api.ipify.org").text)
-						input("Giữ kết nối... Nhấn Enter để ngắt.")  # Giữ kết nối
-				except Exception as e:
-					st.write("Lỗi kết nối:", e)   
+				import subprocess
+				subprocess.run(["python", "vpn_connect.py"])   
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
