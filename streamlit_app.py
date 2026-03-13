@@ -568,6 +568,12 @@ asyncio.run(myfunc(display_intercept=True))
 				import tempfile
 				from openvpnclient import OpenVPNClient
 
+				import shutil
+
+				if not shutil.which("openvpn"):
+					raise RuntimeError("OpenVPN chưa được cài đặt. Dùng: sudo apt install openvpn")   
+
+
 				# Bước 1: Tải danh sách máy chủ từ VPNGate
 				st.write("Đang tải danh sách máy chủ...")
 				response = requests.get("http://www.vpngate.net/api/iphone/", timeout=10)
