@@ -563,29 +563,12 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world') 
 
-				from openvpn_api import VPN
-				import requests
-				import time
-
-				VPN_HOST = "127.0.0.1"
-				VPN_PORT = 7505
-
-				vpn = VPN(VPN_HOST, VPN_PORT)
-
-				try:
-					vpn.connect()
-					print("Connected to OpenVPN management")
-
-					time.sleep(3)
-
-					ip = requests.get("https://api.ipify.org", timeout=10).text
-					print("VPN Public IP:", ip)
-
-					status = vpn.get_status()
-					print("Clients:", status.client_list)
-
-				finally:
-					vpn.disconnect()
+				import openvpn_api.VPN
+				v = openvpn_api.VPN('localhost', 7505)
+				v.connect()
+				# Do some stuff, e.g.
+				st.write(v.release)
+				v.disconnect()
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
