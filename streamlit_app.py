@@ -563,12 +563,22 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world') 
 
-				import os
+				import subprocess
+				import time
+				import requests
 
-				username = "ahai72160@gmail.com"
-				password = "N;aCZ&.H(p!rfsRU"
+				def rotate_ip():
+					subprocess.run(["protonvpn-cli", "d"])
+					time.sleep(3)
+					subprocess.run(["protonvpn-cli", "c", "-r"])
+					time.sleep(7)
 
-				os.system(f'echo "{password}" | protonvpn-cli login {username}')
+				def get_ip():
+					return requests.get("https://api.ipify.org").text
+
+				for i in range(3):
+					rotate_ip()
+					st.write("New IP:", get_ip())
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
