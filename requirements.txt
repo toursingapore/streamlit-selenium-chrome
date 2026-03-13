@@ -6,4 +6,4 @@ e2b-desktop
 sqlalchemy
 psycopg2-binary
 prefect==3.6.20
-nordvpn-connect
+protonvpn-cli
