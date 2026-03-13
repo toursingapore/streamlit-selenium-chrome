@@ -563,22 +563,41 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world') 
 
-				import subprocess
-				import time
 				import requests
+				import subprocess
+				import tempfile
+				import sys
 
-				def rotate_ip():
-					subprocess.run(["protonvpn-cli", "d"])
-					time.sleep(3)
-					subprocess.run(["protonvpn-cli", "c", "-r"])
-					time.sleep(7)
+				def connect_vpn(country="US"):
+					try:
+						# Lấy dữ liệu máy chủ
+						data = requests.get("http://www.vpngate.net/api/iphone/").text
+						lines = data.split("\n")
+						servers = [line.split(",") for line in lines if line and "@" not in line]
 
-				def get_ip():
-					return requests.get("https://api.ipify.org").text
+						# Tìm máy chủ theo quốc gia
+						matched = [s for s in servers[2:] if len(s) > 1 and country.lower() in s[5].lower()]
+						if not matched:
+							st.write("Không tìm thấy máy chủ")
+							return
 
-				for i in range(3):
-					rotate_ip()
-					st.write("New IP:", get_ip())
+						# Chọn máy chủ tốt nhất (dựa trên tốc độ)
+						best = sorted(matched, key=lambda x: float(x[2].replace(',', '.')), reverse=True)[0]
+						config = best[-1]  # OpenVPN config (base64)
+
+						# Lưu cấu hình tạm
+						with tempfile.NamedTemporaryFile(mode='w', suffix='.ovpn', delete=False) as f:
+							f.write(config)
+							config_path = f.name
+
+						st.write(f"Kết nối đến {best[5]}...")
+						subprocess.run(["sudo", "openvpn", "--config", config_path])
+
+					except Exception as e:
+						st.write(f"Lỗi: {e}")
+
+				# Gọi hàm
+				connect_vpn("Japan")   
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
