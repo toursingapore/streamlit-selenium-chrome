@@ -422,13 +422,6 @@ asyncio.run(myfunc(display_intercept=True))
 	with st.container(border=True):   
 		st.write("## YOUTUBE VIEW")
 
-		st.info("""
-			YouTube tính view khi người xem video thông qua YouTube Official Embed Player, nhưng phải đáp ứng các điều kiện sau:
-			+ Người xem phải chủ động nhấn nút phát (play) được nhận diện là embedded view, không phải tự động phát (autoplay). 
-			+ Video phải được xem ít nhất khoảng 30 giây. 
-			+ Không đến từ bot, proxy, hoặc các nguồn không hợp lệ.
-			+ Không phải là lượt xem lặp lại quá nhiều lần từ cùng một người trong thời gian ngắn (YouTube giới hạn khoảng 4-5 lượt xem mỗi ngày từ một người).
-		""")  
 		user_input = st.text_area("Enter URL of YouTube video", value='https://www.youtube.com/watch?v=zo-DreoLioM\nhttps://www.youtube.com/watch?v=r-XPZMk1ypM', height=200)
 		#Append keywords to array and remove whitespace dư, empty line 
 		user_input_arr = [line.strip() for line in user_input.split('\n') if line.strip()]  
