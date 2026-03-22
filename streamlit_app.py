@@ -135,6 +135,45 @@ def myrun():
 	)
 
 	with st.container(border=True):   
+		st.write("## YOUTUBE VIEW")
+
+		user_input = st.text_area("Enter URL of YouTube video", value='https://www.youtube.com/watch?v=zo-DreoLioM\nhttps://www.youtube.com/watch?v=r-XPZMk1ypM', height=200)
+		#Append keywords to array and remove whitespace dư, empty line 
+		user_input_arr = [line.strip() for line in user_input.split('\n') if line.strip()]  
+
+		button = st.button("SUBMIT", type="primary" , key="24dfdlk5vb235")
+		if button:
+			for user_input in user_input_arr:
+				try:			
+					#C1; view youtube embeded video
+					if 'youtube.com' in user_input:
+						st.write('> view video youtube url directly')
+						youtube_video_url = user_input
+						if 'shorts' in youtube_video_url or 'live' in youtube_video_url:
+							x = youtube_video_url.split("/")
+							video_id = x[-1]
+							st.write(f'Shorts videoID: {video_id}')
+						else:
+							x = youtube_video_url.split("=")
+							video_id = x[1]
+							st.write(f'videoID: {video_id}')
+
+						#embed_url = f"https://www.youtube.com/embed/{video_id}?autoplay=1" #autoplay ko tính view
+						embed_url = f"https://www.youtube.com/embed/{video_id}"
+						st.components.v1.iframe(embed_url,height=500)
+					else:
+						#C1; view mp4 url directly
+						st.write('> view mp4 url directly')
+						mp4_url = user_input
+						st.video(mp4_url)
+					st.write("---")					
+				except Exception as e:
+					exc_type, exc_obj, exc_tb = sys.exc_info()
+					fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+					#st.write(exc_type, fname, exc_tb.tb_lineno)
+					st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")   
+
+	with st.container(border=True):   
 		st.write("## WEB SCRAPER")
 
 		website = st.text_input("Enter your website to crawl", value="https://www.browserscan.net/bot-detection")
@@ -418,45 +457,6 @@ asyncio.run(myfunc(display_intercept=True))
 				fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 				#st.write(exc_type, fname, exc_tb.tb_lineno)
 				st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")   
-
-	with st.container(border=True):   
-		st.write("## YOUTUBE VIEW")
-
-		user_input = st.text_area("Enter URL of YouTube video", value='https://www.youtube.com/watch?v=zo-DreoLioM\nhttps://www.youtube.com/watch?v=r-XPZMk1ypM', height=200)
-		#Append keywords to array and remove whitespace dư, empty line 
-		user_input_arr = [line.strip() for line in user_input.split('\n') if line.strip()]  
-
-		button = st.button("SUBMIT", type="primary" , key="24dfdlk5vb235")
-		if button:
-			for user_input in user_input_arr:
-				try:			
-					#C1; view youtube embeded video
-					if 'youtube.com' in user_input:
-						st.write('> view video youtube url directly')
-						youtube_video_url = user_input
-						if 'shorts' in youtube_video_url or 'live' in youtube_video_url:
-							x = youtube_video_url.split("/")
-							video_id = x[-1]
-							st.write(f'Shorts videoID: {video_id}')
-						else:
-							x = youtube_video_url.split("=")
-							video_id = x[1]
-							st.write(f'videoID: {video_id}')
-
-						#embed_url = f"https://www.youtube.com/embed/{video_id}?autoplay=1" #autoplay ko tính view
-						embed_url = f"https://www.youtube.com/embed/{video_id}"
-						st.components.v1.iframe(embed_url,height=500)
-					else:
-						#C1; view mp4 url directly
-						st.write('> view mp4 url directly')
-						mp4_url = user_input
-						st.video(mp4_url)
-					st.write("---")					
-				except Exception as e:
-					exc_type, exc_obj, exc_tb = sys.exc_info()
-					fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-					#st.write(exc_type, fname, exc_tb.tb_lineno)
-					st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")   
 
 	with st.container(border=True):   
 		st.write("## PYTHON WORKFLOW PIPELINES")
