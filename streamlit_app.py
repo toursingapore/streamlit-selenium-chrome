@@ -430,7 +430,28 @@ asyncio.run(myfunc(display_intercept=True))
 		if button:
 			for user_input in user_input_arr:
 				try:			
-					st.write(user_input) 
+					#C1; view youtube embeded video
+					if 'youtube.com' in user_input:
+						st.write('> view video youtube url directly')
+						youtube_video_url = user_input
+						if 'shorts' in youtube_video_url or 'live' in youtube_video_url:
+							x = youtube_video_url.split("/")
+							video_id = x[-1]
+							st.write(f'Shorts videoID: {video_id}')
+						else:
+							x = youtube_video_url.split("=")
+							video_id = x[1]
+							st.write(f'videoID: {video_id}')
+
+						#embed_url = f"https://www.youtube.com/embed/{video_id}?autoplay=1" #autoplay ko tính view
+						embed_url = f"https://www.youtube.com/embed/{video_id}"
+						st.components.v1.iframe(embed_url,height=500)
+					else:
+						#C1; view mp4 url directly
+						st.write('> view mp4 url directly')
+						mp4_url = user_input
+						st.video(mp4_url)
+					st.write("---")					
 				except Exception as e:
 					exc_type, exc_obj, exc_tb = sys.exc_info()
 					fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
