@@ -423,7 +423,7 @@ asyncio.run(myfunc(display_intercept=True))
 		st.write("## YOUTUBE VIEW")
 
 		st.info("""
-			YouTube tính view khi người xem xem video thông qua YouTube Official Embed Player, nhưng phải đáp ứng các điều kiện sau:
+			YouTube tính view khi người xem video thông qua YouTube Official Embed Player, nhưng phải đáp ứng các điều kiện sau:
 			+ Người xem phải chủ động nhấn nút phát (play) được nhận diện là embedded view, không phải tự động phát (autoplay). 
 			+ Video phải được xem ít nhất khoảng 30 giây. 
 			+ Không đến từ bot, proxy, hoặc các nguồn không hợp lệ.
