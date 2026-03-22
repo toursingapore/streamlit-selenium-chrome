@@ -422,15 +422,20 @@ asyncio.run(myfunc(display_intercept=True))
 	with st.container(border=True):   
 		st.write("## YOUTUBE VIEW")
 
+		user_input = st.text_area("Enter URL of YouTube video", value='https://www.youtube.com/watch?v=zo-DreoLioM\nhttps://www.youtube.com/watch?v=r-XPZMk1ypM', height=200)
+		#Append keywords to array and remove whitespace dư, empty line 
+		user_input_arr = [line.strip() for line in user_input.split('\n') if line.strip()]  
+
 		button = st.button("SUBMIT", type="primary" , key="24dfdlk5vb235")
 		if button:
-			try:
-				st.write('Hello world') 
-			except Exception as e:
-				exc_type, exc_obj, exc_tb = sys.exc_info()
-				fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-				#st.write(exc_type, fname, exc_tb.tb_lineno)
-				st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")   
+			for user_input in user_input_arr:
+				try:			
+					st.write(user_input) 
+				except Exception as e:
+					exc_type, exc_obj, exc_tb = sys.exc_info()
+					fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+					#st.write(exc_type, fname, exc_tb.tb_lineno)
+					st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")   
 
 	with st.container(border=True):   
 		st.write("## PYTHON WORKFLOW PIPELINES")
