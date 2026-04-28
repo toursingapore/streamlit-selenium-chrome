@@ -590,11 +590,6 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world')
 
-				prompt = 'are you gpt4'
-				reply = chatbot_vision_by_groq(prompt)
-				st.write(reply)
-				st.write(heoquay)
-
 				@task(retries=1, retry_delay_seconds=5, timeout_seconds=300)
 				def task_1(param):
 					st.write("Run task 1 already")
