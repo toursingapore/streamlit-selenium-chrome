@@ -133,23 +133,16 @@ def chatbot_vision_by_groq(
 		if not GROQ_API_KEY:
 			raise ValueError("Missing GROQ_API_KEY environment variable")
 
-		# =========================
-		# HANDLE IMAGE (OPTIONAL)
-		# =========================
 		base64_image = None
 		if image_path:
 			base64_image = Convert_image_local_path_toBase64(image_path)
 
-		# =========================
-		# BUILD MESSAGE
-		# =========================
 		user_content = [
 			{
 				"type": "text",
 				"text": prompt
 			}
 		]
-
 		if base64_image:
 			user_content.append({
 				"type": "image_url",
@@ -157,7 +150,6 @@ def chatbot_vision_by_groq(
 					"url": f"data:image/jpeg;base64,{base64_image}"
 				}
 			})
-
 		payload = {
 			"model": model,
 			"messages": [
@@ -175,35 +167,22 @@ def chatbot_vision_by_groq(
 			"top_p": 1.0,
 			"stream": False
 		}
-
 		headers = {
 			"Authorization": f"Bearer {GROQ_API_KEY}",
 			"Content-Type": "application/json"
 		}
-
-		# =========================
-		# CALL API
-		# =========================
 		response = requests.post(
 			"https://api.groq.com/openai/v1/chat/completions",
 			headers=headers,
 			json=payload,
 			timeout=60
 		)
-
-		# =========================
-		# HANDLE RESPONSE
-		# =========================
 		if response.status_code != 200:
 			return f"API Error {response.status_code}: {response.text}"
-
 		data = response.json()
-
 		if "choices" not in data:
 			return f"Invalid response: {data}"
-
 		return data["choices"][0]["message"]["content"]
-
 	except Exception as e:
 		exc_type, exc_obj, exc_tb = sys.exc_info()
 		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
