@@ -571,6 +571,7 @@ asyncio.run(myfunc(display_intercept=True))
 							fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 							reply = f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}"
 							await message.channel.send(str(reply))
+							await bot.close()
 
 					# Đảm bảo on_message không chặn các lệnh
 					await bot.process_commands(message)								
