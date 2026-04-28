@@ -466,7 +466,6 @@ asyncio.run(myfunc(display_intercept=True))
 				st.write("Started Discord Bot in background.")
 
 				DISCORD_TOKEN = st.secrets["DISCORD_TOKEN"]
-				st.write('DISCORD_TOKEN - ',DISCORD_TOKEN)
 
 				import discord
 				from discord.ext import commands

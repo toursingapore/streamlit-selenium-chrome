@@ -8,3 +8,4 @@ e2b-desktop
 sqlalchemy
 psycopg2-binary
 prefect==3.6.20
+discord.py==2.7.1
