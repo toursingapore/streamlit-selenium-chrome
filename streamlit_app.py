@@ -597,7 +597,7 @@ asyncio.run(myfunc(display_intercept=True))
 
 				@bot.command()
 				@commands.has_permissions(manage_messages=True)
-				async def clear(ctx, amount: int = 10): #!clear 5 → xóa 5 tin nhắn gần nhất
+				async def clear(ctx, amount: int = 10): #!clear 5 → xóa 5 tin nhắn gần nhất 
 					try:
 						if amount <= 0:
 							await ctx.send("❌ Số lượng phải > 0")
