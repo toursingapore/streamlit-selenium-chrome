@@ -586,6 +586,26 @@ asyncio.run(myfunc(display_intercept=True))
 				async def ping(ctx):
 					await ctx.send("Pong!")
 
+				@bot.command()
+				@commands.has_permissions(manage_messages=True)
+				async def clear(ctx, amount: int = 10): #!clear 5 → xóa 5 tin nhắn gần nhất
+					try:
+						if amount <= 0:
+							await ctx.send("❌ Số lượng phải > 0")
+							return
+
+						# Giới hạn Discord: tối đa 100/lần
+						amount = min(amount, 100)
+
+						deleted = await ctx.channel.purge(limit=amount + 1)  # +1 để xóa luôn lệnh !clear
+
+						msg = await ctx.send(f"🧹 Đã xóa {len(deleted)-1} tin nhắn")
+						await asyncio.sleep(3)
+						await msg.delete()
+
+					except Exception as e:
+						await ctx.send(f"❌ Error: {e}")
+
 				# Chạy bot với token của bạn
 				bot.run(DISCORD_TOKEN)
 
