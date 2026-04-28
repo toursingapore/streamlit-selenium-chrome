@@ -564,25 +564,25 @@ asyncio.run(myfunc(display_intercept=True))
 
 				@bot.event
 				async def on_message(message):
-					# Nếu bot tự trả lời tin nhắn của chính mình, tránh vòng lặp vô tận 
 					if message.author == bot.user:
 						return
 
-					# Phản hồi tin nhắn với nội dung được gửi từ người dùng
+					# BỎ QUA nếu là command (bắt đầu bằng prefix '!')
+					if message.content.startswith(bot.command_prefix):
+						await bot.process_commands(message)
+						return
+
 					if message.content:
 						try:
-							#reply = f"Received message from {message.author}: {message.content}"
 							prompt = message.content
 							reply = chatbot_vision_by_groq(prompt)
 							await message.channel.send(str(reply))
 						except Exception as e:
 							exc_type, exc_obj, exc_tb = sys.exc_info()
 							fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-							reply = f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}"
+							reply = f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}" 
 							await message.channel.send(str(reply))
-
-					# Đảm bảo on_message không chặn các lệnh
-					await bot.process_commands(message)								
+					await bot.process_commands(message)							
 
 				@bot.command()
 				#Định nghĩa command theo function name là ping và prefix là '!', thì client PHẢI gõ '!ping'
