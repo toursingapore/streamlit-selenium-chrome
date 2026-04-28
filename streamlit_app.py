@@ -111,6 +111,73 @@ def delete_files_in_temp_folder(defaultFolder='/tmp', Filename_extension='jpg'):
 	for f in glob.glob(f'{defaultFolder}/*.{Filename_extension}'):
 		os.remove(f)  
 
+def chatbot_vision_by_groq(prompt, image_path=False, model='meta-llama/llama-4-scout-17b-16e-instruct'):
+	try:
+		GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+		base64_image = Convert_image_local_path_toBase64(image_path)
+		headers = {
+			'Content-Type': 'application/json',
+			"Authorization": f"Bearer {GROQ_API_KEY}"
+		}
+		system_prompt = f"You are a best expert in topic {prompt}. You can analyze the most details, full and accurate all thing in the image."
+		if base64_image:
+			json_data = {
+				"messages": [
+					{'role': 'system','content': system_prompt},
+					{"role": "assistant","content": "Always respond the same user languague."},
+					{
+						"role": "user",
+						"content": [
+							{
+								"type": "text",
+								"text": prompt
+							},
+							{
+								"type": "image_url",
+								"image_url": {"url": f"data:image/jpeg;base64,{base64_image}"},
+							},
+						]
+					}
+				],
+				'model': model,
+				'temperature': 1.0,
+				'max_completion_tokens': 1024,
+				'top_p': 1.0,
+				'stream': False,
+				'stop': None
+			}
+		else:
+			json_data = {
+				"messages": [
+					{'role': 'system','content': system_prompt},
+					{"role": "assistant","content": "Always respond the same user languague."},
+					{
+						"role": "user",
+						"content": [
+							{
+								"type": "text",
+								"text": prompt
+							},
+						]
+					}
+				],
+				'model': model,
+				'temperature': 1.0,
+				'max_completion_tokens': 1024,
+				'top_p': 1.0,
+				'stream': False,
+				'stop': None
+			}
+		response = requests.post('https://api.groq.com/openai/v1/chat/completions', headers=headers, json=json_data)
+		#st.write(response.json())
+		result = response.json()["choices"][0]['message']["content"]
+		return result
+	except Exception as e:
+		exc_type, exc_obj, exc_tb = sys.exc_info()
+		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+		st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")
+		return False
+
 
 
 
@@ -492,7 +559,7 @@ asyncio.run(myfunc(display_intercept=True))
 						try:
 							#reply = f"Received message from {message.author}: {message.content}"
 							prompt = message.content
-							reply = chatbot_nvidia_func(prompt, model='qwen/qwen3-next-80b-a3b-instruct')
+							reply = chatbot_vision_by_groq(prompt, image_path=False)
 							await message.channel.send(str(reply))
 						except Exception as e:
 							exc_type, exc_obj, exc_tb = sys.exc_info()
