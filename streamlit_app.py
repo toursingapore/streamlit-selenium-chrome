@@ -590,6 +590,12 @@ asyncio.run(myfunc(display_intercept=True))
 					await ctx.send("Pong!")
 
 				@bot.command()
+				@commands.is_owner()
+				async def shutdown(ctx): #!shutdown
+					await ctx.send('Shutting down...')
+					await bot.close()
+
+				@bot.command()
 				@commands.has_permissions(manage_messages=True)
 				async def clear(ctx, amount: int = 10): #!clear 5 → xóa 5 tin nhắn gần nhất
 					try:
