@@ -591,7 +591,7 @@ asyncio.run(myfunc(display_intercept=True))
 
 				@bot.command()
 				@commands.is_owner()
-				async def shutdown(ctx): # !shutdown -> wait about 2 mii to turn off bot discord và stop in background đây luôn
+				async def shutdown(ctx): # !shutdown -> wait about 2 min to turn off bot discord và stop in background đây luôn
 					await ctx.send('Shutting down...')
 					await bot.close()
 
