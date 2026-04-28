@@ -591,7 +591,7 @@ asyncio.run(myfunc(display_intercept=True))
 
 				@bot.command()
 				@commands.is_owner()
-				async def shutdown(ctx): #!shutdown
+				async def shutdown(ctx): # !shutdown
 					await ctx.send('Shutting down...')
 					await bot.close()
 
