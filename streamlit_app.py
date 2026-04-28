@@ -463,7 +463,7 @@ asyncio.run(myfunc(display_intercept=True))
 		button = st.button("SUBMIT", type="primary" , key="24dfdasb235")
 		if button:
 			try:
-				st.write('Hello world')
+				st.write("Started Discord Bot in background.")
 
 				DISCORD_TOKEN = st.secrets["DISCORD_TOKEN"]
 				st.write('DISCORD_TOKEN - ',DISCORD_TOKEN)
