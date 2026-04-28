@@ -111,6 +111,11 @@ def delete_files_in_temp_folder(defaultFolder='/tmp', Filename_extension='jpg'):
 	for f in glob.glob(f'{defaultFolder}/*.{Filename_extension}'):
 		os.remove(f)  
 
+def Convert_image_local_path_toBase64(image_path):
+	with open(os.path.abspath(image_path), 'rb') as image_file:
+		image_b64 = base64.b64encode(image_file.read()).decode('utf-8')
+		return image_b64
+
 def chatbot_vision_by_groq(prompt, image_path=False, model='meta-llama/llama-4-scout-17b-16e-instruct'):
 	try:
 		GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
