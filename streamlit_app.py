@@ -489,10 +489,16 @@ asyncio.run(myfunc(display_intercept=True))
 
 					# Phản hồi tin nhắn với nội dung được gửi từ người dùng
 					if message.content:
-						#reply = f"Received message from {message.author}: {message.content}"
-						prompt = message.content
-						reply = chatbot_nvidia_func(prompt, model='qwen/qwen3-next-80b-a3b-instruct')
-						await message.channel.send(str(reply))
+						try:
+							#reply = f"Received message from {message.author}: {message.content}"
+							prompt = message.content
+							reply = chatbot_nvidia_func(prompt, model='qwen/qwen3-next-80b-a3b-instruct')
+							await message.channel.send(str(reply))
+						except Exception as e:
+							exc_type, exc_obj, exc_tb = sys.exc_info()
+							fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+							reply = f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}"
+							await message.channel.send(str(reply))
 
 					# Đảm bảo on_message không chặn các lệnh
 					await bot.process_commands(message)								
