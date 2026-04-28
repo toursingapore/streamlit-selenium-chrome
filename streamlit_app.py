@@ -464,7 +464,48 @@ asyncio.run(myfunc(display_intercept=True))
 		if button:
 			try:
 				st.write('Hello world')
-				
+
+				DISCORD_TOKEN = st.secrets["DISCORD_TOKEN"]
+				st.write('DISCORD_TOKEN - ',DISCORD_TOKEN)
+
+				import discord
+				from discord.ext import commands
+
+				# Khởi tạo client bot với intents
+				intents = discord.Intents.default()
+				intents.typing = False # False: bot sẽ bỏ sự kiện khi user đang gõ tin nhắn (on_typing)
+				intents.presences = False # Ignore check trạng thái bot
+				intents.message_content = True # Cho phép bot đọc nội dung tin nhắn. Bạn phải bật trong Discord Developer Portal: Bot → Privileged Gateway Intents → bật "Message Content Intent"
+				bot = commands.Bot(command_prefix="!", intents=intents)
+
+				@bot.event
+				async def on_ready():
+					print(f"Bot đã đăng nhập: {bot.user}")								
+
+				@bot.event
+				async def on_message(message):
+					# Nếu bot tự trả lời tin nhắn của chính mình, tránh vòng lặp vô tận 
+					if message.author == bot.user:
+						return
+
+					# Phản hồi tin nhắn với nội dung được gửi từ người dùng
+					if message.content:
+						#reply = f"Received message from {message.author}: {message.content}"
+						prompt = message.content
+						reply = chatbot_nvidia_func(prompt, model='qwen/qwen3-next-80b-a3b-instruct')
+						await message.channel.send(str(reply))
+
+					# Đảm bảo on_message không chặn các lệnh
+					await bot.process_commands(message)								
+
+				@bot.command()
+				#Định nghĩa command theo function name là ping LÀ prefix là '!', thì client PHẢI gõ  '!ping' thì mới nhận được phản hồi
+				async def ping(ctx):
+					await ctx.send("Pong!")
+
+				# Chạy bot với token của bạn
+				bot.run(DISCORD_TOKEN)
+
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
 				fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
