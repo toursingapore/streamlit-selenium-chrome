@@ -564,7 +564,7 @@ asyncio.run(myfunc(display_intercept=True))
 						try:
 							#reply = f"Received message from {message.author}: {message.content}"
 							prompt = message.content
-							reply = chatbot_vision_by_groq(prompt, image_path=False)
+							reply = chatbot_vision_by_groq(prompt)
 							await message.channel.send(str(reply))
 						except Exception as e:
 							exc_type, exc_obj, exc_tb = sys.exc_info()
