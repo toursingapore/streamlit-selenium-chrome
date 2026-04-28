@@ -6,6 +6,8 @@ import html2text
 import requests
 from typing import Any, Dict, List, Optional, Type, Union, Callable
 from concurrent.futures import ThreadPoolExecutor
+import base64
+from base64 import b64encode
 
 from prefect import task, flow
 from prefect.schedules import Cron
