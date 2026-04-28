@@ -1,4 +1,6 @@
 streamlit==1.41.1
+nest-asyncio==1.6.0
+asyncio==4.0.0
 pyngrok==7.4.1
 requests
 openvpn-api

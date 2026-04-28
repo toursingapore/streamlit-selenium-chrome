@@ -9,6 +9,9 @@ from concurrent.futures import ThreadPoolExecutor
 import os
 import base64
 from base64 import b64encode
+import asyncio
+import nest_asyncio
+nest_asyncio.apply() #Enable asyncio in the main thread and Run the asynchronous function
 
 from prefect import task, flow
 from prefect.schedules import Cron
