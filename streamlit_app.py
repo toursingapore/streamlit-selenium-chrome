@@ -124,6 +124,7 @@ def myrun():
 		#Navigate to element in current page
 		st.markdown(f"<a href='#youtube-view'>YOUTUBE VIEW</a>", unsafe_allow_html=True)
 		st.markdown(f"<a href='#web-scraper'>WEB SCRAPER</a>", unsafe_allow_html=True)
+		st.markdown(f"<a href='#discord-bot'>DISCORD BOT</a>", unsafe_allow_html=True)
 		st.markdown(f"<a href='#python-workflow-pipelines'>PYTHON WORKFLOW PIPELINES</a>", unsafe_allow_html=True)
 		st.markdown(f"<a href='#connect-postgressql'>CONNECT POSTGRESSQL</a>", unsafe_allow_html=True)
 		st.markdown(f"<a href='#colab-test-code'>COLAB TEST CODE</a>", unsafe_allow_html=True)
@@ -454,7 +455,19 @@ asyncio.run(myfunc(display_intercept=True))
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
 				fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-				#st.write(exc_type, fname, exc_tb.tb_lineno)
+				st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")   
+
+	with st.container(border=True):   
+		st.write("## DISCORD BOT")
+
+		button = st.button("SUBMIT", type="primary" , key="24dfdasb235")
+		if button:
+			try:
+				st.write('Hello world')
+				
+			except Exception as e:
+				exc_type, exc_obj, exc_tb = sys.exc_info()
+				fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 				st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")   
 
 	with st.container(border=True):   
