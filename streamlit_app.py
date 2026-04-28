@@ -136,8 +136,6 @@ def myrun():
 
 	with st.container(border=True):   
 		st.write("## YOUTUBE VIEW")
-		data = requests.get("http://ip-api.com/json/").json()
-		st.write(data)
 		user_input = st.text_area("Enter URL of YouTube video", value='https://www.youtube.com/watch?v=zo-DreoLioM\nhttps://www.youtube.com/watch?v=r-XPZMk1ypM', height=200)
 		#Append keywords to array and remove whitespace dư, empty line 
 		user_input_arr = [line.strip() for line in user_input.split('\n') if line.strip()]  
