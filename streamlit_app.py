@@ -115,76 +115,66 @@ def delete_files_in_temp_folder(defaultFolder='/tmp', Filename_extension='jpg'):
 		os.remove(f)  
 
 def Convert_image_local_path_toBase64(image_path):
-	with open(os.path.abspath(image_path), 'rb') as image_file:
-		image_b64 = base64.b64encode(image_file.read()).decode('utf-8')
-		return image_b64
+    if not image_path or not isinstance(image_path, (str, os.PathLike)):
+        return None  # không có ảnh thì bỏ qua
+    if not os.path.exists(image_path):
+        raise FileNotFoundError(f"Image not found: {image_path}")
+    with open(os.path.abspath(image_path), 'rb') as image_file:
+        return base64.b64encode(image_file.read()).decode('utf-8')
 
-def chatbot_vision_by_groq(prompt, image_path=False, model='meta-llama/llama-4-scout-17b-16e-instruct'):
-	try:
-		GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
-		base64_image = Convert_image_local_path_toBase64(image_path)
-		headers = {
-			'Content-Type': 'application/json',
-			"Authorization": f"Bearer {GROQ_API_KEY}"
-		}
-		system_prompt = f"You are a best expert in topic {prompt}. You can analyze the most details, full and accurate all thing in the image."
-		if base64_image:
-			json_data = {
-				"messages": [
-					{'role': 'system','content': system_prompt},
-					{"role": "assistant","content": "Always respond the same user languague."},
-					{
-						"role": "user",
-						"content": [
-							{
-								"type": "text",
-								"text": prompt
-							},
-							{
-								"type": "image_url",
-								"image_url": {"url": f"data:image/jpeg;base64,{base64_image}"},
-							},
-						]
-					}
-				],
-				'model': model,
-				'temperature': 1.0,
-				'max_completion_tokens': 1024,
-				'top_p': 1.0,
-				'stream': False,
-				'stop': None
-			}
-		else:
-			json_data = {
-				"messages": [
-					{'role': 'system','content': system_prompt},
-					{"role": "assistant","content": "Always respond the same user languague."},
-					{
-						"role": "user",
-						"content": [
-							{
-								"type": "text",
-								"text": prompt
-							},
-						]
-					}
-				],
-				'model': model,
-				'temperature': 1.0,
-				'max_completion_tokens': 1024,
-				'top_p': 1.0,
-				'stream': False,
-				'stop': None
-			}
-		response = requests.post('https://api.groq.com/openai/v1/chat/completions', headers=headers, json=json_data)
-		#st.write(response.json())
-		result = response.json()["choices"][0]['message']["content"]
-		return result
-	except Exception as e:
-		exc_type, exc_obj, exc_tb = sys.exc_info()
-		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-		st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")
-		return False
+def chatbot_vision_by_groq(prompt, image_path=None, model='meta-llama/llama-4-scout-17b-16e-instruct'):
+    try:
+        GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+
+        # chỉ convert khi có ảnh
+        base64_image = None
+        if image_path:
+            base64_image = Convert_image_local_path_toBase64(image_path)
+        headers = {
+            'Content-Type': 'application/json',
+            "Authorization": f"Bearer {GROQ_API_KEY}"
+        }
+        system_prompt = f"You are a best expert in topic {prompt}. You can analyze the most details, full and accurate all thing in the image."
+        user_content = [
+            {
+                "type": "text",
+                "text": prompt
+            }
+        ]
+        if base64_image:
+            user_content.append({
+                "type": "image_url",
+                "image_url": {
+                    "url": f"data:image/jpeg;base64,{base64_image}"
+                }
+            })
+        json_data = {
+            "messages": [
+                {'role': 'system', 'content': system_prompt},
+                {"role": "assistant", "content": "Always respond the same user language."},
+                {
+                    "role": "user",
+                    "content": user_content
+                }
+            ],
+            'model': model,
+            'temperature': 1.0,
+            'max_completion_tokens': 1024,
+            'top_p': 1.0,
+            'stream': False
+        }
+        response = requests.post(
+            'https://api.groq.com/openai/v1/chat/completions',
+            headers=headers,
+            json=json_data
+        )
+        result = response.json()["choices"][0]['message']["content"]
+        return result
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        st.write(f"An error occurred: {e} - File: {fname} - Line: {exc_tb.tb_lineno}")
+        return False
 
 
 
