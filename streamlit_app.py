@@ -559,7 +559,12 @@ asyncio.run(myfunc(display_intercept=True))
 				# ===== ON READY =====
 				@bot.event
 				async def on_ready():
-					print(f"Bot đã đăng nhập: {bot.user}")								
+					print(f"Bot đã đăng nhập: {bot.user}")
+					# Đặt trạng thái bot: "Watching Gõ !helpme để xem hướng dẫn"
+					await bot.change_presence(activity=discord.Activity(
+						type=discord.ActivityType.watching, 
+						name="Gõ !helpme để xem hướng dẫn!"
+					))
 
 				# ===== ON MESSAGE =====
 				@bot.event
