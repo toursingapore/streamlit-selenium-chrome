@@ -606,9 +606,9 @@ asyncio.run(myfunc(display_intercept=True))
 				@bot.command()
 				#Định nghĩa command theo function name là help và prefix là '!', thì client PHẢI gõ '!helpme'
 				async def helpme(ctx):
-					reply = """List commands:\n 
-!clear 100 (remove 100 latest messages)\n
-!shutdown (wait 3 min to turn off bot)\n
+					reply = """List commands:
+					!clear 100 (remove 100 latest messages)
+					!shutdown (wait 3 min to turn off bot)
 					"""
 					await ctx.send(str(reply))
 
