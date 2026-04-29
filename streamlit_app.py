@@ -554,17 +554,29 @@ asyncio.run(myfunc(display_intercept=True))
 				intents.typing = False # False: bot sẽ bỏ sự kiện khi user đang gõ tin nhắn (on_typing)
 				intents.presences = False # Ignore check trạng thái bot
 				intents.message_content = True # Cho phép bot đọc nội dung tin nhắn. Bạn phải bật trong Discord Developer Portal: Bot → Privileged Gateway Intents → bật "Message Content Intent"
+				intents.members = True  # Bật sự kiện member join
 				bot = commands.Bot(command_prefix="!", intents=intents)
 
 				# ===== ON READY =====
 				@bot.event
 				async def on_ready():
 					print(f"Bot đã đăng nhập: {bot.user}")
+					
 					# Đặt trạng thái bot: "Watching Gõ !helpme để xem hướng dẫn"
 					await bot.change_presence(activity=discord.Activity(
 						type=discord.ActivityType.watching, 
 						name="Gõ !helpme để xem hướng dẫn!"
 					))
+
+				# ===== ON MEMBER JOIN =====
+				@bot.event
+				async def on_member_join(member):
+					channel = discord.utils.get(member.guild.text_channels, name="chung")  # Assuming you have a channel named #chung
+					if channel:
+						await channel.send(
+							f"Welcome to {member.guild.name}, {member.mention}! 🎉\nThis is the beginning of this server. "
+							"heo quay nice!"
+						)
 
 				# ===== ON MESSAGE =====
 				@bot.event
