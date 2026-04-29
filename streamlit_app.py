@@ -616,6 +616,7 @@ asyncio.run(myfunc(display_intercept=True))
 					async def select_callback(self, interaction: discord.Interaction, select_menu: discord.ui.Select):
 						# Access the user's choice via select_menu.values[0]
 						await interaction.response.send_message(f"You picked {select_menu.values[0]}!")
+				@bot.command()
 				# To send the menu in a command:
 				async def flavor(ctx):
 					await ctx.send("Pick something:", view=DropdownView())
