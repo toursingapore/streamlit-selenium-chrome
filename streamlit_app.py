@@ -125,11 +125,7 @@ def Convert_image_local_path_toBase64(image_path):
 	with open(os.path.abspath(image_path), 'rb') as image_file:
 		return base64.b64encode(image_file.read()).decode('utf-8')
 
-def chatbot_vision_by_groq(
-	prompt,
-	image_path=None,
-	model="meta-llama/llama-4-scout-17b-16e-instruct"
-):
+def chatbot_vision_by_groq(prompt, image_path=None, model="meta-llama/llama-4-scout-17b-16e-instruct"):
 	try:
 		GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
 		
@@ -572,6 +568,28 @@ asyncio.run(myfunc(display_intercept=True))
 						await bot.process_commands(message)
 						return
 
+					# ===== XỬ LÝ ẢNH =====
+					if message.attachments:
+						for attachment in message.attachments:
+							# Kiểm tra file có phải ảnh không
+							if attachment.content_type and attachment.content_type.startswith("image"):
+								
+								# Option 1: lấy URL ảnh
+								image_url = attachment.url
+
+								# Option 2: tải file về RAM
+								image_bytes = await attachment.read()
+
+								# Gọi hàm vision của bạn
+								reply = chatbot_vision_by_groq(
+									prompt=message.content,
+									image=image_url  # hoặc image_bytes tùy API bạn dùng
+								)
+
+								await message.channel.send(str(reply))
+								return
+
+					# ===== XỬ LÝ TEXT =====
 					if message.content:
 						try:
 							prompt = message.content
