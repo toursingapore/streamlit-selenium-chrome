@@ -560,14 +560,9 @@ asyncio.run(myfunc(display_intercept=True))
 				# ===== ON READY =====
 				@bot.event
 				async def on_ready():
-					print(f"Bot đã đăng nhập: {bot.user}")
-					
-					# Đặt trạng thái bot: "Watching Gõ !helpme để xem hướng dẫn"
-					await bot.change_presence(activity=discord.Activity(
-						type=discord.ActivityType.watching, 
-						name="Gõ !helpme để xem hướng dẫn!"
-					))
-					channel = discord.utils.get(bot.get_all_channels(), name="chung")
+					print(f"Bot đã đăng nhập: {bot.user}")					
+					cnannel_name="chung"
+					channel = discord.utils.get(bot.get_all_channels(), name=cnannel_name)
 					if channel:
 						await channel.send("Gõ `!helpme` để xem hướng dẫn!")
 
