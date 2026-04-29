@@ -635,7 +635,7 @@ asyncio.run(myfunc(display_intercept=True))
 						await interaction.response.send_message(f"Awesome! I like {select.values[0]} too!")
 				@bot.command()
 				async def flavor(ctx):
-					await ctx.respond("Choose a flavor!", view=MyView())
+					await ctx.send("Choose a flavor!", view=MyView())
 
 				@bot.command()
 				@commands.has_permissions(manage_messages=True)
