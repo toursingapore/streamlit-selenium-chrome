@@ -618,12 +618,13 @@ asyncio.run(myfunc(display_intercept=True))
 						reply = f"You selected: {selected_item}"
 						await interaction.response.send_message(str(reply))
 				@bot.command()				
-				async def flavor(ctx): # command: !flavor
+				async def dropdown_menu(ctx): # command: !dropdown_menu
 					await ctx.send("Please select one:", view=DropdownView())
 
 				@bot.command()				
 				async def helpme(ctx): # command: !helpme - Định nghĩa command theo function name là help và prefix là '!'
 					reply = """List commands:
+!dropdown_menu (Dropdown menu)
 !clear 100 (remove 100 latest messages)
 !shutdown (exit bot)
 					"""
