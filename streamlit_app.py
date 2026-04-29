@@ -554,63 +554,12 @@ asyncio.run(myfunc(display_intercept=True))
 				intents.message_content = True # Cho phép bot đọc nội dung tin nhắn. Bạn phải bật trong Discord Developer Portal: Bot → Privileged Gateway Intents → bật "Message Content Intent"
 				bot = commands.Bot(command_prefix="!", intents=intents)
 
+				# ===== ON READY =====
 				@bot.event
 				async def on_ready():
 					print(f"Bot đã đăng nhập: {bot.user}")								
 
-				@bot.event
-				async def on_message(message):
-					if message.author == bot.user:
-						return
-
-					# BỎ QUA nếu là command (bắt đầu bằng prefix '!')
-					if message.content.startswith(bot.command_prefix):
-						await bot.process_commands(message)
-						return
-
-					# ===== XỬ LÝ ẢNH =====
-					if message.attachments:
-						for attachment in message.attachments:
-							# Kiểm tra file có phải ảnh không
-							if attachment.content_type and attachment.content_type.startswith("image"):
-								# Option 1: lấy URL ảnh
-								#image_url = attachment.url
-
-								# Option 2: tải file về RAM
-								image_bytes = await attachment.read()
-								image_path = "/tmp/image.png"
-								with open(image_path, "wb") as f:
-									f.write(image_bytes)
-
-								prompt = message.content
-								reply = chatbot_vision_by_groq(prompt, image_path=image_path)
-
-								reply = image_path + ' - ' + reply
-								await message.channel.send(str(reply))
-								return
-
-					# ===== XỬ LÝ TEXT =====
-					if message.content:
-						try:
-							prompt = message.content
-							reply = chatbot_vision_by_groq(prompt)
-							await message.channel.send(str(reply))
-						except Exception as e:
-							exc_type, exc_obj, exc_tb = sys.exc_info()
-							fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-							reply = f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}" 
-							await message.channel.send(str(reply))
-					await bot.process_commands(message)							
-
-				@bot.command()
-				#Định nghĩa command theo function name là help và prefix là '!', thì client PHẢI gõ '!helpme'
-				async def helpme(ctx):
-					reply = """List commands:
-!clear 100 (remove 100 latest messages)
-!shutdown (exit bot)
-					"""
-					await ctx.send(str(reply))
-
+				# ===== VIEW (SELECT MENU) =====
 				class MyView(discord.ui.View):
 					def __init__(self):
 						super().__init__(timeout=None)
@@ -626,31 +575,91 @@ asyncio.run(myfunc(display_intercept=True))
 						]
 					)
 					async def select_callback(self, interaction: discord.Interaction, select: discord.ui.Select):
-						await interaction.response.send_message(f"Awesome! I like {select.values[0]} too!")
+						await interaction.response.send_message(
+							f"Awesome! I like {select.values[0]} too!"
+						)
+
+				# ===== ON MESSAGE =====
+				@bot.event
+				async def on_message(message):
+					if message.author == bot.user:
+						return
+
+					# QUAN TRỌNG: xử lý command trước
+					await bot.process_commands(message)
+
+					# nếu là command thì không xử lý AI nữa
+					if message.content.startswith(bot.command_prefix):
+						return
+
+					# ===== XỬ LÝ ẢNH =====
+					if message.attachments:
+						for attachment in message.attachments:
+							if attachment.content_type and attachment.content_type.startswith("image"):
+								try:
+									image_bytes = await attachment.read()
+									image_path = "/tmp/image.png"
+
+									with open(image_path, "wb") as f:
+										f.write(image_bytes)
+
+									prompt = message.content
+									reply = chatbot_vision_by_groq(prompt, image_path=image_path)
+
+									await message.channel.send(str(reply))
+									return
+
+								except Exception as e:
+									await message.channel.send(f"Image error: {e}")
+									return
+
+					# ===== XỬ LÝ TEXT =====
+					if message.content:
+						try:
+							prompt = message.content
+							reply = chatbot_vision_by_groq(prompt)
+							await message.channel.send(str(reply))
+						except Exception as e:
+							exc_type, exc_obj, exc_tb = sys.exc_info()
+							reply = f"Error: {e} at line {exc_tb.tb_lineno}"
+							await message.channel.send(reply)
+
+				# ===== COMMANDS =====
+				@bot.command()
+				async def helpme(ctx):
+					reply = """List commands:
+!clear 100 (remove 100 latest messages)
+!shutdown (exit bot)
+!flavor (choose menu)
+				"""
+					await ctx.send(reply)
+
 				@bot.command()
 				async def flavor(ctx):
 					await ctx.send("Choose a flavor!", view=MyView())
 
 				@bot.command()
 				@commands.has_permissions(manage_messages=True)
-				async def clear(ctx, amount: int = 10): # !clear 100 -> xóa 100 tin nhắn gần nhất 
+				async def clear(ctx, amount: int = 10):
 					try:
 						if amount <= 0:
 							await ctx.send("Số lượng phải > 0")
 							return
-						# Giới hạn Discord: tối đa 100/lần
+
 						amount = min(amount, 100)
-						deleted = await ctx.channel.purge(limit=amount + 1)  # +1 để xóa luôn lệnh !clear
+						deleted = await ctx.channel.purge(limit=amount + 1)
+
 						msg = await ctx.send(f"Đã xóa {len(deleted)-1} tin nhắn")
 						await asyncio.sleep(3)
 						await msg.delete()
+
 					except Exception as e:
 						await ctx.send(f"Error: {e}")
 
 				@bot.command()
 				@commands.is_owner()
-				async def shutdown(ctx): # !shutdown -> wait 3 min to turn off bot và stop in background đây luôn
-					await ctx.send('Shutting down...It takes about 3 minutes')
+				async def shutdown(ctx):
+					await ctx.send('Shutting down...')
 					await bot.close()
 
 				# Chạy bot với token của bạn
