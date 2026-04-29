@@ -573,7 +573,6 @@ asyncio.run(myfunc(display_intercept=True))
 						for attachment in message.attachments:
 							# Kiểm tra file có phải ảnh không
 							if attachment.content_type and attachment.content_type.startswith("image"):
-								
 								# Option 1: lấy URL ảnh
 								#image_url = attachment.url
 
@@ -586,7 +585,7 @@ asyncio.run(myfunc(display_intercept=True))
 								prompt = message.content
 								reply = chatbot_vision_by_groq(prompt, image_path=image_path)
 
-								reply = reply + ' - ' + image_path
+								reply = image_path + ' - ' + reply
 								await message.channel.send(str(reply))
 								return
 
