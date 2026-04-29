@@ -556,10 +556,12 @@ asyncio.run(myfunc(display_intercept=True))
 				intents.message_content = True # Cho phép bot đọc nội dung tin nhắn. Bạn phải bật trong Discord Developer Portal: Bot → Privileged Gateway Intents → bật "Message Content Intent"
 				bot = commands.Bot(command_prefix="!", intents=intents)
 
+				# ===== ON READY =====
 				@bot.event
 				async def on_ready():
 					print(f"Bot đã đăng nhập: {bot.user}")								
 
+				# ===== ON MESSAGE =====
 				@bot.event
 				async def on_message(message):
 					if message.author == bot.user:
@@ -577,16 +579,13 @@ asyncio.run(myfunc(display_intercept=True))
 							if attachment.content_type and attachment.content_type.startswith("image"):
 								# Option 1: lấy URL ảnh
 								#image_url = attachment.url
-
 								# Option 2: tải file về RAM
 								image_bytes = await attachment.read()
 								image_path = "/tmp/image.png"
 								with open(image_path, "wb") as f:
 									f.write(image_bytes)
-
 								prompt = message.content
 								reply = chatbot_vision_by_groq(prompt, image_path=image_path)
-
 								reply = image_path + ' - ' + reply
 								await message.channel.send(str(reply))
 								return
@@ -604,7 +603,7 @@ asyncio.run(myfunc(display_intercept=True))
 							await message.channel.send(str(reply))
 					await bot.process_commands(message)							
 
-
+				# ===== DEFINE CLASS FOR OPTIONS =====
 				class DropdownView(View):
 					@select(
 						placeholder="Choose an option...", 
@@ -615,16 +614,15 @@ asyncio.run(myfunc(display_intercept=True))
 					)
 					async def select_callback(self, interaction: discord.Interaction, select_menu: discord.ui.Select):
 						# Access the user's choice via select_menu.values[0]
-						await interaction.response.send_message(f"You picked {select_menu.values[0]}!")
-				@bot.command()
-				# To send the menu in a command:
-				async def flavor(ctx):
-					await ctx.send("Pick something:", view=DropdownView())
+						selected_item = select_menu.values[0]
+						reply = f"You selected: {selected_item}"
+						await interaction.response.send_message(str(reply))
+				@bot.command()				
+				async def flavor(ctx): # command: !flavor
+					await ctx.send("Please select one:", view=DropdownView())
 
-
-				@bot.command()
-				#Định nghĩa command theo function name là help và prefix là '!', thì client PHẢI gõ '!helpme'
-				async def helpme(ctx):
+				@bot.command()				
+				async def helpme(ctx): # command: !helpme - Định nghĩa command theo function name là help và prefix là '!'
 					reply = """List commands:
 !clear 100 (remove 100 latest messages)
 !shutdown (exit bot)
@@ -633,7 +631,7 @@ asyncio.run(myfunc(display_intercept=True))
 
 				@bot.command()
 				@commands.has_permissions(manage_messages=True)
-				async def clear(ctx, amount: int = 10): # !clear 100 -> xóa 100 tin nhắn gần nhất 
+				async def clear(ctx, amount: int = 10): # command: !clear 100 -> xóa 100 tin nhắn gần nhất 
 					try:
 						if amount <= 0:
 							await ctx.send("Số lượng phải > 0")
@@ -649,7 +647,7 @@ asyncio.run(myfunc(display_intercept=True))
 
 				@bot.command()
 				@commands.is_owner()
-				async def shutdown(ctx): # !shutdown -> wait 3 min to turn off bot và stop in background đây luôn
+				async def shutdown(ctx): # command: !shutdown -> wait 3 min to turn off bot và stop in background đây luôn
 					await ctx.send('Shutting down...It takes about 3 minutes')
 					await bot.close()
 
