@@ -631,7 +631,7 @@ asyncio.run(myfunc(display_intercept=True))
 				@bot.command()
 				@commands.is_owner()
 				async def shutdown(ctx): # !shutdown -> wait 3 min to turn off bot và stop in background đây luôn
-					await ctx.send('Shutting down...')
+					await ctx.send('Shutting down...It takes about 3 minutes')
 					await bot.close()
 
 				# Chạy bot với token của bạn
