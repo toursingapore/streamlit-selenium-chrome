@@ -604,9 +604,13 @@ asyncio.run(myfunc(display_intercept=True))
 					await bot.process_commands(message)							
 
 				@bot.command()
-				#Định nghĩa command theo function name là ping và prefix là '!', thì client PHẢI gõ '!ping'
-				async def ping(ctx):
-					await ctx.send("Pong!")
+				#Định nghĩa command theo function name là help và prefix là '!', thì client PHẢI gõ '!help'
+				async def help(ctx):
+					reply = """List commands:\n 
+					> !clear 100 (remove 100 latest messages)\n
+					> !shutdown (wait 3 min to turn off bot)\n
+					"""
+					await ctx.send(str(reply))
 
 				@bot.command()
 				@commands.has_permissions(manage_messages=True)
