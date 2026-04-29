@@ -546,6 +546,8 @@ asyncio.run(myfunc(display_intercept=True))
 
 				import discord
 				from discord.ext import commands
+				from discord.ui import View, select
+
 
 				# Khởi tạo client bot với intents
 				intents = discord.Intents.default()
@@ -602,6 +604,23 @@ asyncio.run(myfunc(display_intercept=True))
 							await message.channel.send(str(reply))
 					await bot.process_commands(message)							
 
+
+				class DropdownView(View):
+					@select(
+						placeholder="Choose an option...", 
+						options=[
+							discord.SelectOption(label="Option 1", value="1", description="First choice"),
+							discord.SelectOption(label="Option 2", value="2", description="Second choice")
+						]
+					)
+					async def select_callback(self, interaction: discord.Interaction, select_menu: discord.ui.Select):
+						# Access the user's choice via select_menu.values[0]
+						await interaction.response.send_message(f"You picked {select_menu.values[0]}!")
+				# To send the menu in a command:
+				async def flavor(ctx):
+					await ctx.send("Pick something:", view=DropdownView())
+
+
 				@bot.command()
 				#Định nghĩa command theo function name là help và prefix là '!', thì client PHẢI gõ '!helpme'
 				async def helpme(ctx):
@@ -610,26 +629,6 @@ asyncio.run(myfunc(display_intercept=True))
 !shutdown (exit bot)
 					"""
 					await ctx.send(str(reply))
-
-				class MyView(discord.ui.View):
-					def __init__(self):
-						super().__init__(timeout=None)
-
-					@discord.ui.select(
-						placeholder="Choose a Flavor!",
-						min_values=1,
-						max_values=1,
-						options=[
-							discord.SelectOption(label="Vanilla", description="Pick this if you like vanilla!"),
-							discord.SelectOption(label="Chocolate", description="Pick this if you like chocolate!"),
-							discord.SelectOption(label="Strawberry", description="Pick this if you like strawberry!")
-						]
-					)
-					async def select_callback(self, interaction: discord.Interaction, select: discord.ui.Select):
-						await interaction.response.send_message(f"Awesome! I like {select.values[0]} too!")
-				@bot.command()
-				async def flavor(ctx):
-					await ctx.send("Choose a flavor!", view=MyView())
 
 				@bot.command()
 				@commands.has_permissions(manage_messages=True)
