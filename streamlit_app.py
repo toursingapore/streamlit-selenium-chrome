@@ -575,17 +575,18 @@ asyncio.run(myfunc(display_intercept=True))
 							if attachment.content_type and attachment.content_type.startswith("image"):
 								
 								# Option 1: lấy URL ảnh
-								image_url = attachment.url
+								#image_url = attachment.url
 
 								# Option 2: tải file về RAM
 								image_bytes = await attachment.read()
+								image_path = "/tmp/image.png"
+								with open(image_path, "wb") as f:
+									f.write(image_bytes)
 
-								# Gọi hàm vision của bạn
-								reply = chatbot_vision_by_groq(
-									prompt=message.content,
-									image=image_url  # hoặc image_bytes tùy API bạn dùng
-								)
+								prompt = message.content
+								reply = chatbot_vision_by_groq(prompt, image_path=image_path)
 
+								reply = reply + ' - ' + image_path
 								await message.channel.send(str(reply))
 								return
 
