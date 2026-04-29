@@ -567,16 +567,9 @@ asyncio.run(myfunc(display_intercept=True))
 						type=discord.ActivityType.watching, 
 						name="Gõ !helpme để xem hướng dẫn!"
 					))
-
-				# ===== ON MEMBER JOIN =====
-				@bot.event
-				async def on_member_join(member):
-					channel = discord.utils.get(member.guild.text_channels, name="chung")  # Assuming you have a channel named #chung
+					channel = discord.utils.get(bot.get_all_channels(), name="chung")
 					if channel:
-						await channel.send(
-							f"Welcome to {member.guild.name}, {member.mention}! 🎉\nThis is the beginning of this server. "
-							"heo quay nice!"
-						)
+						await channel.send("Gõ `!helpme` để xem hướng dẫn!")
 
 				# ===== ON MESSAGE =====
 				@bot.event
