@@ -612,6 +612,17 @@ asyncio.run(myfunc(display_intercept=True))
 					await ctx.send(str(reply))
 
 				@bot.command()
+				@bot.describe(myArr='Please select one.')
+				@bot.choices(myArr=[
+					Choice(name='apple', value=1),
+					Choice(name='banana', value=2),
+					Choice(name='cherry', value=3),
+				])
+				async def fruit(interaction: discord.Interaction, myArr: Choice[int]):
+					reply = f'Your favourite fruit is {myArr.name}.'
+					await interaction.response.send_message(str(reply))
+
+				@bot.command()
 				@commands.has_permissions(manage_messages=True)
 				async def clear(ctx, amount: int = 10): # !clear 100 -> xóa 100 tin nhắn gần nhất 
 					try:
