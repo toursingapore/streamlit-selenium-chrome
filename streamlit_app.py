@@ -611,16 +611,31 @@ asyncio.run(myfunc(display_intercept=True))
 					"""
 					await ctx.send(str(reply))
 
+				class MyView(discord.ui.View):
+					@discord.ui.select( # the decorator that lets you specify the properties of the select menu
+						placeholder = "Choose a Flavor!", # the placeholder text that will be displayed if nothing is selected
+						min_values = 1, # the minimum number of values that must be selected by the users
+						max_values = 1, # the maximum number of values that can be selected by the users
+						options = [ # the list of options from which users can choose, a required field
+							discord.SelectOption(
+								label="Vanilla",
+								description="Pick this if you like vanilla!"
+							),
+							discord.SelectOption(
+								label="Chocolate",
+								description="Pick this if you like chocolate!"
+							),
+							discord.SelectOption(
+								label="Strawberry",
+								description="Pick this if you like strawberry!"
+							)
+						]
+					)
+					async def select_callback(self, select, interaction): # the function called when the user is done selecting options
+						await interaction.response.send_message(f"Awesome! I like {select.values[0]} too!")
 				@bot.command()
-				@bot.describe(myArr='Please select one.')
-				@bot.choices(myArr=[
-					Choice(name='apple', value=1),
-					Choice(name='banana', value=2),
-					Choice(name='cherry', value=3),
-				])
-				async def fruit(interaction: discord.Interaction, myArr: Choice[int]):
-					reply = f'Your favourite fruit is {myArr.name}.'
-					await interaction.response.send_message(str(reply))
+				async def flavor(ctx):
+					await ctx.respond("Choose a flavor!", view=MyView())
 
 				@bot.command()
 				@commands.has_permissions(manage_messages=True)
