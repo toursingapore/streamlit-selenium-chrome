@@ -573,11 +573,9 @@ asyncio.run(myfunc(display_intercept=True))
 						return
 
 					if message.webhook_id is not None:
-						print("Message từ webhook:")
-						print(f"Content: {message.content}")
 						reply = f"Message từ webhook: {message.content}"
 						await message.channel.send(reply)
-						# Ví dụ xử lý
+						# Ví dụ lọc message từ webhook, rồi dùng LLM xử lý next step
 						#if "alert" in message.content.lower():
 							#await message.channel.send("Bot đã nhận alert từ webhook!")
 
