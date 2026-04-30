@@ -572,6 +572,15 @@ asyncio.run(myfunc(display_intercept=True))
 					if message.author == bot.user:
 						return
 
+					if message.webhook_id is not None:
+						print("Message từ webhook:")
+						print(f"Content: {message.content}")
+						reply = f"Message từ webhook: {message.content}"
+						await message.channel.send(reply)
+						# Ví dụ xử lý
+						#if "alert" in message.content.lower():
+							#await message.channel.send("Bot đã nhận alert từ webhook!")
+
 					# BỎ QUA nếu là command (bắt đầu bằng prefix '!')
 					if message.content.startswith(bot.command_prefix):
 						await bot.process_commands(message)
