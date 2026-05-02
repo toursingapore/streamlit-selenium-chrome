@@ -541,43 +541,46 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world')
 
-				@task(retries=1, retry_delay_seconds=5, timeout_seconds=300)
-				def task_1(param):
-					st.write("Run task 1 already")
-					result = param + 6
-					return result
+				def test_workflow_func():
+					@task(retries=1, retry_delay_seconds=5, timeout_seconds=300)
+					def task_1(param):
+						st.write("Run task 1 already")
+						result = param + 6
+						return result
 
-				@task
-				def task_2(param):
-					st.write("Result is", param)
+					@task
+					def task_2(param):
+						st.write("Result is", param)
 
-				@flow
-				def my_flow():
-					param = 2
-					# Gọi task với return_state=True để lấy trạng thái
-					state_1 = task_1(param, return_state=True)
+					@flow
+					def my_flow():
+						param = 2
+						# Gọi task với return_state=True để lấy trạng thái
+						state_1 = task_1(param, return_state=True)
 
-					# Kiểm tra trạng thái
-					if state_1.is_completed():
-						st.write("Task 1 is success")
-						result = state_1.result()
-					else:
-						st.write("Task 1 is failed")
-						result = None
+						# Kiểm tra trạng thái
+						if state_1.is_completed():
+							st.write("Task 1 is success")
+							result = state_1.result()
+						else:
+							st.write("Task 1 is failed")
+							result = None
 
-					if result:
-						task_2(result)
+						if result:
+							task_2(result)
 
-				my_flow() #chạy one time only 
+					my_flow() #chạy one time only 
 
-				_ = """
-				# Schedule run workflow on server
-				my_flow.serve(
-					name="daily-6am-flow",
-					schedule=Cron("0 6 * * *") #Lên lịch: chạy mỗi ngày lúc 6h sáng - phút giờ ngày tháng thứ (0 6 * * * = 6:00 hàng ngày)
-					#schedule=Interval(interval=datetime.timedelta(seconds=5))#Lên lịch: chạy mỗi 5 giây
-				)	
-				_ = """			
+					_ = """
+					# Schedule run workflow on server
+					my_flow.serve(
+						name="daily-6am-flow",
+						schedule=Cron("0 6 * * *") #Lên lịch: chạy mỗi ngày lúc 6h sáng - phút giờ ngày tháng thứ (0 6 * * * = 6:00 hàng ngày)
+						#schedule=Interval(interval=datetime.timedelta(seconds=5))#Lên lịch: chạy mỗi 5 giây
+					)	
+					_ = """			
+
+			test_workflow_func()
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
