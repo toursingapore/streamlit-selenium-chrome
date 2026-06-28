@@ -549,7 +549,7 @@ asyncio.run(myfunc(display_intercept=True))
 				llm = ChatOpenAI(
 					base_url="https://integrate.api.nvidia.com/v1",
 					api_key=NVIDIA_API_KEY,
-					model="meta/llama-3.1-70b-instruct",
+					model="moonshotai/kimi-k2.6",
 				)
 
 				async def myfunc3():
