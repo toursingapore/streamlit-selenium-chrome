@@ -542,7 +542,7 @@ asyncio.run(myfunc(display_intercept=True))
 				st.write('Hello world')
 
 				from browser_use import Agent, Browser, BrowserConfig
-				from browser_use.llm import ChatOpenAI   # ✅ IMPORTANT FIX
+				from browser_use.llm import ChatOpenAI 
 
 				from cloakbrowser import ensure_binary
 
@@ -558,7 +558,7 @@ asyncio.run(myfunc(display_intercept=True))
 					api_key=NVIDIA_API_KEY,
 					model="meta/llama-3.1-70b-instruct",
 				)
-				st.write(llm)
+				#st.write(llm)
 				#response = llm.invoke("Hello, are you gpt4!")
 				#st.write(response.content)
 
