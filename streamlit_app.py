@@ -541,46 +541,6 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world')
 
-				from browser_use import Agent, Browser, BrowserConfig
-				from browser_use.llm import ChatOpenAI 
-				from cloakbrowser import ensure_binary
-
-				NVIDIA_API_KEY = st.secrets["NVIDIA_API_KEY"]
-				llm = ChatOpenAI(
-					base_url="https://integrate.api.nvidia.com/v1",
-					api_key=NVIDIA_API_KEY,
-					model="moonshotai/kimi-k2.6",
-				)
-
-				async def myfunc3():
-					try:
-						binary_path = ensure_binary()
-						st.write(f"Chrome: {binary_path}")
-
-						config = BrowserConfig(
-							headless=True,
-							executable_path=binary_path,
-						)
-						browser = Browser(config=config)
-
-						agent = Agent(
-							task="Find the number of stars of the browser-use repo",
-							llm=llm,
-							browser=browser,
-						)
-						history = await agent.run()
-						st.write(history.final_result())
-					except Exception as e:
-						exc_type, exc_obj, exc_tb = sys.exc_info()
-						fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-						st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")  
-
-				asyncio.run(myfunc3())
-
-
-				st.write(heoquay)
-
-
 				def test_workflow_func():
 					@task(retries=1, retry_delay_seconds=5, timeout_seconds=300)
 					def task_1(param):
