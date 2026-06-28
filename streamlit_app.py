@@ -541,6 +541,47 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world')
 
+				from browser_use import Agent, Browser, BrowserConfig
+				from cloakbrowser import ensure_binary
+
+				from langchain_openai import ChatOpenAI 
+				#from langchain_anthropic import ChatAnthropic
+				#from langchain_google_genai import ChatGoogleGenerativeAI
+				from langchain_nvidia_ai_endpoints import ChatNVIDIA
+
+				llm = ChatOpenAI(
+					base_url="https://integrate.api.nvidia.com/v1",
+					api_key=NVIDIA_API_KEY,
+					model="meta/llama-3.1-70b-instruct",
+				)
+				st.write(llm)
+				response = llm.invoke("Hello, are you gpt4!")
+				st.write(response.content)
+
+				async def myfunc3():
+					binary_path = ensure_binary()
+					st.write(f"Chrome: {binary_path}")
+
+					config = BrowserConfig(
+						headless=True,
+						executable_path=binary_path,
+					)
+					browser = Browser(config=config)
+
+					agent = Agent(
+						task="Go to https://nowsecure.nl and verify bot check result.",
+						llm=llm,
+						browser=browser,
+					)
+					history = await agent.run()
+					st.write(history.final_result())
+
+				asyncio.run(myfunc3())
+
+
+				st.write(heoquay)
+
+
 				def test_workflow_func():
 					@task(retries=1, retry_delay_seconds=5, timeout_seconds=300)
 					def task_1(param):
