@@ -561,22 +561,27 @@ asyncio.run(myfunc(display_intercept=True))
 				st.write(response.content)
 
 				async def myfunc3():
-					binary_path = ensure_binary()
-					st.write(f"Chrome: {binary_path}")
+					try:
+						binary_path = ensure_binary()
+						st.write(f"Chrome: {binary_path}")
 
-					config = BrowserConfig(
-						headless=True,
-						executable_path=binary_path,
-					)
-					browser = Browser(config=config)
+						config = BrowserConfig(
+							headless=True,
+							executable_path=binary_path,
+						)
+						browser = Browser(config=config)
 
-					agent = Agent(
-						task="Go to https://nowsecure.nl and verify bot check result.",
-						llm=llm,
-						browser=browser,
-					)
-					history = await agent.run()
-					st.write(history.final_result())
+						agent = Agent(
+							task="Go to https://nowsecure.nl and verify bot check result.",
+							llm=llm,
+							browser=browser,
+						)
+						history = await agent.run()
+						st.write(history.final_result())
+					except Exception as e:
+						exc_type, exc_obj, exc_tb = sys.exc_info()
+						fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+						st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")  
 
 				asyncio.run(myfunc3())
 
