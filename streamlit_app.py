@@ -557,8 +557,8 @@ asyncio.run(myfunc(display_intercept=True))
 					model="meta/llama-3.1-70b-instruct",
 				)
 				st.write(llm)
-				response = llm.invoke("Hello, are you gpt4!")
-				st.write(response.content)
+				#response = llm.invoke("Hello, are you gpt4!")
+				#st.write(response.content)
 
 				async def myfunc3():
 					try:
