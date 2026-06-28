@@ -547,7 +547,7 @@ asyncio.run(myfunc(display_intercept=True))
 				from langchain_openai import ChatOpenAI 
 				#from langchain_anthropic import ChatAnthropic
 				#from langchain_google_genai import ChatGoogleGenerativeAI
-				from langchain_nvidia_ai_endpoints import ChatNVIDIA
+				#from langchain_nvidia_ai_endpoints import ChatNVIDIA
 
 				llm = ChatOpenAI(
 					base_url="https://integrate.api.nvidia.com/v1",
