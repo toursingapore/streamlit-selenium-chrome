@@ -549,6 +549,8 @@ asyncio.run(myfunc(display_intercept=True))
 				#from langchain_google_genai import ChatGoogleGenerativeAI
 				#from langchain_nvidia_ai_endpoints import ChatNVIDIA
 
+
+				NVIDIA_API_KEY = st.secrets["NVIDIA_API_KEY"]
 				llm = ChatOpenAI(
 					base_url="https://integrate.api.nvidia.com/v1",
 					api_key=NVIDIA_API_KEY,
