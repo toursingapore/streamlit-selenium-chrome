@@ -574,7 +574,7 @@ asyncio.run(myfunc(display_intercept=True))
 						browser = Browser(config=config)
 
 						agent = Agent(
-							task="Go to https://nowsecure.nl and verify bot check result.",
+							task="Find the number of stars of the browser-use repo",
 							llm=llm,
 							browser=browser,
 						)
