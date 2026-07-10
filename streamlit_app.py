@@ -722,7 +722,8 @@ asyncio.run(myfunc(display_intercept=True))
 									"command": "npx",
 									"args": [
 										"@playwright/mcp@latest",
-										"--headless"
+										"--headless",
+										"--browser=msedge"
 									]
 								}
 							}
