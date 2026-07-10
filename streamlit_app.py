@@ -733,7 +733,7 @@ asyncio.run(myfunc(display_intercept=True))
 						# Create MCPClient from configuration dictionary
 						client = MCPClient.from_dict(mcp_servers_config)
 						#client = MCPClient.from_config_file('mcp-server.json')
-						st.write(client)
+						#st.write(client)
 
 						await client.create_all_sessions()
 						tools = await client.search_tools()
@@ -786,7 +786,7 @@ asyncio.run(myfunc(display_intercept=True))
 							except Exception:
 								pass
 
-				prompt = "List all files in the current directory, create a new folder named 'hello_folder'"
+				prompt = "List all files in the current directory, create a new folder named 'hello_folder', get title of this url https://example.com/."
 				result = asyncio.run(chatbot_coding_agent_with_tools_via_mcp_server(prompt))
 				st.write(result)
 
