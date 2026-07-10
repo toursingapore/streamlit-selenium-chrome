@@ -736,6 +736,9 @@ asyncio.run(myfunc(display_intercept=True))
 						#st.write(client)
 
 						await client.create_all_sessions()
+						tools = await client.list_tools()
+						for tool in tools:
+							st.write(tool.name)
 
 						# Sử dụng context manager để tự động đóng session khi chạy xong
 						llm = ChatOpenAI(
