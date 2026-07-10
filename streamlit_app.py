@@ -719,16 +719,12 @@ asyncio.run(myfunc(display_intercept=True))
 									"args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
 								},							
 								"playwright": {
-									"type": "stdio",
 									"command": "npx",
 									"args": [
-										"-y",
 										"@playwright/mcp@latest",
-										"--browser",
-										"chromium",
 										"--headless"
 									]
-								},
+								}
 							}
 						}
 
