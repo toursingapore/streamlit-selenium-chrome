@@ -725,10 +725,10 @@ asyncio.run(myfunc(display_intercept=True))
 										"-y",
 										"@playwright/mcp@latest",
 										"--browser",
-										"chrome-for-testing",
+										"chromium",
 										"--headless"
 									]
-								}
+								},
 							}
 						}
 
@@ -737,6 +737,7 @@ asyncio.run(myfunc(display_intercept=True))
 						#client = MCPClient.from_config_file('mcp-server.json')
 						#st.write(client)
 
+						await client.close_all_sessions() #clear all old session
 						await client.create_all_sessions()
 
 						# Sử dụng context manager để tự động đóng session khi chạy xong
