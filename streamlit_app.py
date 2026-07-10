@@ -678,12 +678,92 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world') 
 
-				import openvpn_api.VPN
-				v = openvpn_api.VPN('localhost', 7505)
-				v.connect()
-				# Do some stuff, e.g.
-				st.write(v.release)
-				v.disconnect()
+				from langchain_openai import ChatOpenAI
+				from mcp_use import MCPAgent, MCPClient
+
+				async def chatbot_coding_agent_with_tools_via_mcp_server(prompt: str):
+					client = None
+					try:
+						# Create configuration dictionary json with multiple MCP SERVERs
+						#Cho phép AI tương tác target folder
+						mcp_server_folder_path = "/tmp/project/workspace"
+						os.makedirs(mcp_server_folder_path, exist_ok=True)
+						#mcp_server_folder_path = os.getcwd()
+						#mcp_server_folder_path = '/tmp'
+						st.write(f"MCP Server đang truy cập thư mục: {mcp_server_folder_path}")
+
+						mcp_servers_config = {
+							"mcpServers": {
+								"filesystem": {
+									"command": "npx",
+									"args": [
+										"-y",
+										"@modelcontextprotocol/server-filesystem",
+										mcp_server_folder_path
+									]
+								},
+								"memory": {
+									"command": "npx",
+									"args": [
+										"-y", 
+										"@modelcontextprotocol/server-memory"
+									]
+								},
+							}
+						}
+
+						# Create MCPClient from configuration dictionary
+						client = MCPClient.from_dict(mcp_servers_config)
+						#client = MCPClient.from_config_file('mcp-server.json')
+						#st.write(client)
+
+						# Sử dụng context manager để tự động đóng session khi chạy xong
+						llm = ChatOpenAI(
+							#base_url="https://integrate.api.nvidia.com/v1",
+							#api_key=NVIDIA_API_KEY,
+							#model="qwen/qwen3.5-122b-a10b", #Lưu ý phải là llm vision mới worked
+							#base_url="https://zenmux.ai/api/v1",
+							#api_key=ZENMUX_API_KEY,
+							#model="stepfun/step-3.7-flash-free",
+							base_url="https://api.groq.com/openai/v1",
+							api_key=GROQ_API_KEY,
+							model="openai/gpt-oss-20b",
+							temperature=0.3,
+							timeout=60.0, # timeout seconds with type float number
+							max_retries=2,
+						)
+						#Check LLM work or not 
+						response = llm.invoke("Hello! Reply only: LLM is working")
+						st.write("LLM Response:", response.content)
+
+						st.write(MCPAgent)
+
+						# Create agent with the client
+						agent = MCPAgent(
+							llm=llm, 
+							client=client, 
+							max_steps=30,
+							#auto_initialize=True,
+							#memory_enabled=True,
+							#system_prompt=f"You are an expert in this topic: {prompt}.",
+							#additional_instructions="Additional guidelines for specific tasks", 
+							#disallowed_tools=["file_system", "network", "shell"]  # Restrict potentially dangerous tools								
+						)
+						# Run the query with agent 
+						response = await agent.run(prompt)
+						return response
+					except Exception as e:
+						exc_type, exc_obj, exc_tb = sys.exc_info()
+						fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+						st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")  
+					finally:
+						if client:
+							await client.close_all_sessions()
+
+				prompt = "List all files in the current directory, create a new folder named 'hello_folder'"
+				result = asyncio.run(chatbot_coding_agent_with_tools_via_mcp_server(prompt))
+				st.write(result)
+
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
