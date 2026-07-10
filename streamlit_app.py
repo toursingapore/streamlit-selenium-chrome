@@ -723,7 +723,7 @@ asyncio.run(myfunc(display_intercept=True))
 									"args": [
 										"mcp-server-git", 
 										"--repository",
-										mcp_server_folder_path
+										"https://github.com/github/github-mcp-server"
 									]
 								},								
 								"playwright": {
