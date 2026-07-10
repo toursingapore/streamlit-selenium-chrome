@@ -724,15 +724,11 @@ asyncio.run(myfunc(display_intercept=True))
 									"args": [
 										"-y",
 										"@playwright/mcp@latest",
+										"--browser",
+										"chromium",
 										"--headless"
 									]
-								},
-								"fetch": {
-									"command": "uvx",
-									"args": [
-										"mcp-server-fetch"
-									]
-								},
+								}
 							}
 						}
 
