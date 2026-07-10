@@ -718,6 +718,14 @@ asyncio.run(myfunc(display_intercept=True))
 									"command": "npx",
 									"args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
 								},
+								"git": {
+									"command": "uvx",
+									"args": [
+										"mcp-server-git", 
+										"--repository",
+										mcp_server_folder_path
+									]
+								},								
 								"playwright": {
 									"type": "stdio",
 									"command": "npx",
@@ -725,7 +733,7 @@ asyncio.run(myfunc(display_intercept=True))
 										"-y",
 										"@playwright/mcp@latest",
 										"--browser",
-										"chromium",
+										"chrome-for-testing",
 										"--headless"
 									]
 								}
