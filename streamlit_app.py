@@ -680,6 +680,7 @@ asyncio.run(myfunc(display_intercept=True))
 
 				from langchain_openai import ChatOpenAI
 				from mcp_use import MCPAgent, MCPClient
+				from langchain_openai import ChatOpenAI, OpenAIEmbeddings #openai compatibility api
 
 				async def chatbot_coding_agent_with_tools_via_mcp_server(prompt: str):
 					client = None
