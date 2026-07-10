@@ -704,6 +704,13 @@ asyncio.run(myfunc(display_intercept=True))
 										mcp_server_folder_path
 									]
 								},
+								"memory": {
+									"command": "npx",
+									"args": [
+										"-y", 
+										"@modelcontextprotocol/server-memory"
+									]
+								},
 							}
 						}
 
