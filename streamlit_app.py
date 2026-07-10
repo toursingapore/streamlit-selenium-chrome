@@ -697,6 +697,7 @@ asyncio.run(myfunc(display_intercept=True))
 						mcp_servers_config = {
 							"mcpServers": {
 								"filesystem": {
+									"type": "stdio",
 									"command": "npx",
 									"args": [
 										"-y",
@@ -705,6 +706,7 @@ asyncio.run(myfunc(display_intercept=True))
 									]
 								},
 								"memory": {
+									"type": "stdio",
 									"command": "npx",
 									"args": [
 										"-y", 
@@ -712,14 +714,9 @@ asyncio.run(myfunc(display_intercept=True))
 									]
 								},
 								"sequential-thinking": {
-								"type": "stdio",
-								"command": "npx",
-								"args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
-								},
-								"git": {
-								"type": "stdio",
-								"command": "npx",
-								"args": ["-y", "@modelcontextprotocol/server-git"]
+									"type": "stdio",
+									"command": "npx",
+									"args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
 								},
 							}
 						}
