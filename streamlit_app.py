@@ -727,6 +727,14 @@ asyncio.run(myfunc(display_intercept=True))
 										"--headless"
 									]
 								},
+								"fetch": {
+									"type": "stdio",
+									"command": "uvx",
+									"args": [
+										"mcp-server-fetch",
+										"--ignore-robots-txt"
+									]
+								},
 							}
 						}
 
@@ -736,9 +744,6 @@ asyncio.run(myfunc(display_intercept=True))
 						#st.write(client)
 
 						await client.create_all_sessions()
-						tools = await client.search_tools()
-						for tool in tools:
-							st.write(tool)
 
 						# Sử dụng context manager để tự động đóng session khi chạy xong
 						llm = ChatOpenAI(
