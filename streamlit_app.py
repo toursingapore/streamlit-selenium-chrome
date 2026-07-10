@@ -761,7 +761,10 @@ asyncio.run(myfunc(display_intercept=True))
 						st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")  
 					finally:
 						if client:
-							await client.close_all_sessions()
+							try:
+								await client.close_all_sessions()
+							except Exception:
+								pass
 
 				prompt = "List all files in the current directory, create a new folder named 'hello_folder'"
 				result = asyncio.run(chatbot_coding_agent_with_tools_via_mcp_server(prompt))
