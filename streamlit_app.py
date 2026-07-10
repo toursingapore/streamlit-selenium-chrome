@@ -750,7 +750,7 @@ asyncio.run(myfunc(display_intercept=True))
 							#additional_instructions="Additional guidelines for specific tasks", 
 							#disallowed_tools=["file_system", "network", "shell"]  # Restrict potentially dangerous tools								
 						)
-						# Run the query with agent 
+						# Run the query with agent
 						response = await agent.run(prompt)
 						return response
 					except Exception as e:
