@@ -718,6 +718,15 @@ asyncio.run(myfunc(display_intercept=True))
 									"command": "npx",
 									"args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
 								},
+								"playwright": {
+									"type": "stdio",
+									"command": "npx",
+									"args": [
+										"-y",
+										"@playwright/mcp@latest",
+										"--headless"
+									]
+								},
 							}
 						}
 
