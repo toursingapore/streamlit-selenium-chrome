@@ -687,10 +687,10 @@ asyncio.run(myfunc(display_intercept=True))
 					try:
 						# Create configuration dictionary json with multiple MCP SERVERs
 						#Cho phép AI tương tác target folder
-						mcp_server_folder_path = "/tmp/project/workspace"
-						os.makedirs(mcp_server_folder_path, exist_ok=True)
+						#mcp_server_folder_path = "/tmp/workspace"
+						#os.makedirs(mcp_server_folder_path, exist_ok=True)
 						#mcp_server_folder_path = os.getcwd()
-						#mcp_server_folder_path = '/tmp'
+						mcp_server_folder_path = '/tmp'
 						st.write(f"MCP Server đang truy cập thư mục: {mcp_server_folder_path}")
 
 						mcp_servers_config = {
@@ -739,7 +739,7 @@ asyncio.run(myfunc(display_intercept=True))
 						response = llm.invoke("Hello! Reply only: LLM is working")
 						st.write("LLM Response:", response.content)
 
-						st.write(MCPAgent)
+						#st.write(MCPAgent)
 
 						# Create agent with the client
 						agent = MCPAgent(
