@@ -16,6 +16,8 @@ nest_asyncio.apply() #Enable asyncio in the main thread and Run the asynchronous
 from prefect import task, flow
 from prefect.schedules import Cron
 
+GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+
 
 def send_email_notification_mailtrap(email_receiver, html_notify):
 	global mailtrap_api_key
@@ -126,9 +128,7 @@ def Convert_image_local_path_toBase64(image_path):
 		return base64.b64encode(image_file.read()).decode('utf-8')
 
 def chatbot_vision_by_groq(prompt, image_path=None, model="meta-llama/llama-4-scout-17b-16e-instruct"):
-	try:
-		GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
-		
+	try:		
 		if not GROQ_API_KEY:
 			raise ValueError("Missing GROQ_API_KEY environment variable")
 
