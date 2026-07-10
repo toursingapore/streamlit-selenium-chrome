@@ -5,3 +5,5 @@ tightvncserver
 unzip
 wget
 screen
+nodejs
+npm
