@@ -728,14 +728,11 @@ asyncio.run(myfunc(display_intercept=True))
 									]
 								},
 								"fetch": {
-									"type": "stdio",
-									"command": "python",
+									"command": "uvx",
 									"args": [
-										"-m",
-										"mcp_server_fetch",
-										"--ignore-robots-txt"
+										"mcp-server-fetch"
 									]
-								}
+								},
 							}
 						}
 
