@@ -733,7 +733,7 @@ asyncio.run(myfunc(display_intercept=True))
 						# Create MCPClient from configuration dictionary
 						client = MCPClient.from_dict(mcp_servers_config)
 						#client = MCPClient.from_config_file('mcp-server.json')
-						#st.write(client)
+						st.write(client)
 
 						await client.create_all_sessions()
 						tools = await client.list_tools()
