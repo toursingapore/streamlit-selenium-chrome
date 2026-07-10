@@ -711,6 +711,16 @@ asyncio.run(myfunc(display_intercept=True))
 										"@modelcontextprotocol/server-memory"
 									]
 								},
+								"sequential-thinking": {
+								"type": "stdio",
+								"command": "npx",
+								"args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+								},
+								"git": {
+								"type": "stdio",
+								"command": "npx",
+								"args": ["-y", "@modelcontextprotocol/server-git"]
+								},
 							}
 						}
 
