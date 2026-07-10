@@ -718,6 +718,8 @@ asyncio.run(myfunc(display_intercept=True))
 						#client = MCPClient.from_config_file('mcp-server.json')
 						#st.write(client)
 
+						await client.create_all_sessions()
+
 						# Sử dụng context manager để tự động đóng session khi chạy xong
 						llm = ChatOpenAI(
 							#base_url="https://integrate.api.nvidia.com/v1",
