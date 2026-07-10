@@ -717,15 +717,7 @@ asyncio.run(myfunc(display_intercept=True))
 									"type": "stdio",
 									"command": "npx",
 									"args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
-								},
-								"git": {
-									"command": "uvx",
-									"args": [
-										"mcp-server-git", 
-										"--repository",
-										"https://github.com/github/github-mcp-server"
-									]
-								},								
+								},							
 								"playwright": {
 									"type": "stdio",
 									"command": "npx",
