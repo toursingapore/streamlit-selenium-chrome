@@ -694,6 +694,19 @@ asyncio.run(myfunc(display_intercept=True))
 						mcp_server_folder_path = '/tmp'
 						st.write(f"MCP Server đang truy cập thư mục: {mcp_server_folder_path}")
 
+
+						st.write("Installing Microsoft Edge browser for Playwright...")
+						install_cmd = ["npx", "playwright", "install", "msedge"]
+
+						try:
+							# Use shell=True if running on Windows to properly locate npx
+							is_windows = sys.platform.startswith("win")
+							subprocess.run(install_cmd, check=True, shell=is_windows)
+							st.write("Microsoft Edge installed successfully.\n")
+						except subprocess.CalledProcessError as e:
+							st.write(f"Error during browser installation: {e}")
+							sys.exit(1)
+
 						mcp_servers_config = {
 							"mcpServers": {
 								"filesystem": {
