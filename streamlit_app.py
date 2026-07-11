@@ -731,8 +731,9 @@ asyncio.run(myfunc(display_intercept=True))
 						st.write("Connecting to MCP servers...")
 						tools = await mcp_servers.get_tools()
 						st.write(f"Loaded {len(tools)} tools:")
-						for i, tool in enumerate(tools, start=1):
-							st.write(f"{i}.{tool.name}: {tool.description}")
+						st.write(tools)
+						#for i, tool in enumerate(tools, start=1):
+						#	st.write(f"{i}.{tool.name}: {tool.description}")
 						
 						# 2. Set up your LLM - dùng init_chat_model hoặc ChatOpenAI
 						llm = ChatOpenAI(
