@@ -680,39 +680,70 @@ asyncio.run(myfunc(display_intercept=True))
 				st.write('Hello world') 
 
 
+				from openai import AsyncOpenAI
 				from agents import Agent, Runner
 				from agents.mcp import MCPServerStdio
+				from agents.models.openai_chatcompletions import OpenAIChatCompletionsModel
 
+				async def run_agent_with_mcp_server():
+					# NVIDIA NIM OpenAI-compatible client
+					llm = AsyncOpenAI(
+						base_url="https://api.groq.com/openai/v1",
+						api_key=GROQ_API_KEY,
+					)
 
-				async def myfunc():
-					async with MCPServerStdio(
+					model = OpenAIChatCompletionsModel(
+						#model="openai/gpt-oss-20b",
+						model="openai/gpt-oss-120b",						
+						openai_client=llm
+					)
+
+					fs_server = MCPServerStdio(
 						name="filesystem-server",
-						params={
-							"command": "npx",
-							"args": [
-								"-y",
-								"@modelcontextprotocol/server-filesystem",
-								"/tmp"
-							],
-						},
-						cache_tools_list=True,
-					) as fs_server:
+						command="npx",
+						args=[
+							"-y",
+							"@modelcontextprotocol/server-filesystem",
+							"./data_dir"
+						],
+						cache_tools_list=True
+					)
+
+					fetch_server = MCPServerStdio(
+						name="fetch-server",
+						command="npx",
+						args=[
+							"-y",
+							"@modelcontextprotocol/server-fetch"
+						],
+						cache_tools_list=True
+					)
+
+					async with fs_server as fs, fetch_server as fetch:
+
 						agent = Agent(
-							name="File Agent",
+							name="Multi-MCP Orchestrator",
 							instructions=(
-								"Use filesystem tools to read and write files."
+								"You are an assistant with access to multiple server tools. "
+								"Use filesystem tools and fetch tools when needed."
 							),
-							mcp_servers=[
-								fs_server
+							tools=[
+								*fs.tools,
+								*fetch.tools
 							],
+							model=model
 						)
+
 						result = await Runner.run(
 							agent,
-							"List files in the directory"
+							"Fetch the text from https://example.com "
+							"and save it to summary.txt"
 						)
+
 						st.write(result.final_output)
 
-				asyncio.run(myfunc())
+
+				asyncio.run(run_agent_with_mcp_server())
 
 
 
