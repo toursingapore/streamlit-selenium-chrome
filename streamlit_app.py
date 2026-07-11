@@ -719,7 +719,7 @@ asyncio.run(myfunc(display_intercept=True))
 							"fetch": {
 								"transport": "stdio",
 								"command": "npx",
-								"args": ["@modelcontextprotocol/server-fetch"]
+								"args": ["-y", "@modelcontextprotocol/server-fetch"]
 							},
 							#"playwright": {
 							#	"transport": "stdio",
