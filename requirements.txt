@@ -13,4 +13,4 @@ prefect==3.6.20
 discord.py==2.7.1
 langchain-openai
 mcp-use
-openai-agents
+langchain-mcp-adapters

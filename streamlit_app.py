@@ -679,75 +679,82 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world') 
 
+				from langchain_mcp_adapters.client import MultiServerMCPClient
+				from langchain.agents import create_react_agent
+				from langchain_openai import ChatOpenAI
 
-				from openai import AsyncOpenAI
-				from agents import Agent, Runner
-				from agents.mcp import MCPServerStdio
-				from agents.models.openai_chatcompletions import OpenAIChatCompletionsModel
+				# Đường dẫn folder cho filesystem server
+				mcp_server_folder_path = "/tmp"  # Thay bằng đường dẫn thực tế
 
-				async def run_agent_with_mcp_server():
-					# NVIDIA NIM OpenAI-compatible client
-					llm = AsyncOpenAI(
-						base_url="https://api.groq.com/openai/v1",
-						api_key=GROQ_API_KEY,
-					)
+				# Configure your MCP servers
+				client = MultiServerMCPClient({
+					"filesystem": {
+						"transport": "stdio",
+						"command": "npx",
+						"args": [
+							"-y",
+							"@modelcontextprotocol/server-filesystem",
+							mcp_server_folder_path
+						]
+					},
+					"memory": {
+						"transport": "stdio",
+						"command": "npx",
+						"args": [
+							"-y", 
+							"@modelcontextprotocol/server-memory"
+						]
+					},
+					"sequential-thinking": {
+						"transport": "stdio",
+						"command": "npx",
+						"args": [
+							"-y", 
+							"@modelcontextprotocol/server-sequential-thinking"
+						]
+					},
+					"playwright": {
+						"transport": "stdio",
+						"command": "npx",
+						"args": [
+							"@playwright/mcp@latest",
+							"--headless",
+							"--browser=msedge"
+						]
+					}
+				})
 
-					model = OpenAIChatCompletionsModel(
-						#model="openai/gpt-oss-20b",
-						model="openai/gpt-oss-120b",						
-						openai_client=llm
-					)
+				async def myfunc():
+					try:
+						# 1. Fetch all tools from the connected MCP servers
+						st.write("Connecting to MCP servers...")
+						tools = await client.get_tools()
+						st.write(f"Loaded {len(tools)} tools:")
+						for tool in tools:
+							st.write(f"  - {tool.name}: {tool.description}")
+						
+						# 2. Set up your LLM
+						llm = ChatOpenAI(model="gpt-4o", temperature=0)
+						
+						# 3. Create your agent
+						agent = create_react_agent(llm, tools)
+						
+						# Test với một câu hỏi đơn giản
+						response = await agent.ainvoke({
+							"input": "List the files in the current directory and summarize what you find."
+						})
+						
+						st.write("\n=== Response ===")
+						st.write(response)
+						
+					except Exception as e:
+						st.write(f"Error: {e}")
+					finally:
+						# Đóng kết nối
+						await client.close()
 
-					fs_server = MCPServerStdio(
-						name="filesystem-server",
-						params={
-							"command": "npx",
-							"args": [
-								"-y",
-								"@modelcontextprotocol/server-filesystem",
-								"/tmp"
-							],
-						},
-						cache_tools_list=True
-					)
-
-					fetch_server = MCPServerStdio(
-						name="fetch-server",
-						params={
-							"command": "npx",
-							"args": [
-								"-y",
-								"@modelcontextprotocol/server-fetch"
-							],
-						},
-						cache_tools_list=True
-					)
-
-					async with fs_server as fs:
-
-						agent = Agent(
-							name="Multi-MCP Orchestrator",
-							instructions=(
-								"You are an assistant with access to multiple server tools. "
-								"Use filesystem tools and fetch tools when needed."
-							),
-							tools=[
-								*fs.tools,
-							],
-							model=model
-						)
-
-						result = await Runner.run(
-							agent,
-							"List available files",
-						)
-
-						st.write(result.final_output)
-
-
-				asyncio.run(run_agent_with_mcp_server())
-
-
+				# Run the async function
+				asyncio.run(myfunc())
 
 
 
