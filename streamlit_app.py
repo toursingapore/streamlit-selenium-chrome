@@ -735,7 +735,7 @@ asyncio.run(myfunc(display_intercept=True))
 						st.write("Connecting to MCP servers...")
 						tools = await client.get_tools()
 						st.write(f"Loaded {len(tools)} tools:")
-						st.write(tools)
+						#st.write(tools)
 						#for i, tool in enumerate(tools, start=1):
 						#	st.write(f"{i}.{tool.name}: {tool.description}")
 						
@@ -764,13 +764,13 @@ asyncio.run(myfunc(display_intercept=True))
 						response = await agent.ainvoke({
 							"messages": [{"role": "user", "content": prompt}]
 						})						
-						st.write(response)
+						#st.write(response)
 
 						ToolMessage = response["messages"][-2]
 						tool_answer = ToolMessage.content
-						st.write(tool_answer)
+						#st.write(tool_answer)
 						for i, data_json in enumerate(tool_answer, start=1):
-							st.write('Tool answer - ',data_json.get("text"))						
+							st.write('Tool answer - ', data_json.get("text"))						
 
 						AIMessage = response["messages"][-1]
 						final_answer = AIMessage.content
