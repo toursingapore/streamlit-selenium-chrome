@@ -686,17 +686,15 @@ asyncio.run(myfunc(display_intercept=True))
 
 
 				@tool
-				def fetch_webpage(url: str) -> str:
-					"""Fetch and extract readable text content from a webpage URL"""
+				def fetch_webpage(url: str) -> list:
+					"""Fetch and extract readable text content from a webpage URL. Returns a list containing a dictionary with 'text' key."""
 					try:
 						headers = {
 							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
 						}
 						response = requests.get(url, headers=headers, timeout=30)
 						response.raise_for_status()
-						
 						soup = BeautifulSoup(response.content, 'html.parser')
-						
 						# Remove unwanted elements
 						for element in soup(["script", "style", "nav", "footer", "header", "aside"]):
 							element.decompose()
@@ -705,9 +703,13 @@ asyncio.run(myfunc(display_intercept=True))
 						text = soup.get_text(separator='\n', strip=True)
 						lines = [line.strip() for line in text.splitlines() if line.strip()]
 						clean_text = '\n'.join(lines)
-						return clean_text[:15000]  # Limit length
+						clean_text = clean_text[:15000]
+						
+						# CHUẨN HÓA OUTPUT: Trả về List[Dict]
+						return [{"text": clean_text}]
 					except Exception as e:
-						return f"Error fetching URL: {str(e)}"
+						# CHUẨN HÓA OUTPUT cả khi lỗi
+						return [{"text": f"Error fetching URL: {str(e)}"}]
 
 				async def myfunc(prompt):
 					try:
