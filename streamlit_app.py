@@ -772,9 +772,9 @@ asyncio.run(myfunc(display_intercept=True))
 						# 1. Fetch all tools from the connected MCP servers one time only and avoid overload memory for multiple connections
 						st.write("Connecting to MCP servers...")
 						mcp_tools = await client.get_tools()
-
+						
 						#tools = mcp_tools
-						tools = mcp_tools + [fetch_webpage]
+						tools = mcp_tools + [fetch_webpage] #kết hợp tool tự tạo chuẩn output mcp
 
 						st.write(f"Loaded {len(tools)} tools:")
 						#st.write(tools)
@@ -810,7 +810,7 @@ asyncio.run(myfunc(display_intercept=True))
 
 						ToolMessage = response["messages"][-2]
 						tool_answer = ToolMessage.content
-						st.write(tool_answer)
+						#st.write(tool_answer)
 						for i, data_json in enumerate(tool_answer, start=1):
 							st.write('Tool answer - ', data_json.get("text"))
 
