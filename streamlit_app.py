@@ -687,7 +687,7 @@ asyncio.run(myfunc(display_intercept=True))
 
 				@tool
 				def fetch_webpage(url: str) -> list:
-					"""Fetch and extract readable text content from a webpage URL. Returns a list containing a dictionary with 'text' key."""
+					"""Fetch and extract readable text content from a webpage URL."""
 					try:
 						headers = {
 							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
@@ -695,6 +695,7 @@ asyncio.run(myfunc(display_intercept=True))
 						response = requests.get(url, headers=headers, timeout=30)
 						response.raise_for_status()
 						soup = BeautifulSoup(response.content, 'html.parser')
+						
 						# Remove unwanted elements
 						for element in soup(["script", "style", "nav", "footer", "header", "aside"]):
 							element.decompose()
@@ -705,11 +706,19 @@ asyncio.run(myfunc(display_intercept=True))
 						clean_text = '\n'.join(lines)
 						clean_text = clean_text[:15000]
 						
-						# CHUẨN HÓA OUTPUT: Trả về List[Dict]
-						return [{"text": clean_text}]
+						# CHUẨN HÓA OUTPUT theo MCP format: List[Dict] với type, text, id
+						return [{
+							"type": "text",
+							"text": clean_text,
+							"id": f"lc_{uuid.uuid4()}"
+						}]
 					except Exception as e:
 						# CHUẨN HÓA OUTPUT cả khi lỗi
-						return [{"text": f"Error fetching URL: {str(e)}"}]
+						return [{
+							"type": "text",
+							"text": f"Error fetching URL: {str(e)}",
+							"id": f"lc_{uuid.uuid4()}"
+						}]
 
 				async def myfunc(prompt):
 					try:
