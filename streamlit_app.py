@@ -711,13 +711,17 @@ asyncio.run(myfunc(display_intercept=True))
 							st.write(f"Server: {result.serverInfo.name}")
 
 							resources = await client.list_resources()
-							st.write('resources: ', resources)
-							
+							st.write('Resources (Context for the LLM to understand): ', resources)
 
 							tools = await client.list_tools()
 							st.write(tools)
 							for i, tool in enumerate(tools, start=1):
-								st.write(f"{i}. {tool.name} - [{tool.description}] - [{tool.inputSchema}] - [{tool.outputSchema}]")
+								st.write(i)
+								st.write(f"Tool name: {tool.name}")
+								st.write(f"Tool description: {tool.description}")
+								st.write(f"Tool inputSchema: {tool.inputSchema}")
+								st.write(f"Tool outputSchema: {tool.outputSchema}")
+								st.write('---')
 
 							# Example call Tools thủ công are prefixed with server names
 							#result_data = await client.call_tool("weather_get_forecast", {"city": "London"})
