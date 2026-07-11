@@ -685,7 +685,6 @@ asyncio.run(myfunc(display_intercept=True))
 
 
 				async def myfunc():
-
 					async with MCPServerStdio(
 						name="filesystem-server",
 						params={
@@ -693,12 +692,11 @@ asyncio.run(myfunc(display_intercept=True))
 							"args": [
 								"-y",
 								"@modelcontextprotocol/server-filesystem",
-								"./data_dir"
+								"/tmp"
 							],
 						},
 						cache_tools_list=True,
 					) as fs_server:
-
 						agent = Agent(
 							name="File Agent",
 							instructions=(
@@ -708,14 +706,11 @@ asyncio.run(myfunc(display_intercept=True))
 								fs_server
 							],
 						)
-
 						result = await Runner.run(
 							agent,
 							"List files in the directory"
 						)
-
 						st.write(result.final_output)
-
 
 				asyncio.run(myfunc())
 
