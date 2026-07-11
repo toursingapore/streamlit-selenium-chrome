@@ -722,7 +722,7 @@ asyncio.run(myfunc(display_intercept=True))
 								"args": [
 									"@playwright/mcp@latest",
 									"--headless",
-									"--browser=msedge"
+									#"--browser=msedge"
 								]
 							},
 						})
