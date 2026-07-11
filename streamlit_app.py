@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 import time, os, sys, subprocess
 from pyngrok import ngrok
 import html2text
-import requests, json
+import requests
 from typing import Any, Dict, List, Optional, Type, Union, Callable
 from concurrent.futures import ThreadPoolExecutor
 import os
@@ -719,10 +719,8 @@ asyncio.run(myfunc(display_intercept=True))
 								st.write(i)
 								st.write(f"Tool name: {tool.name}")
 								st.write(f"Tool description: {tool.description}")
-								json_str_inputSchema = tool.inputSchema
-								st.write(f"Tool inputSchema: {json.loads(json_str_inputSchema)}")
-								json_str_outputSchema = tool.outputSchema
-								st.write(f"Tool outputSchema: {json.loads(json_str_outputSchema)}")
+								st.write(f"Tool inputSchema: {tool.inputSchema}")
+								st.write(f"Tool outputSchema: {tool.outputSchema}")
 								st.write('---')
 
 							# Example call Tools thủ công are prefixed with server names
