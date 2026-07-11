@@ -733,7 +733,7 @@ asyncio.run(myfunc(display_intercept=True))
 						}
 						client = MultiServerMCPClient(
 							connections=mcp_servers_config,
-							handle_tool_errors=True # Default False raises a strict ToolException							
+							handle_tool_errors=True
 						)
 
 						# 1. Fetch all tools from the connected MCP servers one time only and avoid overload memory for multiple connections
