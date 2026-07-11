@@ -679,7 +679,83 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world') 
 
+				from langchain_openai import ChatOpenAI
+				from mcp_use import MCPAgent, MCPClient
+				from langchain_openai import ChatOpenAI, OpenAIEmbeddings #openai compatibility api
+
 				from fastmcp import Client
+
+				async def get_mcp_tools():
+					"""Khởi tạo MCP client và lấy danh sách tools từ MCP server"""
+					mcp_config = {
+						"mcpServers": {
+							"filesystem": {
+								"command": "npx",
+								"args": ["-y", "@modelcontextprotocol/server-filesystem", "/tmp"]
+							}
+						}
+					}
+					
+					client = Client(mcp_config)
+					await client.__aenter__()
+					await client.initialize(timeout=30.0)
+					
+					# Lấy danh sách tools từ MCP server
+					mcp_tools_list = await client.list_tools()
+					print(f"Đã tìm thấy {len(mcp_tools_list)} tools từ MCP server")
+					
+					# Chuyển đổi MCP tools thành LangChain tools
+					langchain_tools = []
+					
+					for tool in mcp_tools_list:
+						# Lưu tên tool và client vào closure để tránh vấn đề với biến loop
+						async def mcp_tool_wrapper(**kwargs, _tool_name=tool.name, _client=client):
+							try:
+								result = await _client.call_tool(_tool_name, kwargs)
+								return str(result)
+							except Exception as e:
+								return f"Lỗi: {str(e)}"
+
+						lc_tool = StructuredTool.from_function(
+							coroutine=mcp_tool_wrapper,
+							name=tool.name,
+							description=tool.description,
+						)
+						langchain_tools.append(lc_tool)
+						print(f"  - Đã chuyển đổi tool: {tool.name}")
+						
+					return client, langchain_tools
+
+				def create_langgraph_agent(tools):
+					llm = ChatOpenAI(model="gpt-4o", temperature=0, api_key=OPENAI_API_KEY)
+					
+					# create_react_agent trả về một CompiledGraph
+					agent = create_react_agent(llm, tools)
+					return agent
+
+
+				async def run_graph():
+					client, tools = await get_mcp_tools()
+					try:
+						agent_graph = create_langgraph_agent(tools)
+						
+						# Chuẩn bị state đầu vào cho Graph
+						initial_state = {"messages": st.session_state.messages}
+						
+						# Chạy Graph (stream_events để xem từng bước suy luận nếu muốn)
+						final_state = await agent_graph.ainvoke(initial_state)
+						
+						await client.__aexit__(None, None, None)
+						return final_state['messages'][-1].content
+					except Exception as e:
+						await client.__aexit__(None, None, None)
+						raise e
+
+				response_content = asyncio.run(run_graph())
+				st.write(response_content)
+
+
+				st.write(heoquay)
 
 				async def run_agent():
 					mcp_config = {
@@ -734,10 +810,6 @@ asyncio.run(myfunc(display_intercept=True))
 
 
 				st.write(heoquay)
-
-				from langchain_openai import ChatOpenAI
-				from mcp_use import MCPAgent, MCPClient
-				from langchain_openai import ChatOpenAI, OpenAIEmbeddings #openai compatibility api
 
 				async def chatbot_coding_agent_with_tools_via_mcp_server(prompt: str):
 					client = None
