@@ -781,8 +781,8 @@ asyncio.run(myfunc(display_intercept=True))
 
 
 				# Run the async function
-				prompt = "List the files in the current directory, output table clear easy to understand."
-				#prompt = "Summarize content this url https://vnexpress.net/giot-nuoc-tran-ly-khien-ong-trump-huy-ngung-ban-voi-iran-5095703.html."
+				#prompt = "List the files in the current directory, output table clear easy to understand."
+				prompt = "Summarize content this url https://vnexpress.net/giot-nuoc-tran-ly-khien-ong-trump-huy-ngung-ban-voi-iran-5095703.html."
 				final_answer = asyncio.run(myfunc(prompt))
 				st.write(final_answer)
 
