@@ -700,22 +700,26 @@ asyncio.run(myfunc(display_intercept=True))
 
 					fs_server = MCPServerStdio(
 						name="filesystem-server",
-						command="npx",
-						args=[
-							"-y",
-							"@modelcontextprotocol/server-filesystem",
-							"./data_dir"
-						],
+						params={
+							"command": "npx",
+							"args": [
+								"-y",
+								"@modelcontextprotocol/server-filesystem",
+								"./data_dir"
+							],
+						},
 						cache_tools_list=True
 					)
 
 					fetch_server = MCPServerStdio(
 						name="fetch-server",
-						command="npx",
-						args=[
-							"-y",
-							"@modelcontextprotocol/server-fetch"
-						],
+						params={
+							"command": "npx",
+							"args": [
+								"-y",
+								"@modelcontextprotocol/server-fetch"
+							],
+						},
 						cache_tools_list=True
 					)
 
