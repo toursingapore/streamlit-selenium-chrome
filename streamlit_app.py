@@ -711,7 +711,7 @@ asyncio.run(myfunc(display_intercept=True))
 							st.write(f"Server: {result.serverInfo.name}")
 
 							resources = await client.list_resources()
-							st.write('Resources (Context for the LLM to understand): ', resources)
+							st.write('Resources (Context to help the LLM understand): ', resources)
 
 							tools = await client.list_tools()
 							st.write(tools)
