@@ -691,6 +691,14 @@ asyncio.run(myfunc(display_intercept=True))
 
 						# Configure your MCP servers
 						mcp_servers = MultiServerMCPClient({
+							#"sequential-thinking": { # think logic lâu, dùng complex actions
+							#	"transport": "stdio",
+							#	"command": "npx",
+							#	"args": [
+							#		"-y", 
+							#		"@modelcontextprotocol/server-sequential-thinking"
+							#	]
+							#},							
 							"filesystem": {
 								"transport": "stdio",
 								"command": "npx",
@@ -708,14 +716,6 @@ asyncio.run(myfunc(display_intercept=True))
 									"@modelcontextprotocol/server-memory"
 								]
 							},
-							#"sequential-thinking": { # think logic lâu, dùng complex actions
-							#	"transport": "stdio",
-							#	"command": "npx",
-							#	"args": [
-							#		"-y", 
-							#		"@modelcontextprotocol/server-sequential-thinking"
-							#	]
-							#},
 							"playwright": {
 								"transport": "stdio",
 								"command": "npx",
@@ -724,7 +724,7 @@ asyncio.run(myfunc(display_intercept=True))
 									"--headless",
 									"--browser=msedge"
 								]
-							}
+							},
 						})
 
 						# 1. Fetch all tools from the connected MCP servers one time only and avoid overload memory for multiple connections
@@ -761,15 +761,11 @@ asyncio.run(myfunc(display_intercept=True))
 						# Test với một câu hỏi đơn giản
 						response = await agent.ainvoke({
 							"messages": [{"role": "user", "content": prompt}]
-						})
-						
-						st.write("\n=== Response ===")
+						})						
 						#st.write(response)
-
 						final_message = response["messages"][-1]
 						final_answer = final_message.content
-						st.write(final_answer)
-
+						return final_answer						
 					except Exception as e:
 						exc_type, exc_obj, exc_tb = sys.exc_info()
 						fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -777,10 +773,10 @@ asyncio.run(myfunc(display_intercept=True))
 
 
 				# Run the async function
-				#prompt = "List the files in the current directory and summarize what you find and output table clear easy to understand."
-				prompt = "Summarize content this url https://vnexpress.net/giot-nuoc-tran-ly-khien-ong-trump-huy-ngung-ban-voi-iran-5095703.html."
-				asyncio.run(myfunc(prompt))
-
+				prompt = "List the files in the current directory and summarize what you find and output table clear easy to understand."
+				#prompt = "Summarize content this url https://vnexpress.net/giot-nuoc-tran-ly-khien-ong-trump-huy-ngung-ban-voi-iran-5095703.html."
+				final_answer = asyncio.run(myfunc(prompt))
+				st.write(final_answer)
 
 
 				st.write(heoquay)
