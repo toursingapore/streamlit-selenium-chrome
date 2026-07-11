@@ -734,8 +734,25 @@ asyncio.run(myfunc(display_intercept=True))
 							st.write(f"  - {tool.name}: {tool.description}")
 						
 						# 2. Set up your LLM
-						llm = ChatOpenAI(model="gpt-4o", temperature=0)
-						
+						llm = ChatOpenAI(
+							#base_url="https://integrate.api.nvidia.com/v1",
+							#api_key=NVIDIA_API_KEY,
+							#model="qwen/qwen3.5-122b-a10b", #Lưu ý phải là llm vision mới worked
+							#base_url="https://zenmux.ai/api/v1",
+							#api_key=ZENMUX_API_KEY,
+							#model="stepfun/step-3.7-flash-free",
+							base_url="https://api.groq.com/openai/v1",
+							api_key=GROQ_API_KEY,
+							#model="openai/gpt-oss-20b",
+							model="openai/gpt-oss-120b",
+							temperature=0.3,
+							timeout=60.0, # timeout seconds with type float number
+							max_retries=2,
+						)
+						#Check LLM work or not 
+						response = llm.invoke("Hello! Reply only: LLM is working")
+						st.write("LLM Response:", response.content)
+
 						# 3. Create your agent
 						agent = create_react_agent(llm, tools)
 						
