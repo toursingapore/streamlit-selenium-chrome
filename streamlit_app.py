@@ -708,7 +708,7 @@ asyncio.run(myfunc(display_intercept=True))
 									"@modelcontextprotocol/server-memory"
 								]
 							},
-							#"sequential-thinking": {
+							#"sequential-thinking": { # think logic lâu, dùng complex actions
 							#	"transport": "stdio",
 							#	"command": "npx",
 							#	"args": [
