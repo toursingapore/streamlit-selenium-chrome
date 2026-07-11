@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 import time, os, sys, subprocess
 from pyngrok import ngrok
 import html2text
-import requests
+import requests, json
 from typing import Any, Dict, List, Optional, Type, Union, Callable
 from concurrent.futures import ThreadPoolExecutor
 import os
