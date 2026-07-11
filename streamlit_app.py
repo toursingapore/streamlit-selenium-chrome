@@ -716,10 +716,14 @@ asyncio.run(myfunc(display_intercept=True))
 									"@modelcontextprotocol/server-memory"
 								]
 							},
-							"fetch": {
-								"transport": "stdio",
-								"command": "npx",
-								"args": ["-y", "@modelcontextprotocol/server-fetch"]
+							"selenium-browser": {
+								"command": "node",
+								"args": [
+									"/home/robertocpaes/Projects/Pessoal/mcp-selenium/dist/index.js"
+								],
+								"env": {
+									"NODE_ENV": "production"
+								}
 							},
 							#"playwright": {
 							#	"transport": "stdio",
