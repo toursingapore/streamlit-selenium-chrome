@@ -716,14 +716,9 @@ asyncio.run(myfunc(display_intercept=True))
 									"@modelcontextprotocol/server-memory"
 								]
 							},
-							"selenium-browser": {
-								"command": "node",
-								"args": [
-									"/home/robertocpaes/Projects/Pessoal/mcp-selenium/dist/index.js"
-								],
-								"env": {
-									"NODE_ENV": "production"
-								}
+							"browserbase": {
+								"type": "http",
+								"url": "https://mcp.browserbase.com/mcp"
 							},
 							#"playwright": {
 							#	"transport": "stdio",
