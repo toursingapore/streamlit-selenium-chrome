@@ -689,6 +689,11 @@ asyncio.run(myfunc(display_intercept=True))
 						# Đường dẫn folder cho filesystem server
 						mcp_server_folder_path = "/tmp"  # Thay bằng đường dẫn thực tế
 
+						st.write(MultiServerMCPClient)
+
+						st.write(heoquay)
+
+
 						# Connect to multiple MCP servers with MultiServerMCPClient (auto close all session after done)
 						client = MultiServerMCPClient({
 							#"sequential-thinking": { # think logic lâu, dùng complex actions
@@ -726,8 +731,6 @@ asyncio.run(myfunc(display_intercept=True))
 								]
 							},
 						})
-
-						st.write(client)
 
 						# 1. Fetch all tools from the connected MCP servers one time only and avoid overload memory for multiple connections
 						st.write("Connecting to MCP servers...")
