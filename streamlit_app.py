@@ -713,13 +713,11 @@ asyncio.run(myfunc(display_intercept=True))
 							resources = await client.list_resources()
 							st.write('resources: ', resources)
 							
-							prompts = await client.list_prompts()
-							st.write('prompts: ', prompts)
 
 							tools = await client.list_tools()
 							st.write(tools)
 							for i, tool in enumerate(tools, start=1):
-								st.write(f"{i}. {tool.name} - [{tool.description}] - [{tool.input_schema}]")
+								st.write(f"{i}. {tool.name} - [{tool.description}] - [{tool.inputSchema}] - [{tool.outputSchema}]")
 
 							# Example call Tools thủ công are prefixed with server names
 							#result_data = await client.call_tool("weather_get_forecast", {"city": "London"})
