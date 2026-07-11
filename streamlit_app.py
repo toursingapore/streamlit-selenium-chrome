@@ -766,8 +766,13 @@ asyncio.run(myfunc(display_intercept=True))
 							"messages": [{"role": "user", "content": prompt}]
 						})						
 						st.write(response)
-						final_message = response["messages"][-1]
-						final_answer = final_message.content
+
+						ToolMessage = response["messages"][-2]
+						tool_answer = ToolMessage.content
+						st.write(tool_answer)
+
+						AIMessage = response["messages"][-1]
+						final_answer = AIMessage.content
 						return final_answer						
 					except Exception as e:
 						exc_type, exc_obj, exc_tb = sys.exc_info()
