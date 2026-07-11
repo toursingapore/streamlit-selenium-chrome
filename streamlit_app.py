@@ -708,14 +708,14 @@ asyncio.run(myfunc(display_intercept=True))
 									"@modelcontextprotocol/server-memory"
 								]
 							},
-							"sequential-thinking": {
-								"transport": "stdio",
-								"command": "npx",
-								"args": [
-									"-y", 
-									"@modelcontextprotocol/server-sequential-thinking"
-								]
-							},
+							#"sequential-thinking": {
+							#	"transport": "stdio",
+							#	"command": "npx",
+							#	"args": [
+							#		"-y", 
+							#		"@modelcontextprotocol/server-sequential-thinking"
+							#	]
+							#},
 							"playwright": {
 								"transport": "stdio",
 								"command": "npx",
