@@ -716,9 +716,14 @@ asyncio.run(myfunc(display_intercept=True))
 									"@modelcontextprotocol/server-memory"
 								]
 							},
-							"browserbase": {
-								"type": "http",
-								"url": "https://mcp.browserbase.com/mcp"
+							"safari": {
+								"transport": "stdio",
+								"command": "npx",
+								"args": [
+									"-y",
+									"github:achiya-automation/safari-mcp"
+									# Or if published to npm: "@achiya-automation/safari-mcp"
+								]
 							},
 							#"playwright": {
 							#	"transport": "stdio",
