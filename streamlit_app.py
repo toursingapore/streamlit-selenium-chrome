@@ -690,7 +690,7 @@ asyncio.run(myfunc(display_intercept=True))
 						mcp_server_folder_path = "/tmp"  # Thay bằng đường dẫn thực tế
 
 						# Configure your MCP servers
-						async with MultiServerMCPClient({
+						client = MultiServerMCPClient({
 							"filesystem": {
 								"transport": "stdio",
 								"command": "npx",
@@ -725,49 +725,49 @@ asyncio.run(myfunc(display_intercept=True))
 									"--browser=msedge"
 								]
 							}
-						}) as client:
+						})
 
-							# 1. Fetch all tools from the connected MCP servers
-							st.write("Connecting to MCP servers...")
-							tools = await client.get_tools()
-							st.write(f"Loaded {len(tools)} tools:")
-							for i, tool in enumerate(tools, start=1):
-								st.write(f"{i}.{tool.name}: {tool.description}")
-							
-							# 2. Set up your LLM - dùng init_chat_model hoặc ChatOpenAI
-							llm = ChatOpenAI(
-								#base_url="https://integrate.api.nvidia.com/v1",
-								#api_key=NVIDIA_API_KEY,
-								#model="qwen/qwen3.5-122b-a10b", #Lưu ý phải là llm vision mới worked
-								#base_url="https://zenmux.ai/api/v1",
-								#api_key=ZENMUX_API_KEY,
-								#model="stepfun/step-3.7-flash-free",
-								base_url="https://api.groq.com/openai/v1",
-								api_key=GROQ_API_KEY,
-								#model="openai/gpt-oss-20b",
-								model="openai/gpt-oss-120b",
-								temperature=0.3,
-								timeout=60.0, # timeout seconds with type float number
-								max_retries=2,
-							)
-							#Check LLM work or not 
-							response = llm.invoke("Hello! Reply only: LLM is working")
-							st.write("LLM Response:", response.content)						
-							
-							# 3. Create your agent - dùng create_agent (KHÔNG PHẢI create_react_agent)
-							agent = create_agent(llm, tools)
-							
-							# Test với một câu hỏi đơn giản
-							response = await agent.ainvoke({
-								"messages": [{"role": "user", "content": "List the files in the current directory and summarize what you find."}]
-							})
-							
-							st.write("\n=== Response ===")
-							st.write(response)
+						# 1. Fetch all tools from the connected MCP servers
+						st.write("Connecting to MCP servers...")
+						tools = await client.get_tools()
+						st.write(f"Loaded {len(tools)} tools:")
+						for i, tool in enumerate(tools, start=1):
+							st.write(f"{i}.{tool.name}: {tool.description}")
+						
+						# 2. Set up your LLM - dùng init_chat_model hoặc ChatOpenAI
+						llm = ChatOpenAI(
+							#base_url="https://integrate.api.nvidia.com/v1",
+							#api_key=NVIDIA_API_KEY,
+							#model="qwen/qwen3.5-122b-a10b", #Lưu ý phải là llm vision mới worked
+							#base_url="https://zenmux.ai/api/v1",
+							#api_key=ZENMUX_API_KEY,
+							#model="stepfun/step-3.7-flash-free",
+							base_url="https://api.groq.com/openai/v1",
+							api_key=GROQ_API_KEY,
+							#model="openai/gpt-oss-20b",
+							model="openai/gpt-oss-120b",
+							temperature=0.3,
+							timeout=60.0, # timeout seconds with type float number
+							max_retries=2,
+						)
+						#Check LLM work or not 
+						response = llm.invoke("Hello! Reply only: LLM is working")
+						st.write("LLM Response:", response.content)						
+						
+						# 3. Create your agent - dùng create_agent (KHÔNG PHẢI create_react_agent)
+						agent = create_agent(llm, tools)
+						
+						# Test với một câu hỏi đơn giản
+						response = await agent.ainvoke({
+							"messages": [{"role": "user", "content": "List the files in the current directory and summarize what you find."}]
+						})
+						
+						st.write("\n=== Response ===")
+						st.write(response)
 
-							final_message = response["messages"][-1]
-							final_answer = final_message.content
-							st.write(final_answer)
+						final_message = response["messages"][-1]
+						final_answer = final_message.content
+						st.write(final_answer)
 
 					except Exception as e:
 						exc_type, exc_obj, exc_tb = sys.exc_info()
