@@ -684,7 +684,7 @@ asyncio.run(myfunc(display_intercept=True))
 				from langchain_openai import ChatOpenAI
 
 
-				async def myfunc():
+				async def myfunc(prompt):
 					try:
 						# Đường dẫn folder cho filesystem server
 						mcp_server_folder_path = "/tmp"  # Thay bằng đường dẫn thực tế
@@ -759,11 +759,11 @@ asyncio.run(myfunc(display_intercept=True))
 						
 						# Test với một câu hỏi đơn giản
 						response = await agent.ainvoke({
-							"messages": [{"role": "user", "content": "List the files in the current directory and summarize what you find."}]
+							"messages": [{"role": "user", "content": prompt}]
 						})
 						
 						st.write("\n=== Response ===")
-						st.write(response)
+						#st.write(response)
 
 						final_message = response["messages"][-1]
 						final_answer = final_message.content
@@ -776,7 +776,8 @@ asyncio.run(myfunc(display_intercept=True))
 
 
 				# Run the async function
-				asyncio.run(myfunc())
+				prompt = "List the files in the current directory and summarize what you find."
+				asyncio.run(myfunc(prompt))
 
 
 
