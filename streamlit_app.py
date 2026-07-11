@@ -716,14 +716,9 @@ asyncio.run(myfunc(display_intercept=True))
 									"@modelcontextprotocol/server-memory"
 								]
 							},
-							"safari": {
-								"transport": "stdio",
+							"puppeteer": {
 								"command": "npx",
-								"args": [
-									"-y",
-									"github:achiya-automation/safari-mcp"
-									# Or if published to npm: "@achiya-automation/safari-mcp"
-								]
+								"args": ["-y", "@modelcontextprotocol/server-puppeteer"]
 							},
 							#"playwright": {
 							#	"transport": "stdio",
