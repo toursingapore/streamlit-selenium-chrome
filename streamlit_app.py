@@ -727,7 +727,7 @@ asyncio.run(myfunc(display_intercept=True))
 							}
 						})
 
-						# 1. Fetch all tools from the connected MCP servers one time only and avoid overload memory
+						# 1. Fetch all tools from the connected MCP servers one time only and avoid overload memory for multiple connections
 						st.write("Connecting to MCP servers...")
 						tools = await mcp_servers.get_tools()
 						st.write(f"Loaded {len(tools)} tools:")
