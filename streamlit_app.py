@@ -722,7 +722,7 @@ asyncio.run(myfunc(display_intercept=True))
 								json_str_inputSchema = tool.inputSchema
 								st.write(f"Tool inputSchema: {json.loads(json_str_inputSchema)}")
 								json_str_outputSchema = tool.outputSchema
-								st.write(f"Tool outputSchema: {json.loads(json_str_outputSchema)}}")
+								st.write(f"Tool outputSchema: {json.loads(json_str_outputSchema)}")
 								st.write('---')
 
 							# Example call Tools thủ công are prefixed with server names
