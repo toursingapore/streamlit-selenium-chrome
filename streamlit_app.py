@@ -755,10 +755,8 @@ asyncio.run(myfunc(display_intercept=True))
 						response = llm.invoke("Hello! Reply only: LLM is working")
 						st.write("LLM Response:", response.content)						
 						
-						# 3. Create your agent - dùng create_agent (KHÔNG PHẢI create_react_agent)
-						agent = create_agent(llm, tools)
-						
-						# Test với một câu hỏi đơn giản
+						# 3. Create your agent
+						agent = create_agent(llm, tools)						
 						response = await agent.ainvoke({
 							"messages": [{"role": "user", "content": prompt}]
 						})						
