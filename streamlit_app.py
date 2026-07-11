@@ -717,6 +717,7 @@ asyncio.run(myfunc(display_intercept=True))
 								]
 							},
 							"puppeteer": {
+								"transport": "stdio",
 								"command": "npx",
 								"args": ["-y", "@modelcontextprotocol/server-puppeteer"]
 							},
