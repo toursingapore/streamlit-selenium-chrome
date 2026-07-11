@@ -690,7 +690,7 @@ asyncio.run(myfunc(display_intercept=True))
 						mcp_server_folder_path = "/tmp"  # Thay bằng đường dẫn thực tế
 
 						# Configure your MCP servers
-						mcp_servers = MultiServerMCPClient({
+						client = MultiServerMCPClient({
 							#"sequential-thinking": { # think logic lâu, dùng complex actions
 							#	"transport": "stdio",
 							#	"command": "npx",
@@ -727,9 +727,11 @@ asyncio.run(myfunc(display_intercept=True))
 							},
 						})
 
+						st.write(client)
+
 						# 1. Fetch all tools from the connected MCP servers one time only and avoid overload memory for multiple connections
 						st.write("Connecting to MCP servers...")
-						tools = await mcp_servers.get_tools()
+						tools = await client.get_tools()
 						st.write(f"Loaded {len(tools)} tools:")
 						st.write(tools)
 						#for i, tool in enumerate(tools, start=1):
