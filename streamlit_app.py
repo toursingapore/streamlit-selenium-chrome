@@ -716,19 +716,6 @@ asyncio.run(myfunc(display_intercept=True))
 									"@modelcontextprotocol/server-memory"
 								]
 							},
-							"puppeteer": {
-								"transport": "stdio",
-								"command": "docker",
-								"args": [
-								"run",
-								"-i",
-								"--rm",
-								"--init",
-								"-e",
-								"DOCKER_CONTAINER=true",
-								"mcp/puppeteer"
-								]
-							},
 							#"playwright": {
 							#	"transport": "stdio",
 							#	"command": "npx",
