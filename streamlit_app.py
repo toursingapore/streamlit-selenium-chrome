@@ -714,7 +714,7 @@ asyncio.run(myfunc(display_intercept=True))
 							st.write('Resources (Context to help the LLM understand): ', resources)
 
 							tools = await client.list_tools()
-							#st.write(tools)
+							st.write('Totals: ', len(tools))
 							for i, tool in enumerate(tools, start=1):
 								st.write(i)
 								st.write(f"Tool name: {tool.name}")
