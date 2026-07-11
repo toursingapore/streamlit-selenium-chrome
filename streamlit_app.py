@@ -679,6 +679,60 @@ asyncio.run(myfunc(display_intercept=True))
 			try:
 				st.write('Hello world') 
 
+				from fastmcp import Client
+
+				async def run_agent():
+					mcp_config = {
+						"mcpServers": {
+							"filesystem": {
+								"command": "npx",
+								"args": [
+									"-y",
+									"@modelcontextprotocol/server-filesystem",
+									"/tmp"
+								]
+							},
+							"memory": {
+								"command": "npx",
+								"args": [
+									"-y",
+									"@modelcontextprotocol/server-memory"
+								]
+							}
+						}
+					}
+					client = Client(mcp_config)
+					async with client:
+						if client.is_connected():
+							st.write(f"MCP Server connected: {client.is_connected()}")
+
+							# Initialize manually with custom timeout 
+							result = await client.initialize(timeout=30.0)
+							st.write(f"Server: {result.serverInfo.name}")
+
+							resources = await client.list_resources()
+							st.write('resources: ', resources)
+							
+							prompts = await client.list_prompts()
+							st.write('prompts: ', prompts)
+
+							tools = await client.list_tools()
+							st.write(tools)
+							for i, tool in enumerate(tools, start=1):
+								st.write(f"{i}. {tool.name} - [{tool.description}] - [{tool.input_schema}]")
+
+							# Example call Tools thủ công are prefixed with server names
+							#result_data = await client.call_tool("weather_get_forecast", {"city": "London"})
+							# Resources use prefixed URIs
+							#icons = await client.read_resource("weather://weather/icons/sunny")
+						else:
+							st.write(f"MCP Server connection failed: {client.is_connected()}")
+
+				asyncio.run(run_agent())
+
+
+				st.write(heoquay)
+
 				from langchain_openai import ChatOpenAI
 				from mcp_use import MCPAgent, MCPClient
 				from langchain_openai import ChatOpenAI, OpenAIEmbeddings #openai compatibility api
@@ -787,7 +841,6 @@ asyncio.run(myfunc(display_intercept=True))
 				prompt = "List all files in the current directory, create a new folder named 'hello_folder', summarize content this url https://vnexpress.net/he-luy-khi-my-iran-tai-chien-5095697.html."
 				result = asyncio.run(chatbot_coding_agent_with_tools_via_mcp_server(prompt))
 				st.write(result)
-
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
