@@ -720,6 +720,7 @@ asyncio.run(myfunc(display_intercept=True))
 								"transport": "stdio",
 								"command": "npx",
 								"args": [
+									"-y",
 									"@playwright/mcp@latest",
 									"--headless",
 									#"--browser=msedge"
