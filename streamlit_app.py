@@ -728,7 +728,7 @@ asyncio.run(myfunc(display_intercept=True))
 						}
 						client = MultiServerMCPClient(
 							connections=mcp_servers_config,
-							handle_tool_errors=True # Default False							
+							handle_tool_errors=True # Default False raises a strict ToolException							
 						)
 
 						# 1. Fetch all tools from the connected MCP servers one time only and avoid overload memory for multiple connections
@@ -760,11 +760,12 @@ asyncio.run(myfunc(display_intercept=True))
 						st.write("LLM Response:", response.content)						
 						
 						# 3. Create your agent
-						agent = create_agent(llm, tools)						
+						agent = create_agent(llm, tools)
+						
 						response = await agent.ainvoke({
 							"messages": [{"role": "user", "content": prompt}]
 						})						
-						#st.write(response)
+						st.write(response)
 						final_message = response["messages"][-1]
 						final_answer = final_message.content
 						return final_answer						
