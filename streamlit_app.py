@@ -776,7 +776,7 @@ asyncio.run(myfunc(display_intercept=True))
 
 
 				# Run the async function
-				prompt = "List the files in the current directory and summarize what you find."
+				prompt = "List the files in the current directory and summarize what you find and output table clear easy to understand."
 				asyncio.run(myfunc(prompt))
 
 
