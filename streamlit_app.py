@@ -761,7 +761,6 @@ asyncio.run(myfunc(display_intercept=True))
 						
 						# 3. Create your agent
 						agent = create_agent(llm, tools)
-						
 						response = await agent.ainvoke({
 							"messages": [{"role": "user", "content": prompt}]
 						})						
@@ -770,6 +769,8 @@ asyncio.run(myfunc(display_intercept=True))
 						ToolMessage = response["messages"][-2]
 						tool_answer = ToolMessage.content
 						st.write(tool_answer)
+						for i, data_json in enumerate(tool_answer, start=1):
+							st.write('Tool answer - ',data_json.get("text"))						
 
 						AIMessage = response["messages"][-1]
 						final_answer = AIMessage.content
