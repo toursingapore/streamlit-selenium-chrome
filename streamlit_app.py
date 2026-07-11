@@ -730,8 +730,8 @@ asyncio.run(myfunc(display_intercept=True))
 						st.write("Connecting to MCP servers...")
 						tools = await client.get_tools()
 						st.write(f"Loaded {len(tools)} tools:")
-						for tool in tools:
-							st.write(f"  - {tool.name}: {tool.description}")
+						for i, tool in enumerate(tools, start=1):
+							st.write(f"{i}.{tool.name}: {tool.description}")
 						
 						# 2. Set up your LLM - dùng init_chat_model hoặc ChatOpenAI
 						llm = ChatOpenAI(
@@ -763,14 +763,16 @@ asyncio.run(myfunc(display_intercept=True))
 						
 						st.write("\n=== Response ===")
 						st.write(response)
-						
+
+						final_message = response["messages"][-1]
+						final_answer = final_message.content
+						st.write(final_answer)
+
 					except Exception as e:
-						st.write(f"Error: {e}")
-						import traceback
-						traceback.st.write_exc()
-					finally:
-						# Đóng kết nối
-						await client.close()
+						exc_type, exc_obj, exc_tb = sys.exc_info()
+						fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+						st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")  
+
 
 				# Run the async function
 				asyncio.run(myfunc())
