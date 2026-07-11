@@ -687,12 +687,7 @@ asyncio.run(myfunc(display_intercept=True))
 				async def myfunc(prompt):
 					try:
 						# Đường dẫn folder cho filesystem server
-						mcp_server_folder_path = "/tmp"  # Thay bằng đường dẫn thực tế
-
-						st.write(MultiServerMCPClient)
-
-						st.write(heoquay)
-
+						mcp_server_folder_path = "/tmp"
 
 						# Connect to multiple MCP servers with MultiServerMCPClient (auto close all session after done)
 						client = MultiServerMCPClient({
