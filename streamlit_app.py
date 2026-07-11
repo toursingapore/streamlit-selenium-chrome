@@ -723,7 +723,7 @@ asyncio.run(myfunc(display_intercept=True))
 									"-y",
 									"@playwright/mcp@latest",
 									"--headless",
-									#"--browser=msedge"
+									"--browser=chromium"
 								]
 							},
 						}
