@@ -682,7 +682,32 @@ asyncio.run(myfunc(display_intercept=True))
 				from langchain_mcp_adapters.client import MultiServerMCPClient
 				from langchain.agents import create_agent
 				from langchain_openai import ChatOpenAI
+				from langchain_core.tools import tool
 
+
+				@tool
+				def fetch_webpage(url: str) -> str:
+					"""Fetch and extract readable text content from a webpage URL"""
+					try:
+						headers = {
+							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+						}
+						response = requests.get(url, headers=headers, timeout=30)
+						response.raise_for_status()
+						
+						soup = BeautifulSoup(response.content, 'html.parser')
+						
+						# Remove unwanted elements
+						for element in soup(["script", "style", "nav", "footer", "header", "aside"]):
+							element.decompose()
+						
+						# Get main content
+						text = soup.get_text(separator='\n', strip=True)
+						lines = [line.strip() for line in text.splitlines() if line.strip()]
+						clean_text = '\n'.join(lines)
+						return clean_text[:15000]  # Limit length
+					except Exception as e:
+						return f"Error fetching URL: {str(e)}"
 
 				async def myfunc(prompt):
 					try:
@@ -734,7 +759,11 @@ asyncio.run(myfunc(display_intercept=True))
 
 						# 1. Fetch all tools from the connected MCP servers one time only and avoid overload memory for multiple connections
 						st.write("Connecting to MCP servers...")
-						tools = await client.get_tools()
+						mcp_tools = await client.get_tools()
+
+						#tools = mcp_tools
+						tools = mcp_tools + [fetch_webpage]
+
 						st.write(f"Loaded {len(tools)} tools:")
 						#st.write(tools)
 						#for i, tool in enumerate(tools, start=1):
