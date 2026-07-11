@@ -681,7 +681,8 @@ asyncio.run(myfunc(display_intercept=True))
 
 
 				from openai import AsyncOpenAI
-				from agents import Agent, Runner, MCPServerStdio
+				from agents import Agent, Runner
+				from agents.mcp import MCPServerStdio
 				from agents.models.openai_chatcompletions import OpenAIChatCompletionsModel
 
 				async def run_agent_with_mcp_server():
