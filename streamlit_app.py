@@ -690,7 +690,7 @@ asyncio.run(myfunc(display_intercept=True))
 						mcp_server_folder_path = "/tmp"
 
 						# Connect to multiple MCP servers with MultiServerMCPClient (auto close all session after done)
-						client = MultiServerMCPClient({
+						mcp_servers_config = {
 							#"sequential-thinking": { # think logic lâu, dùng complex actions
 							#	"transport": "stdio",
 							#	"command": "npx",
@@ -725,7 +725,8 @@ asyncio.run(myfunc(display_intercept=True))
 									#"--browser=msedge"
 								]
 							},
-						})
+						}
+						client = MultiServerMCPClient(mcp_servers_config, handle_tool_errors=False)
 
 						# 1. Fetch all tools from the connected MCP servers one time only and avoid overload memory for multiple connections
 						st.write("Connecting to MCP servers...")
