@@ -753,16 +753,6 @@ asyncio.run(myfunc(display_intercept=True))
 									"@modelcontextprotocol/server-memory"
 								]
 							},
-							#"playwright": {
-							#	"transport": "stdio",
-							#	"command": "npx",
-							#	"args": [
-							#		"-y",
-							#		"@playwright/mcp@latest",
-							#		"--headless",
-							#		"--browser=chromium"
-							#	]
-							#},
 						}
 						client = MultiServerMCPClient(
 							connections=mcp_servers_config,
