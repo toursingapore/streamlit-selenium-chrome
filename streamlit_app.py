@@ -689,7 +689,7 @@ asyncio.run(myfunc(display_intercept=True))
 						# Đường dẫn folder cho filesystem server
 						mcp_server_folder_path = "/tmp"  # Thay bằng đường dẫn thực tế
 
-						# Configure your MCP servers
+						# Connect to multiple MCP servers with MultiServerMCPClient (auto close all session after done)
 						client = MultiServerMCPClient({
 							#"sequential-thinking": { # think logic lâu, dùng complex actions
 							#	"transport": "stdio",
