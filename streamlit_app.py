@@ -680,7 +680,7 @@ asyncio.run(myfunc(display_intercept=True))
 				st.write('Hello world') 
 
 				from langchain_mcp_adapters.client import MultiServerMCPClient
-				from langchain.agents import create_react_agent
+				from langchain.agents import create_agent
 				from langchain_openai import ChatOpenAI
 
 				# Đường dẫn folder cho filesystem server
@@ -733,7 +733,7 @@ asyncio.run(myfunc(display_intercept=True))
 						for tool in tools:
 							st.write(f"  - {tool.name}: {tool.description}")
 						
-						# 2. Set up your LLM
+						# 2. Set up your LLM - dùng init_chat_model hoặc ChatOpenAI
 						llm = ChatOpenAI(
 							#base_url="https://integrate.api.nvidia.com/v1",
 							#api_key=NVIDIA_API_KEY,
@@ -751,14 +751,14 @@ asyncio.run(myfunc(display_intercept=True))
 						)
 						#Check LLM work or not 
 						response = llm.invoke("Hello! Reply only: LLM is working")
-						st.write("LLM Response:", response.content)
-
-						# 3. Create your agent
-						agent = create_react_agent(llm, tools)
+						st.write("LLM Response:", response.content)						
+						
+						# 3. Create your agent - dùng create_agent (KHÔNG PHẢI create_react_agent)
+						agent = create_agent(llm, tools)
 						
 						# Test với một câu hỏi đơn giản
 						response = await agent.ainvoke({
-							"input": "List the files in the current directory and summarize what you find."
+							"messages": [{"role": "user", "content": "List the files in the current directory and summarize what you find."}]
 						})
 						
 						st.write("\n=== Response ===")
@@ -766,6 +766,8 @@ asyncio.run(myfunc(display_intercept=True))
 						
 					except Exception as e:
 						st.write(f"Error: {e}")
+						import traceback
+						traceback.st.write_exc()
 					finally:
 						# Đóng kết nối
 						await client.close()
@@ -777,7 +779,6 @@ asyncio.run(myfunc(display_intercept=True))
 
 				st.write(heoquay)
 
-				from langchain_openai import ChatOpenAI
 				from mcp_use import MCPAgent, MCPClient
 				from langchain_openai import ChatOpenAI, OpenAIEmbeddings #openai compatibility api
 
