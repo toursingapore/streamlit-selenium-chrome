@@ -705,7 +705,7 @@ asyncio.run(myfunc(display_intercept=True))
 							"args": [
 								"-y",
 								"@modelcontextprotocol/server-filesystem",
-								"./data_dir"
+								"/tmp"
 							],
 						},
 						cache_tools_list=True
@@ -723,7 +723,7 @@ asyncio.run(myfunc(display_intercept=True))
 						cache_tools_list=True
 					)
 
-					async with fs_server as fs, fetch_server as fetch:
+					async with fs_server as fs:
 
 						agent = Agent(
 							name="Multi-MCP Orchestrator",
@@ -733,15 +733,13 @@ asyncio.run(myfunc(display_intercept=True))
 							),
 							tools=[
 								*fs.tools,
-								*fetch.tools
 							],
 							model=model
 						)
 
 						result = await Runner.run(
 							agent,
-							"Fetch the text from https://example.com "
-							"and save it to summary.txt"
+							"List available files",
 						)
 
 						st.write(result.final_output)
