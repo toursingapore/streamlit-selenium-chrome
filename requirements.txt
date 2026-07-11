@@ -11,6 +11,6 @@ sqlalchemy
 psycopg2-binary
 prefect==3.6.20
 discord.py==2.7.1
-langchain-openai
 mcp-use
-langchain-mcp-adapters
+langchain-openai==1.3.5
+langchain-mcp-adapters==0.3.0
