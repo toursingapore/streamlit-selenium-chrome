@@ -394,6 +394,101 @@ def myrun():
 		button = st.button("SUBMIT", type="primary" , key="24dfdamk5235")
 		if button:
 			try:
+				from cloakbrowser import ensure_binary, launch_async, launch_context_async, launch_persistent_context_async, launch, launch_context, launch_persistent_context
+				from browser_use import Agent, Browser, BrowserConfig
+				from browser_use.browser.profile import BrowserProfile
+				from browser_use.llm import ChatOpenAI
+				
+				async def browser_use_func(task):
+					# delete_files_in_temp_folder(Filename_extension="webm")
+					# delete_files_in_temp_folder(Filename_extension="har")						
+					try:
+						record_har_path = '/tmp/file.har'
+						screenshot_image_path = '/tmp/screenshot.png'
+						record_video_dir = '/tmp'
+						cookies_state_json_path = "/tmp/cookies_state.json"
+
+						BROWSER_PATH = ensure_binary()
+						st.write(f"Custom chromium browser path: {BROWSER_PATH}")
+
+						config = BrowserConfig(
+							headless=True,
+							executable_path=binary_path,
+							#storage_state=cookies_state_json_path,
+							#stealth=True,
+							#user_agent=user_agent,
+							viewport={"width": 1280, "height": 720},
+							locale="en-US",
+							timezone_id="America/New_York",
+							geolocation={"longitude": 12.492507, "latitude": 41.889938},
+							permissions=["geolocation", "clipboard-read", "clipboard-write"],
+							#extra_http_headers=extra_http_headers,
+							ignore_https_errors=True,
+							record_video_dir=record_video_dir,
+							record_video_size={"width": 1280, "height": 720},
+							record_har_path=record_har_path,
+							slow_mo=100, # quan trọng: giúp “human-like”
+						)
+
+						browser = Browser(config=config)
+						llm = ChatOpenAI(
+							base_url="https://integrate.api.nvidia.com/v1",
+							api_key=NVIDIA_API_KEY,
+							model="moonshotai/kimi-k2.6", #Lưu ý phải là llm vision mới worked
+							max_retries=2,
+						)
+
+						agent = Agent(
+							task=task,
+							llm=llm,
+							browser=browser,
+							max_steps=10, # Max 10 step then quit, nếu ko nó chạy hooài luôn - QUAN TRỌNG
+						)
+						results = await agent.run()
+						#print(results)
+
+						# 1. Print total steps taken
+						print(f"Total Steps: {results.number_of_steps()}")
+						# 2. Print the final result text
+						print(f"Final Result: {results.final_result()}")
+						# 3. Iterate and print the individual action history per step
+						for i, step in enumerate(results.history):
+							print(f"Step {i+1}: {step.model_output.action}")
+
+						# Return recording video webm
+						import glob						
+						video_files = glob.glob('/tmp/*.webm')
+						if video_files:
+							recording_video_path = video_files[0] #pick the first one
+							print('recording_video_path: ', recording_video_path)
+							#st.video(recording_video_path)
+
+						HAR_files = glob.glob('/tmp/*.har')
+						if HAR_files:
+							har_file_path = HAR_files[0] #pick the first one
+							print(har_file_path)
+
+					except Exception as e:
+						exc_type, exc_obj, exc_tb = sys.exc_info()
+						fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+						st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")  
+
+				task = """
+				Open https://github.com/browser-use/browser-use
+				1. Locate the repository header
+				2. Extract:
+				- star count
+				- fork count
+				3. Return result in JSON only:
+				{
+				"stars": "...",
+				"forks": "..."
+				}					
+				Stop immediately after extraction.
+				"""
+				asyncio.run(browser_use_func(task))
+
+
 				st.write('Hello world') 
 
 				from langchain_mcp_adapters.client import MultiServerMCPClient
