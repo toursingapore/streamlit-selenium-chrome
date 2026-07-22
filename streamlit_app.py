@@ -19,6 +19,7 @@ from prefect import task, flow
 from prefect.schedules import Cron
 
 GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+NVIDIA_API_KEY = st.secrets["NVIDIA_API_KEY"]
 
 
 def send_email_notification_mailtrap(email_receiver, html_notify):
