@@ -451,25 +451,25 @@ def myrun():
 						st.write(results)
 
 						# 1. Print total steps taken
-						print(f"Total Steps: {results.number_of_steps()}")
+						st.write(f"Total Steps: {results.number_of_steps()}")
 						# 2. Print the final result text
-						print(f"Final Result: {results.final_result()}")
+						st.write(f"Final Result: {results.final_result()}")
 						# 3. Iterate and print the individual action history per step
 						for i, step in enumerate(results.history):
-							print(f"Step {i+1}: {step.model_output.action}")
+							st.write(f"Step {i+1}: {step.model_output.action}")
 
 						# Return recording video webm
 						import glob						
 						video_files = glob.glob('/tmp/*.webm')
 						if video_files:
 							recording_video_path = video_files[0] #pick the first one
-							print('recording_video_path: ', recording_video_path)
+							st.write('recording_video_path: ', recording_video_path)
 							#st.video(recording_video_path)
 
 						HAR_files = glob.glob('/tmp/*.har')
 						if HAR_files:
 							har_file_path = HAR_files[0] #pick the first one
-							print(har_file_path)
+							st.write(har_file_path)
 
 					except Exception as e:
 						exc_type, exc_obj, exc_tb = sys.exc_info()
