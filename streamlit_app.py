@@ -20,7 +20,6 @@ from prefect.schedules import Cron
 
 GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
 NVIDIA_API_KEY = st.secrets["NVIDIA_API_KEY"]
-run_command_line("playwright install chromium")
 
 
 def send_email_notification_mailtrap(email_receiver, html_notify):
@@ -396,6 +395,8 @@ def myrun():
 		button = st.button("SUBMIT", type="primary" , key="24dfdamk5235")
 		if button:
 			try:
+				run_command_line("playwright install chromium")
+
 				from cloakbrowser import ensure_binary, launch_async, launch_context_async, launch_persistent_context_async, launch, launch_context, launch_persistent_context
 				from browser_use import Agent, Browser, BrowserConfig
 				from browser_use.browser.profile import BrowserProfile
