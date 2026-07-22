@@ -450,7 +450,6 @@ def myrun():
 						results = await agent.run()
 						st.write(results)
 
-						_ = """
 						# 1. Print total steps taken
 						print(f"Total Steps: {results.number_of_steps()}")
 						# 2. Print the final result text
@@ -471,7 +470,6 @@ def myrun():
 						if HAR_files:
 							har_file_path = HAR_files[0] #pick the first one
 							print(har_file_path)
-						_ = """
 
 					except Exception as e:
 						exc_type, exc_obj, exc_tb = sys.exc_info()
