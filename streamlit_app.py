@@ -488,6 +488,8 @@ def myrun():
 				"""
 				asyncio.run(browser_use_func(task))
 
+				st.write(heoquay) 
+
 
 				st.write('Hello world') 
 
