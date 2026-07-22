@@ -437,7 +437,7 @@ def myrun():
 						llm = ChatOpenAI(
 							base_url="https://integrate.api.nvidia.com/v1",
 							api_key=NVIDIA_API_KEY,
-							model="moonshotai/kimi-k2.6", #Lưu ý phải là llm vision mới worked
+							model="meta/llama-4-maverick-17b-128e-instruct", #Lưu ý phải là llm vision mới worked
 							max_retries=2,
 						)
 
