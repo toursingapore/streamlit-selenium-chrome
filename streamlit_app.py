@@ -408,8 +408,8 @@ def myrun():
 						record_video_dir = '/tmp'
 						cookies_state_json_path = "/tmp/cookies_state.json"
 
-						BROWSER_PATH = ensure_binary()
-						st.write(f"Custom chromium browser path: {BROWSER_PATH}")
+						binary_path = ensure_binary()
+						st.write(f"Custom chromium browser path: {binary_path}")
 
 						config = BrowserConfig(
 							headless=True,
