@@ -401,7 +401,6 @@ def myrun():
 
 				class MyDocsSpider(SiteToMarkdownSpider):
 					name = "my_docs"
-
 					start_urls = [
 						"https://vnexpress.net/"
 					]
@@ -409,26 +408,23 @@ def myrun():
 						"vnexpress.net"
 					}
 					output_dir = "docs_markdown"
-					max_pages = 5
-
+					max_pages = 50
 
 				with st.spinner("Đang crawl website..."):
 					result = MyDocsSpider().start()
 
-				st.success(
-					f"Crawl hoàn tất: {len(result.items)} pages"
-				)
+				st.write(f"Crawl hoàn tất: {len(result.items)} pages")
 
 				# Hiển thị từng page
 				for item in result.items:
 					st.subheader(item["title"])
 					st.write(item["url"])
-					with st.expander("Markdown"):
-						st.markdown(item["markdown"])
+					#with st.expander("Markdown"):
+					#	st.markdown(item["markdown"])
 
 				# Lưu JSONL
-				result.items.to_jsonl("docs.jsonl")
-				st.success("Đã lưu docs.jsonl")
+				#result.items.to_jsonl("docs.jsonl")
+				#st.success("Đã lưu docs.jsonl")
 
 
 				st.write(heoquay)
