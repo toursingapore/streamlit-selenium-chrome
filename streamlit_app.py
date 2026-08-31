@@ -403,22 +403,16 @@ def myrun():
 					name = "my_docs"
 
 					start_urls = [
-						"https://example.com/"
+						"https://vnexpress.net/"
 					]
-
 					allowed_domains = {
-						"example.com"
+						"vnexpress.net"
 					}
-
 					output_dir = "docs_markdown"
-					max_pages = 20
-
-
-				st.title("Scrapling Website Crawler")
+					max_pages = 5
 
 
 				with st.spinner("Đang crawl website..."):
-
 					result = MyDocsSpider().start()
 
 				st.success(
@@ -427,17 +421,13 @@ def myrun():
 
 				# Hiển thị từng page
 				for item in result.items:
-
 					st.subheader(item["title"])
-
 					st.write(item["url"])
-
 					with st.expander("Markdown"):
 						st.markdown(item["markdown"])
 
 				# Lưu JSONL
 				result.items.to_jsonl("docs.jsonl")
-
 				st.success("Đã lưu docs.jsonl")
 
 
