@@ -397,101 +397,29 @@ def myrun():
 			try:
 				run_command_line("playwright install chromium")
 
-				from cloakbrowser import ensure_binary, launch_async, launch_context_async, launch_persistent_context_async, launch, launch_context, launch_persistent_context
-				from browser_use import Agent, Browser, BrowserConfig
-				from browser_use.browser.profile import BrowserProfile
-				from browser_use.llm import ChatOpenAI
-				
-				async def browser_use_func(task):
-					# delete_files_in_temp_folder(Filename_extension="webm")
-					# delete_files_in_temp_folder(Filename_extension="har")						
-					try:
-						record_har_path = '/tmp/file.har'
-						screenshot_image_path = '/tmp/screenshot.png'
-						record_video_dir = '/tmp'
-						cookies_state_json_path = "/tmp/cookies_state.json"
+				from scrapling.spiders import SiteToMarkdownSpider
 
-						binary_path = ensure_binary()
-						st.write(f"Custom chromium browser path: {binary_path}")
+				class MyDocsSpider(SiteToMarkdownSpider):
+					name = "my_docs"
 
-						config = BrowserConfig(
-							headless=True,
-							executable_path=binary_path,
-							#storage_state=cookies_state_json_path,
-							#stealth=True,
-							#user_agent=user_agent,
-							viewport={"width": 1280, "height": 720},
-							locale="en-US",
-							timezone_id="America/New_York",
-							geolocation={"longitude": 12.492507, "latitude": 41.889938},
-							permissions=["geolocation", "clipboard-read", "clipboard-write"],
-							#extra_http_headers=extra_http_headers,
-							ignore_https_errors=True,
-							record_video_dir=record_video_dir,
-							record_video_size={"width": 1280, "height": 720},
-							record_har_path=record_har_path,
-							slow_mo=100, # quan trọng: giúp “human-like”
-						)
+					start_urls = [
+						"https://example.com/docs/"
+					]
 
-						browser = Browser(config=config)
-						llm = ChatOpenAI(
-							base_url="https://integrate.api.nvidia.com/v1",
-							api_key=NVIDIA_API_KEY,
-							model="meta/llama-4-maverick-17b-128e-instruct", #Lưu ý phải là llm vision mới worked
-							max_retries=2,
-						)
+					allowed_domains = {
+						"example.com"
+					}
 
-						agent = Agent(
-							task=task,
-							llm=llm,
-							browser=browser,
-							max_steps=10, # Max 10 step then quit, nếu ko nó chạy hooài luôn - QUAN TRỌNG
-						)
-						results = await agent.run()
-						st.write(results)
+					output_dir = "docs_markdown"
+					max_pages = 200
 
-						# 1. Print total steps taken
-						st.write(f"Total Steps: {results.number_of_steps()}")
-						# 2. Print the final result text
-						st.write(f"Final Result: {results.final_result()}")
-						# 3. Iterate and print the individual action history per step
-						for i, step in enumerate(results.history):
-							st.write(f"Step {i+1}: {step.model_output.action}")
 
-						# Return recording video webm
-						import glob						
-						video_files = glob.glob('/tmp/*.webm')
-						if video_files:
-							recording_video_path = video_files[0] #pick the first one
-							st.write('recording_video_path: ', recording_video_path)
-							#st.video(recording_video_path)
+				result = MyDocsSpider().start()
 
-						HAR_files = glob.glob('/tmp/*.har')
-						if HAR_files:
-							har_file_path = HAR_files[0] #pick the first one
-							st.write(har_file_path)
+				result.items.to_jsonl("docs.jsonl")
 
-					except Exception as e:
-						exc_type, exc_obj, exc_tb = sys.exc_info()
-						fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-						st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")  
 
-				task = """
-				Open https://github.com/browser-use/browser-use
-				1. Locate the repository header
-				2. Extract:
-				- star count
-				- fork count
-				3. Return result in JSON only:
-				{
-				"stars": "...",
-				"forks": "..."
-				}					
-				Stop immediately after extraction.
-				"""
-				asyncio.run(browser_use_func(task))
-
-				st.write(heoquay) 
+				st.write(heoquay)
 
 
 				st.write('Hello world') 
@@ -500,7 +428,6 @@ def myrun():
 				from langchain.agents import create_agent
 				from langchain_openai import ChatOpenAI
 				from langchain_core.tools import tool
-
 
 				@tool
 				def fetch_webpage(url: str) -> list:
@@ -634,6 +561,107 @@ def myrun():
 				#prompt = "Summarize content in short this url https://vnexpress.net/haaland-hay-don-moi-ap-luc-cho-tuyen-anh-5096051.html "
 				final_answer = asyncio.run(myfunc(prompt))
 				st.write(final_answer)
+
+
+				st.write(heoquay) 
+
+
+				from cloakbrowser import ensure_binary, launch_async, launch_context_async, launch_persistent_context_async, launch, launch_context, launch_persistent_context
+				from browser_use import Agent, Browser, BrowserConfig
+				from browser_use.browser.profile import BrowserProfile
+				from browser_use.llm import ChatOpenAI
+				
+				async def browser_use_func(task):
+					# delete_files_in_temp_folder(Filename_extension="webm")
+					# delete_files_in_temp_folder(Filename_extension="har")						
+					try:
+						record_har_path = '/tmp/file.har'
+						screenshot_image_path = '/tmp/screenshot.png'
+						record_video_dir = '/tmp'
+						cookies_state_json_path = "/tmp/cookies_state.json"
+
+						binary_path = ensure_binary()
+						st.write(f"Custom chromium browser path: {binary_path}")
+
+						config = BrowserConfig(
+							headless=True,
+							executable_path=binary_path,
+							#storage_state=cookies_state_json_path,
+							#stealth=True,
+							#user_agent=user_agent,
+							viewport={"width": 1280, "height": 720},
+							locale="en-US",
+							timezone_id="America/New_York",
+							geolocation={"longitude": 12.492507, "latitude": 41.889938},
+							permissions=["geolocation", "clipboard-read", "clipboard-write"],
+							#extra_http_headers=extra_http_headers,
+							ignore_https_errors=True,
+							record_video_dir=record_video_dir,
+							record_video_size={"width": 1280, "height": 720},
+							record_har_path=record_har_path,
+							slow_mo=100, # quan trọng: giúp “human-like”
+						)
+
+						browser = Browser(config=config)
+						llm = ChatOpenAI(
+							base_url="https://integrate.api.nvidia.com/v1",
+							api_key=NVIDIA_API_KEY,
+							model="meta/llama-4-maverick-17b-128e-instruct", #Lưu ý phải là llm vision mới worked
+							max_retries=2,
+						)
+
+						agent = Agent(
+							task=task,
+							llm=llm,
+							browser=browser,
+							max_steps=10, # Max 10 step then quit, nếu ko nó chạy hooài luôn - QUAN TRỌNG
+						)
+						results = await agent.run()
+						st.write(results)
+
+						# 1. Print total steps taken
+						st.write(f"Total Steps: {results.number_of_steps()}")
+						# 2. Print the final result text
+						st.write(f"Final Result: {results.final_result()}")
+						# 3. Iterate and print the individual action history per step
+						for i, step in enumerate(results.history):
+							st.write(f"Step {i+1}: {step.model_output.action}")
+
+						# Return recording video webm
+						import glob						
+						video_files = glob.glob('/tmp/*.webm')
+						if video_files:
+							recording_video_path = video_files[0] #pick the first one
+							st.write('recording_video_path: ', recording_video_path)
+							#st.video(recording_video_path)
+
+						HAR_files = glob.glob('/tmp/*.har')
+						if HAR_files:
+							har_file_path = HAR_files[0] #pick the first one
+							st.write(har_file_path)
+
+					except Exception as e:
+						exc_type, exc_obj, exc_tb = sys.exc_info()
+						fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+						st.write(f"An error occurred: {e} - Error at line: {exc_tb.tb_lineno}")  
+
+				task = """
+				Open https://github.com/browser-use/browser-use
+				1. Locate the repository header
+				2. Extract:
+				- star count
+				- fork count
+				3. Return result in JSON only:
+				{
+				"stars": "...",
+				"forks": "..."
+				}					
+				Stop immediately after extraction.
+				"""
+				asyncio.run(browser_use_func(task))
+
+				st.write(heoquay) 
+
 
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
