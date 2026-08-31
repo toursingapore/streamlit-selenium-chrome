@@ -474,7 +474,7 @@ def myrun():
 				# 5. Create retriever
 				retriever = vector_store.as_retriever(
 					search_type="similarity",
-					search_kwargs={"k": 100}
+					search_kwargs={"k": 5}
 				)
 
 				# 6. test query trước
