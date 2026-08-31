@@ -16,3 +16,4 @@ langchain-mcp-adapters==0.3.0
 browser-use==0.5.9
 cloakbrowser==0.4.13
 scrapling==0.4.15
+curl_cffi
