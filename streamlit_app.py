@@ -493,7 +493,7 @@ def myrun():
 				llm = ChatOpenAI(
 					base_url="https://integrate.api.nvidia.com/v1",
 					api_key=NVIDIA_API_KEY,
-					model="qwen/qwen3.5-122b-a10b",
+					model="nvidia/nemotron-3-ultra-550b-a55b",
 					#base_url="https://api.groq.com/openai/v1",
 					#api_key=GROQ_API_KEY,
 					#model="minimaxai/minimax-m2.7",  #max Context window=131000
