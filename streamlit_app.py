@@ -481,8 +481,8 @@ def myrun():
 				query = "Tình hình chiến sự thế giới hiện nay?"
 				docs = retriever.invoke(query)
 				for doc in docs:
-					print(doc.page_content)
-					print(doc.metadata)
+					st.write(doc.page_content)
+					st.write(doc.metadata)
 
 
 				st.write(heoquay)
