@@ -416,8 +416,8 @@ def myrun():
 				st.write(f"Crawl hoàn tất: {len(result.items)} pages")
 
 				# Hiển thị từng page
-				for item in result.items:
-					st.subheader(item["title"])
+				for i, item in enumerate(result.items, start=1):
+					st.subheader(i, item["title"])
 					st.write(item["url"])
 					#with st.expander("Markdown"):
 					#	st.markdown(item["markdown"])
