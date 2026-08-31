@@ -491,13 +491,13 @@ def myrun():
 
 				# 6. Setup LLM
 				llm = ChatOpenAI(
-					api_key=GROQ_API_KEY,
-					model="qwen/qwen3-32b", #use cái này 'deepseek-ai/deepseek-r1' slow for queuing thì comment max_tokens=4096 nó sẽ tự control và max Context window 128000
 					base_url="https://api.groq.com/openai/v1",
-					temperature=0.7,
-					#max_tokens=8000, #default 2048, 4096, 8000, 12288
-					timeout=120,
-					max_retries=2,
+					api_key=GROQ_API_KEY,
+					model="openai/gpt-oss-120b", # ko support tiếng việt tốt
+					temperature=0.3,
+					timeout=60.0,
+					max_tokens=8000,
+					max_retries=0,
 				)
 
 				# 7. Setup Prompt
