@@ -493,7 +493,7 @@ def myrun():
 				llm = ChatOpenAI(
 					base_url="https://api.groq.com/openai/v1",
 					api_key=GROQ_API_KEY,
-					model="meta-llama/llama-3.1-8b-instant",  #max Context window=131000
+					model="minimaxai/minimax-m2.7",  #max Context window=131000
 					temperature=0.3,
 					timeout=60.0,
 					max_tokens=8000,
