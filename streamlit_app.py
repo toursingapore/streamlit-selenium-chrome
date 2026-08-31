@@ -410,15 +410,27 @@ def myrun():
 				#result.items.to_jsonl("/tmp/docs.jsonl") # Lưu JSONL
 
 				st.write(f"Crawl hoàn tất: {len(result.items)} pages")
+
+				vector_store = []
 				# Hiển thị từng page
 				for i, item in enumerate(result.items, start=1):
-					st.write(i, item["title"])
-					st.write(item["url"])
-					#with st.expander("Markdown"):
-					#	st.markdown(item["markdown"])
-					st.write('---')
+					url = item["url"]
+					title = item["title"]
+					markdown = item["markdown"]
+					st.write(i, url, title, markdown)
+					
+					# Sau đó chunk markdown
+					chunks = split_into_chunks(markdown)
+					for chunk in chunks:
+						vector_store.add(
+							text=chunk,
+							metadata={
+								"url": url,
+								"title": title,
+							}
+						)
 
-
+				st.write(vector_store)
 
 
 				st.write(heoquay)
