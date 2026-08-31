@@ -458,11 +458,8 @@ def myrun():
 					embedding=embeddings,
 					path=persist_directory,
 					collection_name="my_collection"
-				)
-st.write(
-    f"Total vectors stored: {len(chunks)}"
-)				
-				st.write(f"Total vectors stored: {len(vector_store)}")
+				)		
+				st.write(f"Total vectors stored: {len(chunks)}")
 
 				st.write(heoquay)
 
