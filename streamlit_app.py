@@ -523,7 +523,7 @@ QUESTION:
 				rag_chain = create_retrieval_chain(retriever, qa_chain)
 
 				# 9 Query
-				query = "Cách ông trump gây quỹ?"
+				query = "List all details what you see."
 				result = rag_chain.invoke(
 					{
 						"input": query
