@@ -491,9 +491,12 @@ def myrun():
 
 				# 6. Setup LLM
 				llm = ChatOpenAI(
-					base_url="https://api.groq.com/openai/v1",
-					api_key=GROQ_API_KEY,
-					model="minimaxai/minimax-m2.7",  #max Context window=131000
+					base_url="https://integrate.api.nvidia.com/v1",
+					api_key=NVIDIA_API_KEY,
+					model="qwen/qwen3.5-122b-a10b",
+					#base_url="https://api.groq.com/openai/v1",
+					#api_key=GROQ_API_KEY,
+					#model="minimaxai/minimax-m2.7",  #max Context window=131000
 					temperature=0.3,
 					timeout=60.0,
 					max_tokens=8000,
