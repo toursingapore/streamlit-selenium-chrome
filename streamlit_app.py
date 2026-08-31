@@ -397,8 +397,6 @@ def myrun():
 			try:
 				run_command_line("playwright install chromium")
 
-				from scrapling.spiders import SiteToMarkdownSpider
-
 				class MyDocsSpider(SiteToMarkdownSpider):
 					name = "my_docs"
 
@@ -414,12 +412,32 @@ def myrun():
 					max_pages = 20
 
 
-				result = MyDocsSpider().start()
+				st.title("Scrapling Website Crawler")
 
-				result.items.to_jsonl("docs.jsonl")
+				if st.button("Start crawling"):
 
-				result = MyDocsSpider(SiteToMarkdownSpider)
-				st.write(result)
+					with st.spinner("Đang crawl website..."):
+
+						result = MyDocsSpider().start()
+
+					st.success(
+						f"Crawl hoàn tất: {len(result.items)} pages"
+					)
+
+					# Hiển thị từng page
+					for item in result.items:
+
+						st.subheader(item["title"])
+
+						st.write(item["url"])
+
+						with st.expander("Markdown"):
+							st.markdown(item["markdown"])
+
+					# Lưu JSONL
+					result.items.to_jsonl("docs.jsonl")
+
+					st.success("Đã lưu docs.jsonl")
 
 
 				st.write(heoquay)
