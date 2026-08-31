@@ -416,6 +416,11 @@ def myrun():
 				from langchain_text_splitters import RecursiveCharacterTextSplitter
 				from langchain_core.embeddings import DeterministicFakeEmbedding
 				from langchain_qdrant import QdrantVectorStore
+				from langchain_openai import ChatOpenAI
+				from langchain_core.prompts import ChatPromptTemplate
+				from langchain.chains import create_retrieval_chain
+				from langchain.chains.combine_documents import create_stuff_documents_chain
+
 
 				# 1. Create LangChain Documents
 				documents = []
@@ -477,12 +482,57 @@ def myrun():
 					search_kwargs={"k": 5}
 				)
 
-				# 6. test query trước
+				# Optional. test query trước
+				#query = "Tình hình chiến sự thế giới hiện nay?"
+				#docs = retriever.invoke(query)
+				#for doc in docs:
+				#	st.write(doc.page_content)
+				#	st.write(doc.metadata)
+
+				# 6. Setup LLM
+				llm = ChatOpenAI(
+					base_url="https://integrate.api.nvidia.com/v1",
+					api_key=NVIDIA_API_KEY,
+					model="meta/llama-4-maverick-17b-128e-instruct", #Lưu ý phải là llm vision mới worked
+					max_retries=2,
+				)
+
+				# 7. Setup Prompt
+				prompt = ChatPromptTemplate.from_template("""
+Trả lời bằng tiếng Việt.
+Dùng thông tin trong CONTEXT.
+Nếu không có thông tin, hãy nói không biết.
+
+CONTEXT:
+{context}
+
+QUESTION:
+{input}
+""")
+
+				# 8. Create Chain
+				qa_chain = create_stuff_documents_chain(
+					llm,
+					prompt
+				)
+				rag_chain = create_retrieval_chain(
+					retriever,
+					qa_chain
+				)
+
+				# 9 Query
 				query = "Tình hình chiến sự thế giới hiện nay?"
-				docs = retriever.invoke(query)
-				for doc in docs:
-					st.write(doc.page_content)
-					st.write(doc.metadata)
+				result = rag_chain.invoke(
+					{
+						"input": query
+					}
+				)
+				answer = result["answer"]
+				st.write(answer)
+
+				st.subheader("Nguồn")
+				for doc in result["context"]:
+					st.write(doc.metadata["url"])
 
 
 				st.write(heoquay)
