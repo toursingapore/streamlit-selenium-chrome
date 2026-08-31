@@ -418,7 +418,7 @@ def myrun():
 				from langchain_qdrant import QdrantVectorStore
 				from langchain_openai import ChatOpenAI
 				from langchain_core.prompts import ChatPromptTemplate
-				from langchain.chains import create_retrieval_chain
+				from langchain_classic.chains import create_retrieval_chain, RetrievalQA
 				from langchain.chains.combine_documents import create_stuff_documents_chain
 
 
