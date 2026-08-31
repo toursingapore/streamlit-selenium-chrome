@@ -411,26 +411,38 @@ def myrun():
 
 				st.write(f"Crawl hoàn tất: {len(result.items)} pages")
 
-				vector_store = []
-				# Hiển thị từng page
+
+				from langchain_core.documents import Document
+				from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+				# 1. Create LangChain Documents
+				documents = []
 				for i, item in enumerate(result.items, start=1):
 					url = item["url"]
 					title = item["title"]
 					markdown = item["markdown"]
-					st.write(i, url, title, markdown)
-					
-					# Sau đó chunk markdown
-					chunks = split_into_chunks(markdown)
-					for chunk in chunks:
-						vector_store.add(
-							text=chunk,
+					#st.write(i, url, title, markdown)
+
+					documents.append(
+						Document(
+							page_content=markdown,
 							metadata={
 								"url": url,
 								"title": title,
 							}
 						)
+					)
+				#st.write(documents)
+				st.write(f"Total documents: {len(documents)}")
 
-				st.write(vector_store)
+				# 2. chunk Documents
+				splitter = RecursiveCharacterTextSplitter(
+					chunk_size=1000,
+					chunk_overlap=150,
+				)
+				chunks = splitter.split_documents(documents)
+				st.write(f"Total chunks: {len(chunks)}")
+
 
 
 				st.write(heoquay)
