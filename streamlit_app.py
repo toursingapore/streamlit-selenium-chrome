@@ -397,6 +397,8 @@ def myrun():
 			try:
 				run_command_line("playwright install chromium")
 
+				from scrapling.spiders import SiteToMarkdownSpider
+
 				class MyDocsSpider(SiteToMarkdownSpider):
 					name = "my_docs"
 
