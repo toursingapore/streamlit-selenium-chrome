@@ -404,7 +404,7 @@ def myrun():
 					start_urls = ["https://vnexpress.net/the-gioi"]
 					allowed_domains = {"vnexpress.net"} # Limit chỉ lấy internal domain
 					output_dir = "/tmp/docs_markdown"
-					max_pages = 10
+					max_pages = 50
 
 				result = DocsSpider().start()
 				#result.items.to_jsonl("/tmp/docs.jsonl") # Lưu JSONL
@@ -465,7 +465,7 @@ def myrun():
 					path=persist_directory,
 					collection_name="my_collection"
 				)
-				
+
 				_ = """
 				#C2;
 				vector_store = QdrantVectorStore.from_documents(
