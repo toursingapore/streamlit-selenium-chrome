@@ -399,32 +399,26 @@ def myrun():
 
 				from scrapling.spiders import SiteToMarkdownSpider
 
-				class MyDocsSpider(SiteToMarkdownSpider):
-					name = "my_docs"
-					start_urls = [
-						"https://vnexpress.net/"
-					]
-					allowed_domains = {
-						"vnexpress.net"
-					}
-					output_dir = "docs_markdown"
+				class DocsSpider(SiteToMarkdownSpider):
+					name = "docs"
+					start_urls = ["https://vnexpress.net/the-gioi"]
+					allowed_domains = {"vnexpress.net"} # Limit chỉ lấy internal domain
+					output_dir = "/tmp/docs_markdown"
 					max_pages = 50
 
-				with st.spinner("Đang crawl website..."):
-					result = MyDocsSpider().start()
+				result = DocsSpider().start()
+				#result.items.to_jsonl("/tmp/docs.jsonl") # Lưu JSONL
 
 				st.write(f"Crawl hoàn tất: {len(result.items)} pages")
-
 				# Hiển thị từng page
 				for i, item in enumerate(result.items, start=1):
-					st.subheader(i, item["title"])
+					st.write(i, item["title"])
 					st.write(item["url"])
 					#with st.expander("Markdown"):
 					#	st.markdown(item["markdown"])
+					st.write('---')
 
-				# Lưu JSONL
-				#result.items.to_jsonl("docs.jsonl")
-				#st.success("Đã lưu docs.jsonl")
+
 
 
 				st.write(heoquay)
