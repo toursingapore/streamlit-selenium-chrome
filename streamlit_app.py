@@ -471,6 +471,20 @@ def myrun():
 				)				
 				st.write(f"Total vectors stored: {len(chunks)}")
 
+				# 5. Create retriever
+				retriever = vector_store.as_retriever(
+					search_type="similarity",
+					search_kwargs={"k": 100}
+				)
+
+				# 6. test query trước
+				query = "Tình hình chiến sự thế giới hiện nay?"
+				docs = retriever.invoke(query)
+				for doc in docs:
+					print(doc.page_content)
+					print(doc.metadata)
+
+
 				st.write(heoquay)
 
 
