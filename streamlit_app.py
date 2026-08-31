@@ -456,7 +456,6 @@ def myrun():
 				# 4. Create vector store
 				persist_directory = '/tmp/QdrantVectorStore_folder'
 				# C1;
-				_ = """
 				texts = [doc.page_content for doc in chunks]
 				metadatas = [doc.metadata for doc in chunks]
 				vector_store = QdrantVectorStore.from_texts(
@@ -466,6 +465,7 @@ def myrun():
 					path=persist_directory,
 					collection_name="my_collection"
 				)
+				
 				_ = """
 				#C2;
 				vector_store = QdrantVectorStore.from_documents(
@@ -473,7 +473,9 @@ def myrun():
 					embedding=embeddings,
 					path="/tmp/QdrantVectorStore_folder",
 					collection_name="my_collection"
-				)				
+				)
+				_ = """
+
 				st.write(f"Total vectors stored: {len(chunks)}")
 
 				# 5. Create retriever
