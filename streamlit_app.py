@@ -418,6 +418,9 @@ def myrun():
 
 				result.items.to_jsonl("docs.jsonl")
 
+				result = MyDocsSpider(SiteToMarkdownSpider)
+				st.write(result)
+
 
 				st.write(heoquay)
 
