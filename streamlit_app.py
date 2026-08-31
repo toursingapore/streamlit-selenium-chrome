@@ -445,21 +445,30 @@ def myrun():
 				chunks = splitter.split_documents(documents)
 				st.write(f"Total chunks: {len(chunks)}")
 
-				texts = [doc.page_content for doc in chunks]
-				metadatas = [doc.metadata for doc in chunks]
-
 				# 3. Create Embedding
 				embeddings = DeterministicFakeEmbedding(size=1536)
 
 				# 4. Create vector store
 				persist_directory = '/tmp/QdrantVectorStore_folder'
+				# C1;
+				_ = """
+				texts = [doc.page_content for doc in chunks]
+				metadatas = [doc.metadata for doc in chunks]
 				vector_store = QdrantVectorStore.from_texts(
 					texts=texts,
 					metadatas=metadatas,
 					embedding=embeddings,
 					path=persist_directory,
 					collection_name="my_collection"
-				)		
+				)
+				_ = """
+				#C2;
+				vector_store = QdrantVectorStore.from_documents(
+					documents=chunks,
+					embedding=embeddings,
+					path="/tmp/QdrantVectorStore_folder",
+					collection_name="my_collection"
+				)				
 				st.write(f"Total vectors stored: {len(chunks)}")
 
 				st.write(heoquay)
