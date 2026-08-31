@@ -403,7 +403,7 @@ def myrun():
 					name = "my_docs"
 
 					start_urls = [
-						"https://example.com/docs/"
+						"https://example.com/"
 					]
 
 					allowed_domains = {
@@ -411,7 +411,7 @@ def myrun():
 					}
 
 					output_dir = "docs_markdown"
-					max_pages = 200
+					max_pages = 20
 
 
 				result = MyDocsSpider().start()
