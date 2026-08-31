@@ -494,7 +494,6 @@ def myrun():
 					api_key=GROQ_API_KEY,
 					model="qwen/qwen3-32b", #use cái này 'deepseek-ai/deepseek-r1' slow for queuing thì comment max_tokens=4096 nó sẽ tự control và max Context window 128000
 					base_url="https://api.groq.com/openai/v1",
-					extra_body={"chat_template_kwargs": {"enable_thinking": False}}, # flag to trigger reasoning llm
 					temperature=0.7,
 					#max_tokens=8000, #default 2048, 4096, 8000, 12288
 					timeout=120,
@@ -515,14 +514,8 @@ QUESTION:
 """)
 
 				# 8. Create Chain
-				qa_chain = create_stuff_documents_chain(
-					llm,
-					prompt
-				)
-				rag_chain = create_retrieval_chain(
-					retriever,
-					qa_chain
-				)
+				qa_chain = create_stuff_documents_chain(llm, prompt)
+				rag_chain = create_retrieval_chain(retriever, qa_chain)
 
 				# 9 Query
 				query = "Tình hình chiến sự thế giới hiện nay?"
