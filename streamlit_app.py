@@ -404,7 +404,7 @@ def myrun():
 					start_urls = ["https://vnexpress.net/the-gioi"]
 					allowed_domains = {"vnexpress.net"} # Limit chỉ lấy internal domain
 					output_dir = "/tmp/docs_markdown"
-					max_pages = 50
+					max_pages = 10
 
 				result = DocsSpider().start()
 				#result.items.to_jsonl("/tmp/docs.jsonl") # Lưu JSONL
