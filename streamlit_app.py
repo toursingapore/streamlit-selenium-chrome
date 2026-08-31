@@ -416,30 +416,29 @@ def myrun():
 
 				st.title("Scrapling Website Crawler")
 
-				if st.button("Start crawling"):
 
-					with st.spinner("Đang crawl website..."):
+				with st.spinner("Đang crawl website..."):
 
-						result = MyDocsSpider().start()
+					result = MyDocsSpider().start()
 
-					st.success(
-						f"Crawl hoàn tất: {len(result.items)} pages"
-					)
+				st.success(
+					f"Crawl hoàn tất: {len(result.items)} pages"
+				)
 
-					# Hiển thị từng page
-					for item in result.items:
+				# Hiển thị từng page
+				for item in result.items:
 
-						st.subheader(item["title"])
+					st.subheader(item["title"])
 
-						st.write(item["url"])
+					st.write(item["url"])
 
-						with st.expander("Markdown"):
-							st.markdown(item["markdown"])
+					with st.expander("Markdown"):
+						st.markdown(item["markdown"])
 
-					# Lưu JSONL
-					result.items.to_jsonl("docs.jsonl")
+				# Lưu JSONL
+				result.items.to_jsonl("docs.jsonl")
 
-					st.success("Đã lưu docs.jsonl")
+				st.success("Đã lưu docs.jsonl")
 
 
 				st.write(heoquay)
