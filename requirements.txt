@@ -13,6 +13,6 @@ prefect==3.6.20
 discord.py==2.7.1
 langchain-openai==1.3.5
 langchain-mcp-adapters==0.3.0
-browser-use==0.5.9
+browser-use
 cloakbrowser==0.4.13
 scrapling[rag]==0.4.15
