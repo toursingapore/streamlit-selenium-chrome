@@ -414,6 +414,7 @@ def myrun():
 
 				from langchain_core.documents import Document
 				from langchain_text_splitters import RecursiveCharacterTextSplitter
+				from langchain_core.embeddings import DeterministicFakeEmbedding
 
 				# 1. Create LangChain Documents
 				documents = []
@@ -443,7 +444,25 @@ def myrun():
 				chunks = splitter.split_documents(documents)
 				st.write(f"Total chunks: {len(chunks)}")
 
+				texts = [doc.page_content for doc in chunks]
+				metadatas = [doc.metadata for doc in chunks]
 
+				# 3. Create Embedding
+				embeddings = DeterministicFakeEmbedding(size=1536)
+
+				# 4. Create vector store
+				persist_directory = '/tmp/QdrantVectorStore_folder'
+				vector_store = QdrantVectorStore.from_texts(
+					texts=texts,
+					metadatas=metadatas,
+					embedding=embeddings,
+					path=persist_directory,
+					collection_name="my_collection"
+				)
+st.write(
+    f"Total vectors stored: {len(chunks)}"
+)				
+				st.write(f"Total vectors stored: {len(vector_store)}")
 
 				st.write(heoquay)
 
